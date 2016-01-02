@@ -8,4 +8,4 @@ Technically, the app is using ASP.NET MVC, Knockout.js, Bootstrap, JSON.NET, Res
 
 ## Screenshot
 
-![](https://github.com/taurit/TodoistReview/blob/master/TodoistReview/Examples/documentation/todoist-review-app-screenshot-300.png)
+![](https://raw.githubusercontent.com/taurit/TodoistReview/master/documentation/todoist-review-app-screenshot-300.png)
