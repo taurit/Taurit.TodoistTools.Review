@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h4 data-bind="if: !loaded()">Loading... please wait</h4>
+<h4 data-bind="if: loaded() && ajaxError()">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
+<h4 data-bind="if: loaded() && !ajaxError() && tasks().length == 0">You have no tasks in the queue.</h4>
+<div class="reviewedTask" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
+
+    <div class="task" data-bind="with: currentTask">
+        <span data-bind="text: content"></span>
+    </div>
+
+    <h4 data-bind="if: labels().length == 0">You don't have any labels defined.</h4>
+
+    <div class="all-labels row" data-bind="foreach: labels">
+        <div class="col-xs-4">
+            <div class="label" data-bind='attr: {"data-id": id}'>
+                <span data-bind="css: glyphicon" class="glyphicon"></span><br />
+                <span data-bind="text: name"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <nav class="footer row">
+        <div class="col-xs-4">
+            <button id="back" type="button" class="btn btn-lg" data-bind="enable: isFirstTask() === false">Back</button>
+        </div>
+        <div class="col-xs-8" data-bind="visible: isLastTask() === false">
+            <button id="save" type="button" class="btn btn-primary btn-lg" data-bind="enable: isLastTask() === false">Next</button>
+        </div>
+        <div class="col-xs-8" data-bind="visible: isLastTask() === true">
+            <button id="sync" type="button" class="btn btn-info btn-lg">Sync</button>
+        </div>
+
+    </nav>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/reviewapp.js"></script>

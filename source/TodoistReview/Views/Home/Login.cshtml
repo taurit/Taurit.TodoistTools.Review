@@ -1,0 +1,15 @@
+﻿@model TodoistReview.Models.TodoistAuthData
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<form>
+    @Html.LabelFor(model => model.APIToken)
+    @Html.EditorFor(model => model.APIToken)
+
+    <input type="submit" value="Save" />
+</form>
+

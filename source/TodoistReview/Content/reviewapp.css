@@ -1,0 +1,48 @@
+﻿.reviewedTask .task {
+  padding: 7px 5px 3px 5px;
+  font-size: large;
+  text-align: center;
+}
+.reviewedTask .question {
+  color: #AAAAAA;
+  display: none;
+}
+.reviewedTask .all-labels {
+  margin-top: 2em;
+}
+.reviewedTask .all-labels .label {
+  display: inline-block;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #AAAAAA;
+  text-align: center;
+  color: #000000;
+  cursor: pointer;
+  margin-top: 10px;
+  /*&:hover {
+                background-color: lighten(@selectedLabelBackground, 5);
+                color: #fff;
+            }*/
+}
+.reviewedTask .all-labels .label .glyphicon {
+  padding-bottom: 10px;
+  display: inline-block;
+  font-size: large;
+}
+.reviewedTask .all-labels .label.label-selected {
+  background-color: #2ECC40;
+  color: #fff;
+  border: 1px solid #29b739;
+}
+.reviewedTask .all-labels .label.label-selected:hover {
+  background-color: #40d451;
+}
+.reviewedTask nav.footer {
+  margin-top: 15px;
+}
+.reviewedTask nav.footer div {
+  padding: 2px;
+}
+.reviewedTask nav.footer div button {
+  width: 100%;
+}

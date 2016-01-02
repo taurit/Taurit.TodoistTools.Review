@@ -1,0 +1,64 @@
+﻿// color definitions
+@selectedLabelBackground: #2ECC40;
+
+.reviewedTask {
+    .task {
+        padding: 7px 5px 3px 5px;
+        font-size: large;
+        text-align: center;
+    }
+
+    .question {
+        color: #AAAAAA;
+        display: none;
+    }
+
+    .all-labels {
+        margin-top: 2em;
+
+        .label {
+            display: inline-block;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #AAAAAA;
+            text-align: center;
+            color: #000000;
+            cursor: pointer;
+            margin-top: 10px;
+
+            .glyphicon {
+                padding-bottom: 10px;
+                display: inline-block;
+                font-size: large;
+            }
+
+            /*&:hover {
+                background-color: lighten(@selectedLabelBackground, 5);
+                color: #fff;
+            }*/ // sticky hover on touchscreens
+
+
+            &.label-selected {
+                background-color: @selectedLabelBackground;
+                color: #fff;
+                border: 1px solid darken(@selectedLabelBackground, 5);
+
+                &:hover {
+                    background-color: lighten(@selectedLabelBackground, 5);
+                }
+            }
+        }
+    }
+
+    nav.footer {
+        margin-top: 15px;
+
+        div {
+            padding: 2px;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
