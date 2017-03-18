@@ -4,11 +4,9 @@
 }
 
 <div data-bind="if: !loaded()">
-    <div class="row">
-        <div class="jumbotron">
-            <h1>Loading...</h1>
-            <p>Todoist Review App is getting your data. It should take no more than a few seconds. Please wait!</p>
-        </div>
+    <div class="jumbotron">
+        <h1>Loading...</h1>
+        <p>Todoist Review App is getting your data. It should take no more than a few seconds. Please wait!</p>
     </div>
 </div>
 <h4 data-bind="if: loaded() && ajaxError()" class="hidden-by-default">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
@@ -44,9 +42,8 @@
     </nav>
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
 <script src="~/Scripts/reviewapp.js"></script>
 <script type="text/javascript">
     $(".hidden-by-default").removeClass("hidden-by-default");
