@@ -114,6 +114,7 @@
     <Content Include="Content\reviewapp.min.css">
       <DependentUpon>reviewapp.css</DependentUpon>
     </Content>
+    <Content Include="Content\todoist-where-to-find-api-token.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
