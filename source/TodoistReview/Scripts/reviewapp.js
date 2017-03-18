@@ -118,7 +118,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "GET",
-                url: "/Home/GetAllTasks",
+                url: "/Home/GetTasksToReview",
                 data: {},
                 success: function (data) {
                     data.forEach(function (row) {

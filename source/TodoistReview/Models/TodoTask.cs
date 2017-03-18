@@ -5,6 +5,9 @@ using System.Web;
 
 namespace TodoistReview.Models
 {
+    /// <summary>
+    ///     Field names as in: https://developer.todoist.com/#items
+    /// </summary>
     public class TodoTask
     {
         public long id { get; set; }
@@ -35,5 +38,15 @@ namespace TodoistReview.Models
 
         public int priority { get; set; }
         public long project_id { get; set; }
+
+        /// <summary>
+        ///     Whether the task is marked as completed (where 1 is true and 0 is false).
+        /// </summary>
+        public int @checked { get; set; }
+
+        /// <summary>
+        ///     Whether the task is marked as deleted (where 1 is true and 0 is false).
+        /// </summary>
+        public int is_deleted { get; set; }
     }
 }

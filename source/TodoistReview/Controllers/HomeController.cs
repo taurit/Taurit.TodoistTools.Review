@@ -48,7 +48,7 @@ namespace TodoistReview.Controllers
             return Json(labels, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetAllTasks()
+        public JsonResult GetTasksToReview()
         {
             if (!this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
                 throw new InvalidOperationException("Authorization cookie not found");
@@ -58,7 +58,12 @@ namespace TodoistReview.Controllers
             List<TodoTask> tasks = repository.GetAllTasks().ToList();
 
             // review only those which have no labels (contexts) or have more than 1 label
-            tasks = tasks.Where(task => task.labels != null && task.labels.Count != 1)
+            // (assumption: we want to have exactly 1 label/context assigned after the review)
+            tasks = tasks.Where(task => task.labels != null &&
+                                        task.labels.Count != 1 &&
+                                        task.is_deleted == 0 &&
+                                        task.@checked == 0
+                )
                 .Take(15) // batch size
                 .ToList();
 

@@ -40,9 +40,11 @@ namespace TodoistReview.Models
 
             var request = new RestRequest("sync", Method.POST);
             request.AddParameter("token", _authToken);
+
+            // Sequence number, used to allow client to perform incremental sync. Pass 0 to retrieve all active resource data. 
             request.AddParameter("seq_no", "0");
             request.AddParameter("resource_types", "[\"items\"]");
-
+            
             IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
             var content = response.Content;
 
