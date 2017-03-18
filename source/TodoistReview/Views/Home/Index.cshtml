@@ -3,17 +3,23 @@
     ViewBag.Title = "Index";
 }
 
-
-<h4 data-bind="if: !loaded()">Loading... please wait</h4>
-<h4 data-bind="if: loaded() && ajaxError()">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
-<h4 data-bind="if: loaded() && !ajaxError() && tasks().length == 0">You have no tasks in the queue.</h4>
-<div class="reviewedTask" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
+<div data-bind="if: !loaded()">
+    <div class="row">
+        <div class="jumbotron">
+            <h1>Loading...</h1>
+            <p>Todoist Review App is getting your data. It should take no more than a few seconds. Please wait!</p>
+        </div>
+    </div>
+</div>
+<h4 data-bind="if: loaded() && ajaxError()" class="hidden-by-default">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
+<h4 data-bind="if: loaded() && !ajaxError() && tasks().length == 0" class="hidden-by-default">You have no more tasks in the queue.</h4>
+<div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
     <div class="task" data-bind="with: currentTask">
         <span data-bind="text: content"></span>
     </div>
 
-    <h4 data-bind="if: labels().length == 0">You don't have any labels defined.</h4>
+    <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
     <div class="all-labels row" data-bind="foreach: labels">
         <div class="col-xs-4">
@@ -23,7 +29,6 @@
             </div>
         </div>
     </div>
-
 
     <nav class="footer row">
         <div class="col-xs-4">
@@ -43,3 +48,6 @@
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/knockout-3.4.0.js"></script>
 <script src="~/Scripts/reviewapp.js"></script>
+<script type="text/javascript">
+    $(".hidden-by-default").removeClass("hidden-by-default");
+</script>

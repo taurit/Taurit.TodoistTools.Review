@@ -93,8 +93,7 @@ $(document).ready(function () {
             this.ajaxError(withError);
         }
     };
-
-
+    
     var viewModel = new ViewModel();
     ko.applyBindings(viewModel);
 
