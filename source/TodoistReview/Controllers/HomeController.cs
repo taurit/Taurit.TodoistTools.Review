@@ -43,7 +43,9 @@ namespace TodoistReview.Controllers
             String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
             var repository = new TodoistTaskRepository(syncKey);
 
-            List<Label> labels = repository.GetAllLabels().OrderBy(label => label.item_order).ToList();
+            List<Label> labels = repository.GetAllLabels().OrderBy(label => label.item_order)
+                .Union(Label.SpecialLabels)
+                .ToList();
 
             return Json(labels, JsonRequestBehavior.AllowGet);
         }

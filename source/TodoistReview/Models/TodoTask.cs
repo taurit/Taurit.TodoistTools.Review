@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+
 // ReSharper disable InconsistentNaming - names match those in documentation
 
 namespace TodoistReview.Models
@@ -9,8 +11,11 @@ namespace TodoistReview.Models
     /// </summary>
     public class TodoTask
     {
+        [JsonProperty]
         public Int64 id { get; set; }
+        [JsonProperty]
         public String content { get; set; }
+        [JsonProperty]
         public List<Int64> labels { get; set; }
 
         /// <summary>
@@ -18,8 +23,9 @@ namespace TodoistReview.Models
         ///     It helps to determine if user changed label collection for the task, and whether
         ///     calling update on Todoist API is needed.
         /// </summary>
+        [JsonProperty]
         public List<Int64> originalLabels { get; set; }
-
+        
         public Boolean LabelsDiffer
         {
             get
@@ -41,17 +47,24 @@ namespace TodoistReview.Models
             }
         }
 
+        [JsonProperty]
         public Int32 priority { get; set; }
+
+        [JsonProperty]
         public Int64 project_id { get; set; }
 
         /// <summary>
         ///     Whether the task is marked as completed (where 1 is true and 0 is false).
         /// </summary>
+        [JsonProperty]
         public Int32 @checked { get; set; }
 
         /// <summary>
         ///     Whether the task is marked as deleted (where 1 is true and 0 is false).
         /// </summary>
+        [JsonProperty]
         public Int32 is_deleted { get; set; }
+
+        public Boolean IsToBeDeleted => labels.Contains(Label.SpecialId_TaskToRemove);
     }
 }

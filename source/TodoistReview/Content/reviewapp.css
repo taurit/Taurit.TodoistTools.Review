@@ -24,6 +24,11 @@
                 color: #fff;
             }*/
 }
+.reviewedTask .all-labels .label[data-id='-1'] {
+  color: #b70000;
+  border-color: #b70000;
+  background-color: #fff0f0;
+}
 .reviewedTask .all-labels .label .glyphicon {
   padding-bottom: 10px;
   display: inline-block;

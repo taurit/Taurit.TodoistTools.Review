@@ -26,18 +26,22 @@
             cursor: pointer;
             margin-top: 10px;
 
+            &[data-id='-1'] { // special label 'eliminate'
+                @eliminateColor: #b70000;
+                color: @eliminateColor;
+                border-color: @eliminateColor;
+                background-color: #fff0f0;
+            }
+
             .glyphicon {
                 padding-bottom: 10px;
                 display: inline-block;
                 font-size: large;
             }
-
             /*&:hover {
                 background-color: lighten(@selectedLabelBackground, 5);
                 color: #fff;
             }*/ // sticky hover on touchscreens
-
-
             &.label-selected {
                 background-color: @selectedLabelBackground;
                 color: #fff;

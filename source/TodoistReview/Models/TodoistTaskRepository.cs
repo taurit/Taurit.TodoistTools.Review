@@ -89,12 +89,27 @@ namespace TodoistReview.Models
 
         private String GetUpdateCommandString(TodoTask task)
         {
+            String commandString;
             Guid commandId = Guid.NewGuid();
-            String labelsArrayString = "[" + String.Join(",", task.labels) + "]"; // JSON array with int64 ids
 
-            String commandString = "{\"type\": \"item_update\", \"uuid\": \"" + commandId + "\", \"args\": {\"id\": " +
-                                   task.id + ", \"labels\": " + labelsArrayString + "}}";
+            if (task.IsToBeDeleted)
+            {
+                // as in documentation, https://developer.todoist.com/sync/v7/#delete-items
+                commandString =
+                    $"{{\"type\": \"item_delete\", \"uuid\": \"{commandId}\", \"args\": {{\"ids\": [{task.id}] }}}}";
+            }
+            else
+            {
+                // typical use case: update labels
+                List<Int64> specialLabelsIds = Label.SpecialLabels.Select(x => x.id).ToList();
+                IEnumerable<Int64> labelsExcludingSpecial = task.labels.Where(x => !specialLabelsIds.Contains(x));
+                String labelsArrayString =
+                    "[" + String.Join(",", labelsExcludingSpecial) + "]"; // JSON array with int64 ids
 
+                commandString =
+                    $"{{\"type\": \"item_update\", \"uuid\": \"{commandId}\", \"args\": {{\"id\": {task.id}, \"labels\": {labelsArrayString}}}}}";
+            }
+            
             return commandString;
         }
     }

@@ -11,6 +11,8 @@ namespace TodoistReview.Models
     /// </summary>
     public class Label
     {
+        internal const Int64 SpecialId_TaskToRemove = -1;
+
         private const String GlyphiconDefaultClass = "glyphicon-paperclip";
 
         [Obsolete("Should only be used for deserialization")]
@@ -51,5 +53,10 @@ namespace TodoistReview.Models
                 return glyphiconClass;
             }
         }
+
+        public static IReadOnlyList<Label> SpecialLabels { get; } = new List<Label>
+        {
+            new Label(SpecialId_TaskToRemove, 0, "Eliminate") // special label: eliminate tasks
+        };
     }
 }
