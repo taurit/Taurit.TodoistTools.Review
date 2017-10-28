@@ -159,7 +159,7 @@ $(document).ready(function () {
     $(".reviewedTask").on("click", "#back", function () {
         viewModel.selectPreviousTask();
     });
-
+    
     $(".reviewedTask").on("click", "#sync", function () {
         $.ajax({
             type: "POST",
@@ -172,6 +172,10 @@ $(document).ready(function () {
             }
         });
 
+    });
+
+    $("#all-done").on("click", "#reload", function () {
+        location.reload();
     });
 
 

@@ -91,6 +91,7 @@
 .hidden-by-default {
   display: none;
 }
-.jumbotron-login {
+.jumbotron-login,
+.jumbotron-loading {
   margin-top: 20px;
 }

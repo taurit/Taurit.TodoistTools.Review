@@ -4,14 +4,19 @@
 }
 
 <div data-bind="if: !loaded()" class="hidden-by-default">
-    <div class="jumbotron">
+    <div class="jumbotron jumbotron-loading">
         <h1>Loading...</h1>
         <p>Todoist Review App is getting your data. It should take no more than a few seconds. Please wait!</p>
     </div>
 </div>
 
 <h4 data-bind="if: loaded() && ajaxError()" class="hidden-by-default">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
-<h4 data-bind="if: loaded() && !ajaxError() && tasks().length == 0" class="hidden-by-default">You have no more tasks in the queue.</h4>
+<div id="all-done" data-bind="if: loaded() && !ajaxError() && tasks().length == 0" class="hidden-by-default"><h2>All done!</h2>
+    <p>All your tasks are in a good shape already :)</p>
+    <p>You might reload page if you think something new might have appeared.</p>
+
+    <button id="reload" type="button" class="btn btn-primary btn-lg">Reload page</button>
+</div>
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
     <div class="task" data-bind="with: currentTask">
