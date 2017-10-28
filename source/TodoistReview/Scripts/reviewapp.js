@@ -1,5 +1,5 @@
 ﻿/// <reference path="knockout-3.4.2.debug.js" />
-/// <reference path="jquery-3.1.1.intellisense.js" />
+/// <reference path="jquery-3.2.1.intellisense.js" />
 
 $(document).ready(function () {
     "use strict";
