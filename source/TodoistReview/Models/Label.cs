@@ -13,6 +13,11 @@ namespace TodoistReview.Models
     {
         private const String GlyphiconDefaultClass = "glyphicon-paperclip";
 
+        [Obsolete("Should only be used for deserialization")]
+        public Label()
+        {
+        }
+
         public Label(Int64 id, Int32 isDeleted, String name)
         {
             this.id = id;
@@ -21,16 +26,16 @@ namespace TodoistReview.Models
         }
 
         [JsonProperty]
-        public Int64 id { get; private set; }
+        public Int64 id { get; set; }
 
         [JsonProperty]
-        public Int32 is_deleted { get; private set; }
+        public Int32 is_deleted { get; set; }
 
         [JsonProperty]
-        public String name { get; private set; }
+        public String name { get; set; }
 
         [JsonProperty]
-        public Int32 item_order { get; private set; }
+        public Int32 item_order { get; set; }
 
         /// <summary>
         ///     Bootstrap glyphicon class for this label
