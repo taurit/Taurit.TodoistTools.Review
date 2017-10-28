@@ -1,4 +1,5 @@
-﻿/// <reference path="knockout-3.4.0.debug.js" />
+﻿/// <reference path="knockout-3.4.2.debug.js" />
+/// <reference path="jquery-3.1.1.intellisense.js" />
 
 $(document).ready(function () {
     "use strict";
@@ -6,7 +7,7 @@ $(document).ready(function () {
     // Define and initialize app's data model
     var ViewModel = function () {
 
-        // Is all necassary data from API fully loaded?
+        // Is all necessary data from API fully loaded?
         this.loaded = ko.observable(false);
 
         // Did any ajax error occur while loading
@@ -15,7 +16,7 @@ $(document).ready(function () {
         // All labels defined by user in the right order 
         this.labels = ko.observableArray();
 
-        // Tasks filtered to those that are worth reviewing (the logic of choice is in backend)
+        // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
         this.tasks = ko.observableArray();
 
         // Index in the array of tasks of currently visible task in UI
@@ -24,22 +25,22 @@ $(document).ready(function () {
         // Current tasks
         this.currentTask = ko.computed(function () {
             var numTasks = this.tasks().length;
-            var currentTask = (numTasks > 0) ? this.tasks()[this.currentTaskIndex()] : null;
+            var currentTask = numTasks > 0 ? this.tasks()[this.currentTaskIndex()] : null;
             return currentTask;
         }, this);
 
         // Is current task the last task?
-        this.isLastTask = function () {
+        this.isLastTask = function() {
             var currentIndex = this.currentTaskIndex();
             var numTasks = this.tasks().length;
-            return ((currentIndex + 1) === numTasks);
-        }
+            return currentIndex + 1 === numTasks;
+        };
 
         // Is current task the first task?
-        this.isFirstTask = function () {
+        this.isFirstTask = function() {
             var currentIndex = this.currentTaskIndex();
-            return (currentIndex === 0);
-        }
+            return currentIndex === 0;
+        };
 
         // Moves to the next task in the queue if it is valid operation in current state
         this.selectNextTask = function () {
@@ -63,7 +64,7 @@ $(document).ready(function () {
         // The clean way to do this would be with two-way binding of labels,
         // but I want to keep the model simple
         this.updateTaskLabels = function () {
-            if (this.tasks().length == 0) return;
+            if (this.tasks().length === 0) return;
 
             // get selected labels
             var selectedLabels = [];
@@ -76,22 +77,22 @@ $(document).ready(function () {
         };
 
         // Makes sure that labels associated with the task are highlighted (have a certain CSS class)
-        this.displayTaskLabels = function () {
-            if (this.tasks().length == 0) return;
+        this.displayTaskLabels = function() {
+            if (this.tasks().length === 0) return;
 
             var taskLabels = this.currentTask().labels();
 
             $(".label").removeClass("label-selected");
-            taskLabels.forEach(function (taskLabelId) {
+            taskLabels.forEach(function(taskLabelId) {
                 $(".label[data-id=" + taskLabelId + "]").addClass("label-selected");
             });
-        }
+        };
 
         // Saves the information that input data has been loaded
-        this.loadFinished = function (withError) {
+        this.loadFinished = function(withError) {
             this.loaded(true);
             this.ajaxError(withError);
-        }
+        };
     };
     
     var viewModel = new ViewModel();
@@ -130,13 +131,13 @@ $(document).ready(function () {
                 },
                 error: function () {
                     viewModel.loadFinished(true);
-                },
+                }
             });
 
         },
         error: function() {
             viewModel.loadFinished(true);
-        },
+        }
     });
 
     // define app behavious
