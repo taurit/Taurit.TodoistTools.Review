@@ -1,35 +1,33 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TodoistReview.Models;
-using TodoistReview.Models.TodoistApiModels;
 
 namespace TodoistReview.Controllers
 {
     public class HomeController : Controller
     {
-        private const string SyncCookieName = "SyncApiCookie2";
+        private const String SyncCookieName = "SyncApiCookie2";
         //ITaskRepository repository = new FakeTaskRepository();
 
         // GET: Home
         public ActionResult Index()
         {
-            if (!this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            if (!ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            {
                 return RedirectToAction("Login");
+            }
 
-            return View();    
+            return View();
         }
 
         public ActionResult Login(TodoistAuthData authData)
         {
             if (authData != null && !String.IsNullOrWhiteSpace(authData.APIToken))
             {
-                this.ControllerContext.HttpContext.Response.SetCookie(new System.Web.HttpCookie(SyncCookieName, authData.APIToken));
+                ControllerContext.HttpContext.Response.SetCookie(new HttpCookie(SyncCookieName, authData.APIToken));
                 return RedirectToAction("Index");
             }
             return View("Login");
@@ -38,10 +36,12 @@ namespace TodoistReview.Controllers
         public JsonResult GetAllLabels()
         {
             if (!ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            {
                 throw new InvalidOperationException("Authorization cookie not found");
+            }
 
-            string syncKey = this.ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
-            TodoistTaskRepository repository = new TodoistTaskRepository(syncKey);
+            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
+            var repository = new TodoistTaskRepository(syncKey);
 
             List<Label> labels = repository.GetAllLabels().OrderBy(label => label.item_order).ToList();
 
@@ -50,10 +50,12 @@ namespace TodoistReview.Controllers
 
         public JsonResult GetTasksToReview()
         {
-            if (!this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            if (!ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            {
                 throw new InvalidOperationException("Authorization cookie not found");
-            string syncKey = this.ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
-            TodoistTaskRepository repository = new TodoistTaskRepository(syncKey);
+            }
+            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
+            var repository = new TodoistTaskRepository(syncKey);
 
             List<TodoTask> tasks = repository.GetAllTasks().ToList();
 
@@ -67,7 +69,7 @@ namespace TodoistReview.Controllers
                 .Take(15) // batch size
                 .ToList();
 
-            foreach (var task in tasks)
+            foreach (TodoTask task in tasks)
             {
                 task.originalLabels = task.labels;
             }
@@ -78,17 +80,17 @@ namespace TodoistReview.Controllers
         [HttpPost]
         public JsonResult UpdateTasks(List<TodoTask> tasks)
         {
-            if (!this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            if (!ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains(SyncCookieName))
+            {
                 throw new InvalidOperationException("Authorization cookie not found");
-            string syncKey = this.ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
-            TodoistTaskRepository repository = new TodoistTaskRepository(syncKey);
+            }
+            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
+            var repository = new TodoistTaskRepository(syncKey);
 
             List<TodoTask> tasksToUpdate = tasks.Where(task => task.LabelsDiffer).ToList();
             repository.UpdateTasks(tasksToUpdate);
 
             return Json(tasksToUpdate.Count);
         }
-
-
     }
 }

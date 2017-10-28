@@ -1,28 +1,26 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.IO;
 using System.Web.Hosting;
+using Newtonsoft.Json;
 
 namespace TodoistReview.Models
 {
     public class GlyphiconHelper
     {
-        private static string configFilePath = HostingEnvironment.MapPath("~/App_Data/glyphicons.json");
-        private static Dictionary<string, string> instance = null;
-        
+        private static readonly String configFilePath = HostingEnvironment.MapPath("~/App_Data/glyphicons.json");
+        private static Dictionary<String, String> instance;
 
-        public static Dictionary<string, string> GetDictionary()
+
+        public static Dictionary<String, String> GetDictionary()
         {
             if (instance == null)
             {
-                string jsonFileContent = System.IO.File.ReadAllText(configFilePath);
-                instance = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonFileContent);    
+                String jsonFileContent = File.ReadAllText(configFilePath);
+                instance = JsonConvert.DeserializeObject<Dictionary<String, String>>(jsonFileContent);
             }
 
             return instance;
         }
-
     }
 }

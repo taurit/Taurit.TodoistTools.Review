@@ -1,22 +1,20 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Web;
+using RestSharp;
 using TodoistReview.Models.TodoistApiModels;
 
 namespace TodoistReview.Models
 {
     public class TodoistTaskRepository : ITaskRepository
     {
-        private string _authToken;
-        private const string apiUrl = "https://todoist.com/API/v6/";
+        private const String apiUrl = "https://todoist.com/API/v6/";
+        private readonly String _authToken;
 
-        public TodoistTaskRepository(string authToken)
+        public TodoistTaskRepository(String authToken)
         {
-            this._authToken = authToken;
+            _authToken = authToken;
         }
 
         public IList<Label> GetAllLabels()
@@ -29,7 +27,7 @@ namespace TodoistReview.Models
             request.AddParameter("resource_types", "[\"labels\"]");
 
             IRestResponse<TodoistLabelsResponse> response = client.Execute<TodoistLabelsResponse>(request);
-            var content = response.Content;
+            String content = response.Content;
 
             return response.Data.Labels;
         }
@@ -44,17 +42,23 @@ namespace TodoistReview.Models
             // Sequence number, used to allow client to perform incremental sync. Pass 0 to retrieve all active resource data. 
             request.AddParameter("seq_no", "0");
             request.AddParameter("resource_types", "[\"items\"]");
-            
+
             IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
-            var content = response.Content;
+            String content = response.Content;
 
             return response.Data.Items;
         }
 
-        public string UpdateTasks(List<TodoTask> tasksToUpdate)
+        public String UpdateTasks(List<TodoTask> tasksToUpdate)
         {
-            if (tasksToUpdate.Count == 0) return "Empty list of tasks";
-            if (tasksToUpdate.Any(task => task.labels == null)) return "List of tasks contains at least one invalid item";
+            if (tasksToUpdate.Count == 0)
+            {
+                return "Empty list of tasks";
+            }
+            if (tasksToUpdate.Any(task => task.labels == null))
+            {
+                return "List of tasks contains at least one invalid item";
+            }
 
             var client = new RestClient(apiUrl);
 
@@ -62,15 +66,17 @@ namespace TodoistReview.Models
             request.AddParameter("token", _authToken);
 
             /// build json command as string (a shortcut)
-            StringBuilder commandsString = new StringBuilder();
+            var commandsString = new StringBuilder();
             commandsString.Append("[");
-            for (int i = 0; i < tasksToUpdate.Count; i++)
+            for (var i = 0; i < tasksToUpdate.Count; i++)
             {
-                string commandString = this.GetUpdateCommandString(tasksToUpdate[i]);
+                String commandString = GetUpdateCommandString(tasksToUpdate[i]);
                 commandsString.Append(commandString);
 
                 if (i != tasksToUpdate.Count - 1)
+                {
                     commandsString.Append(",");
+                }
             }
 
             commandsString.Append("]");
@@ -79,16 +85,17 @@ namespace TodoistReview.Models
             request.AddParameter("commands", commandsString.ToString());
 
             IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
-            string apiResponse = response.Content;
+            String apiResponse = response.Content;
             return apiResponse;
         }
 
-        private string GetUpdateCommandString(TodoTask task)
+        private String GetUpdateCommandString(TodoTask task)
         {
-            var commandId = Guid.NewGuid();
-            var labelsArrayString = "[" + String.Join(",", task.labels) + "]"; // json array with int64 ids
+            Guid commandId = Guid.NewGuid();
+            String labelsArrayString = "[" + String.Join(",", task.labels) + "]"; // json array with int64 ids
 
-            var commandString = "{\"type\": \"item_update\", \"uuid\": \"" + commandId + "\", \"args\": {\"id\": " + task.id + ", \"labels\": " + labelsArrayString + "}}";
+            String commandString = "{\"type\": \"item_update\", \"uuid\": \"" + commandId + "\", \"args\": {\"id\": " +
+                                   task.id + ", \"labels\": " + labelsArrayString + "}}";
 
             return commandString;
         }

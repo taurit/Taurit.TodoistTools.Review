@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace TodoistReview.Models
 {
@@ -10,43 +8,49 @@ namespace TodoistReview.Models
     /// </summary>
     public class TodoTask
     {
-        public long id { get; set; }
-        public string content { get; set; }
-        public List<long> labels { get; set; }
+        public Int64 id { get; set; }
+        public String content { get; set; }
+        public List<Int64> labels { get; set; }
 
         /// <summary>
-        /// A copy of "labels" which should not be changed on the client side. 
-        /// It helps to determine if user changed label collection for the task, and whether 
-        /// calling update on Todoist API is needed.
+        ///     A copy of "labels" which should not be changed on the client side.
+        ///     It helps to determine if user changed label collection for the task, and whether
+        ///     calling update on Todoist API is needed.
         /// </summary>
-        public List<long> originalLabels { get; set; }
+        public List<Int64> originalLabels { get; set; }
 
-        public bool LabelsDiffer
+        public Boolean LabelsDiffer
         {
             get
             {
                 // json deserialization returns null for empty arrays, so here's a conversion for an empty list
-                if (labels == null) labels = new List<long>();
-                if (originalLabels == null) originalLabels = new List<long>();
+                if (labels == null)
+                {
+                    labels = new List<Int64>();
+                }
+                if (originalLabels == null)
+                {
+                    originalLabels = new List<Int64>();
+                }
 
-                var set1unique = new HashSet<long>(labels);
-                var set2unique = new HashSet<long>(originalLabels);
+                var set1unique = new HashSet<Int64>(labels);
+                var set2unique = new HashSet<Int64>(originalLabels);
 
                 return !set1unique.SetEquals(set2unique);
             }
         }
 
-        public int priority { get; set; }
-        public long project_id { get; set; }
+        public Int32 priority { get; set; }
+        public Int64 project_id { get; set; }
 
         /// <summary>
         ///     Whether the task is marked as completed (where 1 is true and 0 is false).
         /// </summary>
-        public int @checked { get; set; }
+        public Int32 @checked { get; set; }
 
         /// <summary>
         ///     Whether the task is marked as deleted (where 1 is true and 0 is false).
         /// </summary>
-        public int is_deleted { get; set; }
+        public Int32 is_deleted { get; set; }
     }
 }
