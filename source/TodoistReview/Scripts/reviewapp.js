@@ -23,9 +23,11 @@ $(document).ready(function () {
         this.currentTaskIndex = ko.observable(0);
 
         // Current tasks
+        var viewModel = this;
+
         this.currentTask = ko.computed(function () {
-            var numTasks = this.tasks().length;
-            var currentTask = numTasks > 0 ? this.tasks()[this.currentTaskIndex()] : null;
+            var numTasks = viewModel.tasks().length;
+            var currentTask = numTasks > 0 ? viewModel.tasks()[viewModel.currentTaskIndex()] : null;
             return currentTask;
         }, this);
 
@@ -99,17 +101,6 @@ $(document).ready(function () {
     ko.applyBindings(viewModel);
 
     // Initialize: load all necessary data in only two API-calls
-    var makeChildrenObservables = function (object) {
-        if (!ko.isObservable(object)) return;
-
-        // Loop through its children
-        for (var child in object()) {
-            if (!ko.isObservable(object()[child])) {
-                object()[child] = ko.observable(object()[child]);
-            }
-        }
-    };
-
     $.ajax({
         type: "GET",
         url: "/Home/GetAllLabels",
@@ -142,7 +133,6 @@ $(document).ready(function () {
 
     // define app behavious
     $(".reviewedTask").on("click", ".label", function () {
-        var label = ko.dataFor(this);
         $(this).toggleClass("label-selected");
         viewModel.updateTaskLabels();
 
@@ -171,7 +161,7 @@ $(document).ready(function () {
             data: ko.toJSON(viewModel.tasks),
             dataType: "json",
             contentType: "application/json",
-            success: function (data) {
+            success: function () {
                 window.location.reload();
             }
         });
