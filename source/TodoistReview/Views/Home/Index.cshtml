@@ -3,12 +3,13 @@
     ViewBag.Title = "Index";
 }
 
-<div data-bind="if: !loaded()">
+<div data-bind="if: !loaded()" class="hidden-by-default">
     <div class="jumbotron">
         <h1>Loading...</h1>
         <p>Todoist Review App is getting your data. It should take no more than a few seconds. Please wait!</p>
     </div>
 </div>
+
 <h4 data-bind="if: loaded() && ajaxError()" class="hidden-by-default">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
 <h4 data-bind="if: loaded() && !ajaxError() && tasks().length == 0" class="hidden-by-default">You have no more tasks in the queue.</h4>
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
@@ -25,6 +26,21 @@
                 <span data-bind="css: glyphicon" class="glyphicon"></span><br />
                 <span data-bind="text: name"></span>
             </div>
+        </div>
+    </div>
+    
+    <div class="footer row" data-bind="with: currentTask">
+        <div class="col-xs-3">
+            <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
+        </div>
+        <div class="col-xs-3">
+            <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 2 }" data-priority="2"></div>
+        </div>
+        <div class="col-xs-3">
+            <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 3 }" data-priority="3"></div>
+        </div>
+        <div class="col-xs-3">
+            <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 4 }" data-priority="4"></div>
         </div>
     </div>
 

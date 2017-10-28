@@ -26,13 +26,6 @@
             cursor: pointer;
             margin-top: 10px;
 
-            &[data-id='-1'] { // special label 'eliminate'
-                @eliminateColor: #b70000;
-                color: @eliminateColor;
-                border-color: @eliminateColor;
-                background-color: #fff0f0;
-            }
-
             .glyphicon {
                 padding-bottom: 10px;
                 display: inline-block;
@@ -65,4 +58,65 @@
             }
         }
     }
+}
+
+.priority {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    font-size: larger;
+    text-align: center;
+    color: #000;
+    cursor: pointer;
+    margin-top: 10px;
+
+    @p1Color: #000000;
+    @p2Color: #d4b300;
+    @p3Color: #f88900;
+    @p4Color: #dc1010;
+
+    &.priority-1 {
+        // lowest, "natural" priority
+        color: @p1Color;
+        border-color: @p1Color;
+        background-color: #ffffff;
+
+        &.selected {
+            box-shadow: 0px 0px 5px @p1Color;
+        }
+    }
+
+    &.priority-2 {
+        color: @p2Color;
+        border-color: @p2Color;
+        background-color: #fffdf4;
+
+        &.selected {
+            box-shadow: 0px 0px 5px @p2Color;
+        }
+    }
+
+    &.priority-3 {
+        color: @p3Color;
+        border-color: @p3Color;
+        background-color: #fff0de;
+
+        &.selected {
+            box-shadow: 0px 0px 5px @p3Color;
+        }
+    }
+
+    &.priority-4 {
+        color: @p4Color;
+        border-color: @p4Color;
+        background-color: #ffe7e7;
+
+        &.selected {
+            box-shadow: 0px 0px 5px @p4Color;
+        }
+    }
+}
+
+.hidden-by-default {
+    display: none;
 }

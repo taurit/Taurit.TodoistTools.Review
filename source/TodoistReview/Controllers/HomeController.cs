@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TodoistReview.Models;
+using TodoistReview.Models.TodoistApiModels;
 
 namespace TodoistReview.Controllers
 {
@@ -41,7 +42,7 @@ namespace TodoistReview.Controllers
             }
 
             String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
-            var repository = new TodoistTaskRepository(syncKey);
+            var repository = new FakeTaskRepository(syncKey);
 
             List<Label> labels = repository.GetAllLabels().OrderBy(label => label.item_order)
                 .Union(Label.SpecialLabels)
@@ -57,7 +58,8 @@ namespace TodoistReview.Controllers
                 throw new InvalidOperationException("Authorization cookie not found");
             }
             String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
-            var repository = new TodoistTaskRepository(syncKey);
+            //var repository = new TodoistTaskRepository(syncKey);
+            var repository = new FakeTaskRepository(syncKey);
 
             List<TodoTask> tasks = repository.GetAllTasks().ToList();
 
@@ -73,7 +75,7 @@ namespace TodoistReview.Controllers
 
             foreach (TodoTask task in tasks)
             {
-                task.originalLabels = task.labels;
+                task.SaveOriginalValues();                
             }
 
             return Json(tasks, JsonRequestBehavior.AllowGet);
@@ -87,9 +89,9 @@ namespace TodoistReview.Controllers
                 throw new InvalidOperationException("Authorization cookie not found");
             }
             String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
-            var repository = new TodoistTaskRepository(syncKey);
+            var repository = new FakeTaskRepository(syncKey);
 
-            List<TodoTask> tasksToUpdate = tasks.Where(task => task.LabelsDiffer).ToList();
+            List<TodoTask> tasksToUpdate = tasks.Where(task => task.ItemWasChangedByUser).ToList();
             repository.UpdateTasks(tasksToUpdate);
 
             return Json(tasksToUpdate.Count);

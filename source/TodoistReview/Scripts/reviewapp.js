@@ -143,6 +143,12 @@ $(document).ready(function () {
         }
     });
 
+    $(".reviewedTask").on("click", ".priority", function () {
+        var selectedPriority = $(this).data('priority');
+        viewModel.currentTask().priority = selectedPriority; // not observable
+        viewModel.currentTaskIndex.valueHasMutated(); // so force refresh of computed property this way
+    });
+
     $(".reviewedTask").on("click", "#save", function () {
         viewModel.updateTaskLabels();
 

@@ -32,21 +32,22 @@ namespace TodoistReview.Models.TodoistApiModels
             var tasks = new List<TodoTask>();
 
             // tasks with one label
-            tasks.Add(new TodoTask {id = 1, content = "Update software", labels = new List<Int64> {1}});
-            tasks.Add(new TodoTask {id = 2, content = "Sync podcasts when on Wifi", labels = new List<Int64> {2}});
-            tasks.Add(new TodoTask {id = 3, content = "Buy milk", labels = new List<Int64> {3}});
+            tasks.Add(new TodoTask {id = 1, priority = 1, content = "Update software", labels = new List<Int64> {1}});
+            tasks.Add(new TodoTask {id = 2, priority = 2, content = "Sync podcasts when on Wifi", labels = new List<Int64> {2}});
+            tasks.Add(new TodoTask {id = 3, priority = 3, content = "Buy milk", labels = new List<Int64> {3}});
 
             // task with two labels
             tasks.Add(new TodoTask
             {
                 id = 3,
+                priority = 1,
                 content = "Find and read reviews of my book",
                 labels = new List<Int64> {1, 2}
             });
 
             // task with no labels
-            tasks.Add(new TodoTask {id = 4, content = "Task 5", labels = new List<Int64>()});
-            tasks.Add(new TodoTask {id = 5, content = "Task 6", labels = new List<Int64>()});
+            tasks.Add(new TodoTask {id = 4, priority = 2, content = "Task 5", labels = new List<Int64>()});
+            tasks.Add(new TodoTask {id = 5, priority = 4, content = "Task 6 high priority", labels = new List<Int64>()});
 
             return tasks;
         }

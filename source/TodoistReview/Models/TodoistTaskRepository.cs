@@ -107,7 +107,7 @@ namespace TodoistReview.Models
                     "[" + String.Join(",", labelsExcludingSpecial) + "]"; // JSON array with int64 ids
 
                 commandString =
-                    $"{{\"type\": \"item_update\", \"uuid\": \"{commandId}\", \"args\": {{\"id\": {task.id}, \"labels\": {labelsArrayString}}}}}";
+                    $"{{\"type\": \"item_update\", \"uuid\": \"{commandId}\", \"args\": {{\"id\": {task.id}, \"priority\": {task.priority}, \"labels\": {labelsArrayString}}}}}";
             }
             
             return commandString;

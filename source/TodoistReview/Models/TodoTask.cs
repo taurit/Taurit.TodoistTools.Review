@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - names match those in documentation
@@ -13,8 +14,10 @@ namespace TodoistReview.Models
     {
         [JsonProperty]
         public Int64 id { get; set; }
+
         [JsonProperty]
         public String content { get; set; }
+
         [JsonProperty]
         public List<Int64> labels { get; set; }
 
@@ -25,8 +28,63 @@ namespace TodoistReview.Models
         /// </summary>
         [JsonProperty]
         public List<Int64> originalLabels { get; set; }
+
+        /// <summary>
+        ///     The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for natural).
+        /// </summary>
+        [JsonProperty]
+        public Int32 priority { get; set; }
+
+        /// <summary>
+        /// Initial priority value from the server, before user might have changed it
+        /// </summary>
+        [JsonProperty]
+        public Int32 originalPriority { get; set; }
+
+        [JsonProperty]
+        public Int64 project_id { get; set; }
+
+        /// <summary>
+        ///     Whether the task is marked as completed (where 1 is true and 0 is false).
+        /// </summary>
+        [JsonProperty]
+        public Int32 @checked { get; set; }
+
+        /// <summary>
+        ///     Whether the task is marked as deleted (where 1 is true and 0 is false).
+        /// </summary>
+        [JsonProperty]
+        public Int32 is_deleted { get; set; }
         
-        public Boolean LabelsDiffer
+        public Boolean IsToBeDeleted => labels.Contains(Label.SpecialId_TaskToRemove);
+
+        /// <summary>
+        ///     Save copies of values that user can modify.
+        ///     Original values are used do determine whether user changed something in reviewed task and whether API update call is necessary.
+        /// </summary>
+        public void SaveOriginalValues()
+        {
+            originalLabels = labels;
+            originalPriority = priority;
+        }
+
+        public Boolean ItemWasChangedByUser
+        {
+            get
+            {
+                Debug.Assert(originalPriority >= 1);
+                Debug.Assert(originalPriority <= 4);
+                Debug.Assert(priority >= 1);
+                Debug.Assert(priority <= 4);
+
+                var labelsDiffer = LabelsDiffer;
+                var priorityDiffers = priority != originalPriority;
+
+                return labelsDiffer || priorityDiffers;
+            }
+
+        }
+        private Boolean LabelsDiffer
         {
             get
             {
@@ -47,24 +105,6 @@ namespace TodoistReview.Models
             }
         }
 
-        [JsonProperty]
-        public Int32 priority { get; set; }
 
-        [JsonProperty]
-        public Int64 project_id { get; set; }
-
-        /// <summary>
-        ///     Whether the task is marked as completed (where 1 is true and 0 is false).
-        /// </summary>
-        [JsonProperty]
-        public Int32 @checked { get; set; }
-
-        /// <summary>
-        ///     Whether the task is marked as deleted (where 1 is true and 0 is false).
-        /// </summary>
-        [JsonProperty]
-        public Int32 is_deleted { get; set; }
-
-        public Boolean IsToBeDeleted => labels.Contains(Label.SpecialId_TaskToRemove);
     }
 }
