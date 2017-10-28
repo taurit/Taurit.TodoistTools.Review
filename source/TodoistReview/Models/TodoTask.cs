@@ -56,7 +56,7 @@ namespace TodoistReview.Models
         [JsonProperty]
         public Int32 is_deleted { get; set; }
         
-        public Boolean IsToBeDeleted => labels.Contains(Label.SpecialId_TaskToRemove);
+        public Boolean IsToBeDeleted => labels != null && labels.Contains(Label.SpecialId_TaskToRemove);
 
         /// <summary>
         ///     Save copies of values that user can modify.
