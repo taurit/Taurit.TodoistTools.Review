@@ -9,7 +9,7 @@ namespace TodoistReview.Models
 {
     public class TodoistTaskRepository : ITaskRepository
     {
-        private const String apiUrl = "https://todoist.com/API/v6/";
+        private const String ApiUrl = "https://todoist.com/API/v6/";
         private readonly String _authToken;
 
         public TodoistTaskRepository(String authToken)
@@ -19,7 +19,7 @@ namespace TodoistReview.Models
 
         public IList<Label> GetAllLabels()
         {
-            var client = new RestClient(apiUrl);
+            var client = new RestClient(ApiUrl);
 
             var request = new RestRequest("sync", Method.POST);
             request.AddParameter("token", _authToken);
@@ -27,14 +27,13 @@ namespace TodoistReview.Models
             request.AddParameter("resource_types", "[\"labels\"]");
 
             IRestResponse<TodoistLabelsResponse> response = client.Execute<TodoistLabelsResponse>(request);
-            String content = response.Content;
 
             return response.Data.Labels;
         }
 
         public IList<TodoTask> GetAllTasks()
         {
-            var client = new RestClient(apiUrl);
+            var client = new RestClient(ApiUrl);
 
             var request = new RestRequest("sync", Method.POST);
             request.AddParameter("token", _authToken);
@@ -44,7 +43,6 @@ namespace TodoistReview.Models
             request.AddParameter("resource_types", "[\"items\"]");
 
             IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
-            String content = response.Content;
 
             return response.Data.Items;
         }
@@ -60,12 +58,12 @@ namespace TodoistReview.Models
                 return "List of tasks contains at least one invalid item";
             }
 
-            var client = new RestClient(apiUrl);
+            var client = new RestClient(ApiUrl);
 
             var request = new RestRequest("sync", Method.POST);
             request.AddParameter("token", _authToken);
 
-            /// build json command as string (a shortcut)
+            // build json command as string (a shortcut)
             var commandsString = new StringBuilder();
             commandsString.Append("[");
             for (var i = 0; i < tasksToUpdate.Count; i++)
@@ -92,7 +90,7 @@ namespace TodoistReview.Models
         private String GetUpdateCommandString(TodoTask task)
         {
             Guid commandId = Guid.NewGuid();
-            String labelsArrayString = "[" + String.Join(",", task.labels) + "]"; // json array with int64 ids
+            String labelsArrayString = "[" + String.Join(",", task.labels) + "]"; // JSON array with int64 ids
 
             String commandString = "{\"type\": \"item_update\", \"uuid\": \"" + commandId + "\", \"args\": {\"id\": " +
                                    task.id + ", \"labels\": " + labelsArrayString + "}}";

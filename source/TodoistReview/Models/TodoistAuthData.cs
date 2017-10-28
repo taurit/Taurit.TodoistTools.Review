@@ -4,6 +4,6 @@ namespace TodoistReview.Models
 {
     public class TodoistAuthData
     {
-        public String APIToken { get; set; }
+        public String ApiToken { get; set; }
     }
 }

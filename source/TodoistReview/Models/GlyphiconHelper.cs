@@ -8,19 +8,18 @@ namespace TodoistReview.Models
 {
     public class GlyphiconHelper
     {
-        private static readonly String configFilePath = HostingEnvironment.MapPath("~/App_Data/glyphicons.json");
-        private static Dictionary<String, String> instance;
-
-
+        private static readonly String ConfigFilePath = HostingEnvironment.MapPath("~/App_Data/glyphicons.json");
+        private static Dictionary<String, String> _instance;
+        
         public static Dictionary<String, String> GetDictionary()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                String jsonFileContent = File.ReadAllText(configFilePath);
-                instance = JsonConvert.DeserializeObject<Dictionary<String, String>>(jsonFileContent);
+                String jsonFileContent = File.ReadAllText(ConfigFilePath);
+                _instance = JsonConvert.DeserializeObject<Dictionary<String, String>>(jsonFileContent);
             }
 
-            return instance;
+            return _instance;
         }
     }
 }

@@ -8,11 +8,12 @@ namespace TodoistReview.Models.TodoistApiModels
     /// </summary>
     public class FakeTaskRepository : ITaskRepository
     {
-        private string syncKey;
+        // ReSharper disable once NotAccessedField.Local - this is mock
+        private String _syncKey;
 
-        public FakeTaskRepository(string syncKey)
+        public FakeTaskRepository(String syncKey)
         {
-            this.syncKey = syncKey;
+            _syncKey = syncKey;
         }
 
         public IList<Label> GetAllLabels()
@@ -29,7 +30,7 @@ namespace TodoistReview.Models.TodoistApiModels
         public IList<TodoTask> GetAllTasks()
         {
             var tasks = new List<TodoTask>();
-            
+
             // tasks with one label
             tasks.Add(new TodoTask {id = 1, content = "Update software", labels = new List<Int64> {1}});
             tasks.Add(new TodoTask {id = 2, content = "Sync podcasts when on Wifi", labels = new List<Int64> {2}});
@@ -44,8 +45,8 @@ namespace TodoistReview.Models.TodoistApiModels
             });
 
             // task with no labels
-            tasks.Add(new TodoTask { id = 4, content = "Task 5", labels = new List<Int64>() });
-            tasks.Add(new TodoTask { id = 5, content = "Task 6", labels = new List<Int64>() });
+            tasks.Add(new TodoTask {id = 4, content = "Task 5", labels = new List<Int64>()});
+            tasks.Add(new TodoTask {id = 5, content = "Task 6", labels = new List<Int64>()});
 
             return tasks;
         }

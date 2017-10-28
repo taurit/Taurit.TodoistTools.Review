@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+// ReSharper disable InconsistentNaming - names match those in documentation
 
 namespace TodoistReview.Models
 {

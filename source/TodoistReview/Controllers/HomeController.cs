@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TodoistReview.Models;
+using TodoistReview.Models.TodoistApiModels;
 
 namespace TodoistReview.Controllers
 {
@@ -25,9 +26,9 @@ namespace TodoistReview.Controllers
 
         public ActionResult Login(TodoistAuthData authData)
         {
-            if (authData != null && !String.IsNullOrWhiteSpace(authData.APIToken))
+            if (authData != null && !String.IsNullOrWhiteSpace(authData.ApiToken))
             {
-                ControllerContext.HttpContext.Response.SetCookie(new HttpCookie(SyncCookieName, authData.APIToken));
+                ControllerContext.HttpContext.Response.SetCookie(new HttpCookie(SyncCookieName, authData.ApiToken));
                 return RedirectToAction("Index");
             }
             return View("Login");
