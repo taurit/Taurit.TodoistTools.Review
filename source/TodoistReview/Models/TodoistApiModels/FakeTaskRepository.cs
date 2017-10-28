@@ -8,13 +8,20 @@ namespace TodoistReview.Models.TodoistApiModels
     /// </summary>
     public class FakeTaskRepository : ITaskRepository
     {
+        private string syncKey;
+
+        public FakeTaskRepository(string syncKey)
+        {
+            this.syncKey = syncKey;
+        }
+
         public IList<Label> GetAllLabels()
         {
             var labels = new List<Label>();
 
-            labels.Add(new Label {id = 1, is_deleted = 0, name = "laptop"});
-            labels.Add(new Label {id = 2, is_deleted = 0, name = "mobile"});
-            labels.Add(new Label {id = 3, is_deleted = 0, name = "market"});
+            labels.Add(new Label(1, 0, "laptop"));
+            labels.Add(new Label(2, 0, "mobile"));
+            labels.Add(new Label(3, 0, "market"));
 
             return labels;
         }
@@ -22,7 +29,7 @@ namespace TodoistReview.Models.TodoistApiModels
         public IList<TodoTask> GetAllTasks()
         {
             var tasks = new List<TodoTask>();
-
+            
             // tasks with one label
             tasks.Add(new TodoTask {id = 1, content = "Update software", labels = new List<Int64> {1}});
             tasks.Add(new TodoTask {id = 2, content = "Sync podcasts when on Wifi", labels = new List<Int64> {2}});
@@ -35,6 +42,10 @@ namespace TodoistReview.Models.TodoistApiModels
                 content = "Find and read reviews of my book",
                 labels = new List<Int64> {1, 2}
             });
+
+            // task with no labels
+            tasks.Add(new TodoTask { id = 4, content = "Task 5", labels = new List<Int64>() });
+            tasks.Add(new TodoTask { id = 5, content = "Task 6", labels = new List<Int64>() });
 
             return tasks;
         }
