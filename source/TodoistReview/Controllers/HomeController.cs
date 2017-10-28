@@ -11,7 +11,25 @@ namespace TodoistReview.Controllers
     public class HomeController : Controller
     {
         private const String SyncCookieName = "SyncApiCookie2";
-        //ITaskRepository repository = new FakeTaskRepository();
+
+        private  ITaskRepository _repository;
+
+        /// <remarks>
+        ///     reading cookie can't be done in constructor as ControllerContext is still null there
+        /// </remarks>
+        protected override void OnActionExecuting(ActionExecutingContext ctx)
+        {
+            base.OnActionExecuting(ctx);
+            String syncKey = ControllerContext?.HttpContext.Request.Cookies[SyncCookieName]?.Value;
+            if (syncKey != null)
+            {
+#if DEBUG
+                _repository = new FakeTaskRepository(syncKey);
+#else
+                _repository = new TodoistTaskRepository(syncKey);
+#endif
+            }
+        }
 
         // GET: Home
         public ActionResult Index()
@@ -41,10 +59,7 @@ namespace TodoistReview.Controllers
                 throw new InvalidOperationException("Authorization cookie not found");
             }
 
-            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
-            var repository = new FakeTaskRepository(syncKey);
-
-            List<Label> labels = repository.GetAllLabels().OrderBy(label => label.item_order)
+            List<Label> labels = _repository.GetAllLabels().OrderBy(label => label.item_order)
                 .Union(Label.SpecialLabels)
                 .ToList();
 
@@ -57,11 +72,7 @@ namespace TodoistReview.Controllers
             {
                 throw new InvalidOperationException("Authorization cookie not found");
             }
-            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
-            //var repository = new TodoistTaskRepository(syncKey);
-            var repository = new FakeTaskRepository(syncKey);
-
-            List<TodoTask> tasks = repository.GetAllTasks().ToList();
+            List<TodoTask> tasks = _repository.GetAllTasks().ToList();
 
             // review only those which have no labels (contexts) or have more than 1 label
             // (assumption: we want to have exactly 1 label/context assigned after the review)
@@ -75,7 +86,7 @@ namespace TodoistReview.Controllers
 
             foreach (TodoTask task in tasks)
             {
-                task.SaveOriginalValues();                
+                task.SaveOriginalValues();
             }
 
             return Json(tasks, JsonRequestBehavior.AllowGet);
@@ -88,11 +99,9 @@ namespace TodoistReview.Controllers
             {
                 throw new InvalidOperationException("Authorization cookie not found");
             }
-            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
-            var repository = new FakeTaskRepository(syncKey);
 
             List<TodoTask> tasksToUpdate = tasks.Where(task => task.ItemWasChangedByUser).ToList();
-            repository.UpdateTasks(tasksToUpdate);
+            _repository.UpdateTasks(tasksToUpdate);
 
             return Json(tasksToUpdate.Count);
         }
