@@ -56,7 +56,7 @@ namespace TodoistReview.Models
 
         public static IReadOnlyList<Label> SpecialLabels { get; } = new List<Label>
         {
-            new Label(SpecialId_TaskToRemove, 0, "Eliminate") // special label: eliminate tasks
+            new Label(SpecialId_TaskToRemove, 0, "eliminate") // special label: eliminate tasks
         };
     }
 }

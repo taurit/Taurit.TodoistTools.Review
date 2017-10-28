@@ -2,10 +2,15 @@
   "agc": "glyphicon-hdd",
   "home": "glyphicon-home",
   "itm": "glyphicon-cog",
+  "ma": "glyphicon-cog",
+  "bs": "glyphicon-cog",
+  "kmd": "glyphicon-cog",
   "laptop": "glyphicon-floppy-disk",
   "market": "glyphicon-shopping-cart",
   "marta": "glyphicon-comment",
   "mobile": "glyphicon-phone",
   "sanok": "glyphicon-tree-deciduous",
-  "warsaw": "glyphicon-envelope"
+  "warsaw": "glyphicon-envelope",
+  "eliminate": "glyphicon-remove",
+  "nawyk": "glyphicon-roundabout"
 }
