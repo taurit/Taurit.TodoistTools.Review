@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TodoistReview.Models;
-using TodoistReview.Models.TodoistApiModels;
 
 namespace TodoistReview.Controllers
 {
@@ -41,7 +40,7 @@ namespace TodoistReview.Controllers
                 throw new InvalidOperationException("Authorization cookie not found");
             }
 
-            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
+            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
             var repository = new TodoistTaskRepository(syncKey);
 
             List<Label> labels = repository.GetAllLabels().OrderBy(label => label.item_order).ToList();
@@ -55,7 +54,7 @@ namespace TodoistReview.Controllers
             {
                 throw new InvalidOperationException("Authorization cookie not found");
             }
-            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
+            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
             var repository = new TodoistTaskRepository(syncKey);
 
             List<TodoTask> tasks = repository.GetAllTasks().ToList();
@@ -85,7 +84,7 @@ namespace TodoistReview.Controllers
             {
                 throw new InvalidOperationException("Authorization cookie not found");
             }
-            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName].Value;
+            String syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName]?.Value;
             var repository = new TodoistTaskRepository(syncKey);
 
             List<TodoTask> tasksToUpdate = tasks.Where(task => task.LabelsDiffer).ToList();
