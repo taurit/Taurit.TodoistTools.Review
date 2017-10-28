@@ -6,7 +6,7 @@
 
 <div class="jumbotron jumbotron-login">
 
-    <form class="form-inline">
+    <form class="form-inline" autocomplete="on">
         Enter API token to log in:
         <div class="form-group">
             @Html.EditorFor(model => model.ApiToken, new {htmlAttributes = new {@class = "form-control", placeholder = "Todoist API Token"}})

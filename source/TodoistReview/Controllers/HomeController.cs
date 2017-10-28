@@ -46,7 +46,11 @@ namespace TodoistReview.Controllers
         {
             if (authData != null && !String.IsNullOrWhiteSpace(authData.ApiToken))
             {
-                ControllerContext.HttpContext.Response.SetCookie(new HttpCookie(SyncCookieName, authData.ApiToken));
+                var loginCookie = new HttpCookie(SyncCookieName, authData.ApiToken);
+                loginCookie.Expires = DateTime.Now.AddDays(360);
+                loginCookie.HttpOnly = true;
+                ControllerContext.HttpContext.Response.SetCookie(loginCookie);
+
                 return RedirectToAction("Index");
             }
             return View("Login");
