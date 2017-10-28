@@ -4,26 +4,18 @@
     ViewBag.Title = "Login";
 }
 
-<h2>Log in</h2>
+<div class="jumbotron jumbotron-login">
 
-<form class="form-inline">
-    <div class="form-group">
-        @Html.EditorFor(model => model.ApiToken, new { htmlAttributes = new { @class = "form-control", placeholder = "Todoist API Token" } })
-    </div>
+    <form class="form-inline">
+        Enter API token to log in:
+        <div class="form-group">
+            @Html.EditorFor(model => model.ApiToken, new {htmlAttributes = new {@class = "form-control", placeholder = "Todoist API Token"}})
+        </div>
 
-    <button type="submit" class="btn btn-primary">Log in</button>
-</form>
-
-<h2>Where to find API Token?</h2>
-
-<p>API access for your Todoist account is available for Todoist Premium users. you can find it in settings, as shown in the picture 1.</p>
-
-
-<div class="row">
-    <div class="col-md-8">
-        <img src="~/Content/todoist-where-to-find-api-token.png" class="img-responsive" alt="API token can be found in Integrations tab in Todoist settings">
-
-    </div>
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
 </div>
+
+<p>API access for your Todoist account is available for Todoist Premium users. you can find it in settings</p>
 
 <p>Please note that this token should be treated with similar care as your passwords, as it allows to access all your Todoist data via API.</p>

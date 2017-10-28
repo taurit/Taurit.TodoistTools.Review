@@ -91,3 +91,6 @@
 .hidden-by-default {
   display: none;
 }
+.jumbotron-login {
+  margin-top: 20px;
+}
