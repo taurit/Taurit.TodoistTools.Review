@@ -7,5 +7,25 @@ I believe that reviewing task is a [crucial part of GTD process](http://gettingt
 Technically, the app is using ASP.NET MVC, Knockout.js, Bootstrap, JSON.NET, RestSharp, jQuery and it's configured for Visual Studio 2015 Community IDE. It uses [Todoist API](https://developer.todoist.com/) to contact with the platform.
 
 ## Screenshot
+![](documentation/todoist-review-app-screenshot-300-2017-10-29.png)
 
-![](https://raw.githubusercontent.com/taurit/TodoistReview/master/documentation/todoist-review-app-screenshot-300.png)
+## Changelog
+
+### Version 2017-10-29
+#### Added
+* web app manifest for better mobile experience
+* ability to eliminate task during review
+* alow set priority
+* R# team-shared settings file
+
+#### Updated
+* improved API mock
+* target framework from 4.5.2 to 4.7.1
+* external dependencies
+#### Removed
+* unused Modernizr dependency
+#### Fixed
+
+### Version 2016-01-01
+#### Added
+* Proof of concept
