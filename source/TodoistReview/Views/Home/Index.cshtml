@@ -25,16 +25,7 @@
 
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
-    <div class="all-labels row" data-bind="foreach: labels">
-        <div class="col-xs-4">
-            <div class="label" data-bind='attr: {"data-id": id}'>
-                <span data-bind="css: glyphicon" class="glyphicon"></span><br />
-                <span data-bind="text: name"></span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="footer row" data-bind="with: currentTask">
+    <div class="row" data-bind="with: currentTask">
         <div class="col-xs-3">
             <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
         </div>
@@ -49,6 +40,15 @@
         </div>
     </div>
 
+    <div class="all-labels row" data-bind="foreach: labels">
+        <div class="col-xs-4">
+            <div class="label" data-bind='attr: {"data-id": id}'>
+                <span data-bind="css: glyphicon" class="glyphicon"></span><br />
+                <span data-bind="text: name"></span>
+            </div>
+        </div>
+    </div>
+    
     <nav class="footer row">
         <div class="col-xs-4">
             <button id="back" type="button" class="btn btn-lg" data-bind="enable: isFirstTask() === false">Back</button>
