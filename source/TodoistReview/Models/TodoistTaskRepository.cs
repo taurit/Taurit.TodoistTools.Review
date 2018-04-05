@@ -9,7 +9,7 @@ namespace TodoistReview.Models
 {
     public class TodoistTaskRepository : ITaskRepository
     {
-        private const String ApiUrl = "https://todoist.com/API/v6/";
+        private const String ApiUrl = "https://todoist.com/api/v7/";
         private readonly String _authToken;
 
         public TodoistTaskRepository(String authToken)
