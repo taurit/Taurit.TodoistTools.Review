@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using RestSharp;
 using TodoistReview.Models.TodoistApiModels;
@@ -15,6 +16,10 @@ namespace TodoistReview.Models
         public TodoistTaskRepository(String authToken)
         {
             _authToken = authToken;
+
+            // in .NET 4.7 defaults changed and RestSharp cannot establish secure SSL/TLS connecion without explicitly stating that the server needs newer TLS version
+            // https://stackoverflow.com/questions/44751179/tls-1-2-not-negotiated-in-net-4-7-without-explicit-servicepointmanager-security
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
         public IList<Label> GetAllLabels()
