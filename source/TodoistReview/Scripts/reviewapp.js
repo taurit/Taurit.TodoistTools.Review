@@ -62,6 +62,12 @@ $(document).ready(function () {
             this.displayTaskLabels();
         };
 
+        this.addTime = function (timeToAddInMinutes) {
+            var timeBeforeOperation = this.currentTask().time();
+            var newTime = timeBeforeOperation + timeToAddInMinutes;
+            this.currentTask().time(newTime);
+        };
+
         // Updates label collection in a task based on what is selected by the user.
         // The clean way to do this would be with two-way binding of labels,
         // but I want to keep the model simple
@@ -115,6 +121,7 @@ $(document).ready(function () {
                 success: function (data) {
                     data.forEach(function (row) {
                         row.labels = ko.observableArray(row.labels);
+                        row.time = ko.observable(0); // todo: or not?
                     });
                     viewModel.tasks(data);
                     viewModel.displayTaskLabels();
@@ -158,6 +165,11 @@ $(document).ready(function () {
 
     $(".reviewedTask").on("click", "#back", function () {
         viewModel.selectPreviousTask();
+    });
+
+    $(".reviewedTask").on("click", ".time", function () {
+        var timeToAddInMinutes = $(this).data('time-to-add');
+        viewModel.addTime(timeToAddInMinutes);
     });
     
     $(".reviewedTask").on("click", "#sync", function () {
