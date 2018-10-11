@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 using RestSharp;
 using TodoistReview.Models.TodoistApiModels;
 
@@ -58,7 +59,7 @@ namespace TodoistReview.Models
             {
                 return "Empty list of tasks";
             }
-            if (tasksToUpdate.Any(task => task.labels == null))
+            if (tasksToUpdate.Any(task => task.labels == null || task.time < 0 || task.content == null))
             {
                 return "List of tasks contains at least one invalid item";
             }
@@ -83,8 +84,6 @@ namespace TodoistReview.Models
             }
 
             commandsString.Append("]");
-
-
             request.AddParameter("commands", commandsString.ToString());
 
             IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
@@ -107,12 +106,20 @@ namespace TodoistReview.Models
             {
                 // typical use case: update labels
                 List<Int64> specialLabelsIds = Label.SpecialLabels.Select(x => x.id).ToList();
-                IEnumerable<Int64> labelsExcludingSpecial = task.labels.Where(x => !specialLabelsIds.Contains(x));
-                String labelsArrayString =
-                    "[" + String.Join(",", labelsExcludingSpecial) + "]"; // JSON array with int64 ids
+                var labelsExcludingSpecial =
+                    task.labels.Where(x => !specialLabelsIds.Contains(x)).ToArray();
 
-                commandString =
-                    $"{{\"type\": \"item_update\", \"uuid\": \"{commandId}\", \"args\": {{\"id\": {task.id}, \"priority\": {task.priority}, \"labels\": {labelsArrayString}}}}}";
+                var commandObject = new
+                {
+                    type = "item_update",
+                    uuid = $"{commandId}",
+                    args = new {
+                        id = task.id,
+                        priority = task.priority,
+                        labels = labelsExcludingSpecial
+                    }
+                };
+                commandString = JsonConvert.SerializeObject(commandObject);
             }
             
             return commandString;
