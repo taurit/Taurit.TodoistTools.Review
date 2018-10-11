@@ -115,7 +115,7 @@ namespace Taurit.TodoistTools.Review.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateTasks(List<TodoTask> tasks)
+        public JsonResult UpdateTasks([FromBody]List<TodoTask> tasks)
         {
             if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
             {
