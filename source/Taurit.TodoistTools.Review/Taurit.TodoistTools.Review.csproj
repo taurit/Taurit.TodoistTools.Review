@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
     <Content Remove="wwwroot\fonts\HomeController.cs" />
     <Content Remove="wwwroot\js\jquery-3.2.1.intellisense.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="compilerconfig.json" />
     <None Include="wwwroot\lib\jquery-3.2.1.intellisense.js" />
   </ItemGroup>
 

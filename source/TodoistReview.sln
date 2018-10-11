@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoistReview", "TodoistReview\TodoistReview.csproj", "{C6B9A446-2287-4A65-8C01-24C2BFC73B6F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taurit.TodoistTools.Review", "Taurit.TodoistTools.Review\Taurit.TodoistTools.Review.csproj", "{EAA65BD8-BA9C-4A74-AD84-F05273B36632}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6B9A446-2287-4A65-8C01-24C2BFC73B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6B9A446-2287-4A65-8C01-24C2BFC73B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6B9A446-2287-4A65-8C01-24C2BFC73B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6B9A446-2287-4A65-8C01-24C2BFC73B6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAA65BD8-BA9C-4A74-AD84-F05273B36632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAA65BD8-BA9C-4A74-AD84-F05273B36632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAA65BD8-BA9C-4A74-AD84-F05273B36632}.Release|Any CPU.ActiveCfg = Release|Any CPU
