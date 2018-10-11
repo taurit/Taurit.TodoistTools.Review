@@ -64,7 +64,7 @@ $(document).ready(function () {
 
         this.addTime = function (timeToAddInMinutes) {
             var timeBeforeOperation = this.currentTask().time();
-            var newTime = timeBeforeOperation + timeToAddInMinutes;
+            var newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
             this.currentTask().time(newTime);
         };
 
@@ -121,7 +121,7 @@ $(document).ready(function () {
                 success: function (data) {
                     data.forEach(function (row) {
                         row.labels = ko.observableArray(row.labels);
-                        row.time = ko.observable(0); // todo: or not?
+                        row.time = ko.observable(row.time);
                     });
                     viewModel.tasks(data);
                     viewModel.displayTaskLabels();
@@ -168,7 +168,7 @@ $(document).ready(function () {
     });
 
     $(".reviewedTask").on("click", ".time", function () {
-        var timeToAddInMinutes = $(this).data('time-to-add');
+        var timeToAddInMinutes = parseInt($(this).data('time-to-add'));
         viewModel.addTime(timeToAddInMinutes);
     });
     

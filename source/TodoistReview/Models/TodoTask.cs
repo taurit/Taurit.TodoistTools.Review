@@ -30,6 +30,18 @@ namespace TodoistReview.Models
         public List<Int64> originalLabels { get; set; }
 
         /// <summary>
+        /// Estimated time for a task before user's changes
+        /// </summary>
+        [JsonProperty]
+        public Int64 originalTime { get; set; }
+
+        /// <summary>
+        /// Estimated time for a task
+        /// </summary>
+        [JsonProperty]
+        public Int64 time { get; set; }
+
+        /// <summary>
         ///     The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for natural).
         /// </summary>
         [JsonProperty]
@@ -66,6 +78,7 @@ namespace TodoistReview.Models
         {
             originalLabels = labels;
             originalPriority = priority;
+            originalTime = time;
         }
 
         public Boolean ItemWasChangedByUser
@@ -76,11 +89,14 @@ namespace TodoistReview.Models
                 Debug.Assert(originalPriority <= 4);
                 Debug.Assert(priority >= 1);
                 Debug.Assert(priority <= 4);
+                Debug.Assert(originalTime >= 0);
+                Debug.Assert(time >= 0);
 
                 var labelsDiffer = LabelsDiffer;
                 var priorityDiffers = priority != originalPriority;
+                var timeDiffers = time != originalTime;
 
-                return labelsDiffer || priorityDiffers;
+                return labelsDiffer || priorityDiffers || timeDiffers;
             }
 
         }

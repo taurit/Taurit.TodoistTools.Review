@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NaturalLanguageTimespanParser;
 using TodoistReview.Models;
 using TodoistReview.Models.TodoistApiModels;
 
@@ -13,6 +15,8 @@ namespace TodoistReview.Controllers
         private const String SyncCookieName = "SyncApiCookie2";
 
         private  ITaskRepository _repository;
+
+        private MultiCultureTimespanParser _timespanParser;
 
         /// <remarks>
         ///     reading cookie can't be done in constructor as ControllerContext is still null there
@@ -29,6 +33,8 @@ namespace TodoistReview.Controllers
                 _repository = new TodoistTaskRepository(syncKey);
 #endif
             }
+
+            _timespanParser = new MultiCultureTimespanParser(new[] {new CultureInfo("pl"), new CultureInfo("en")});
         }
 
         // GET: Home
@@ -77,6 +83,16 @@ namespace TodoistReview.Controllers
                 throw new InvalidOperationException("Authorization cookie not found");
             }
             List<TodoTask> tasks = _repository.GetAllTasks().ToList();
+            
+            // parse estimated time in a natural language
+            foreach (TodoTask todoTask in tasks)
+            {
+                var parsedDuration = _timespanParser.Parse(todoTask.content);
+                if (parsedDuration.Success)
+                {
+                    todoTask.time = (Int32) parsedDuration.Duration.TotalMinutes;
+                }
+            }
 
             // review only those which have no labels (contexts) or have more than 1 label
             // (assumption: we want to have exactly 1 label/context assigned after the review)
