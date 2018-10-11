@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - this class is returned to the client-side JS and data might be used there
 
-namespace TodoistReview.Models
+namespace Taurit.TodoistTools.Review.Models
 {
     /// <summary>
     ///     This class is returned to client-side code. Be cautious with name changes.

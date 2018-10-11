@@ -5,9 +5,9 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using RestSharp;
-using TodoistReview.Models.TodoistApiModels;
+using Taurit.TodoistTools.Review.Models.TodoistApiModels;
 
-namespace TodoistReview.Models
+namespace Taurit.TodoistTools.Review.Models
 {
     public class TodoistTaskRepository : ITaskRepository
     {

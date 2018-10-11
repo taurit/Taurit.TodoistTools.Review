@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TodoistReview.Models.TodoistApiModels
+namespace Taurit.TodoistTools.Review.Models.TodoistApiModels
 {
     /// <summary>
     ///     Fake repository for development purposes, so the real API is not called too many times

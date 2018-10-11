@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TodoistReview.Models
+namespace Taurit.TodoistTools.Review.Models
 {
     internal interface ITaskRepository
     {

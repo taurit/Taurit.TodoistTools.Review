@@ -5,7 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\fonts\HomeController.cs" />
+    <Content Remove="wwwroot\js\jquery-3.2.1.intellisense.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\jquery-3.2.1.intellisense.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="RestSharp" Version="106.5.2" />
+    <PackageReference Include="Taurit.Libraries.NaturalLanguageTimespanParser" Version="0.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\reviewapp.css">
+      <DependentUpon>reviewapp.less</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\css\reviewapp.min.css">
+      <DependentUpon>reviewapp.css</DependentUpon>
+    </Content>
   </ItemGroup>
 
 </Project>

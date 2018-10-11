@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - names match those in documentation
 
-namespace TodoistReview.Models
+namespace Taurit.TodoistTools.Review.Models
 {
     /// <summary>
     ///     Field names as in: https://developer.todoist.com/#items

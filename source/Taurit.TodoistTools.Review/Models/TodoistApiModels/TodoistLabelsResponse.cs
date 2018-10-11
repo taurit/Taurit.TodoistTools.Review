@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+
 // ReSharper disable InconsistentNaming
 
-namespace TodoistReview.Models.TodoistApiModels
+namespace Taurit.TodoistTools.Review.Models.TodoistApiModels
 {
     internal class TodoistLabelsResponse
     {

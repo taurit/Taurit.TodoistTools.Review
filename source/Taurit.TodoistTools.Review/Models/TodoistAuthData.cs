@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TodoistReview.Models
+namespace Taurit.TodoistTools.Review.Models
 {
     public class TodoistAuthData
     {
