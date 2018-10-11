@@ -6,11 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NaturalLanguageTimespanParser;
-using Newtonsoft.Json;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Models.TodoistApiModels;
 
-namespace TodoistReview.Controllers
+namespace Taurit.TodoistTools.Review.Controllers
 {
     public class HomeController : Controller
     {
