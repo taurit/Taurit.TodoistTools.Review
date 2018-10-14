@@ -21,7 +21,7 @@
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
     <div class="task" data-bind="with: currentTask">
-        <span data-bind="text: content"></span> <strong class="time-inline-result">(<span data-bind="text: time"></span> min)</strong>
+        <span data-bind="text: content"></span> <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded()">(<span data-bind="text: time"></span> min)</strong>
         <span data-bind="if: $root.timeEstimateReviewNeeded()">
         <span class="time time-inline" data-time-to-add="1">+1 min</span>
         <span class="time time-inline" data-time-to-add="5">+5 min</span>
