@@ -66,7 +66,7 @@ $(document).ready(function () {
                 this.currentTaskIndex(currentIndex - 1);
             }
             
-            this.updateReviewSectionsVisibilityForPreviousTask();
+            this.makeAllReviewSectionsVisible();
             this.displayTaskLabels();
         };
 
@@ -124,7 +124,7 @@ $(document).ready(function () {
             this.labelsReviewNeeded(labelsNeedReview);
         };
 
-        this.updateReviewSectionsVisibilityForPreviousTask = function() {
+        this.makeAllReviewSectionsVisible = function() {
             // when navigating to the previous task, we usually know we made a mistake, so we want to be able to correct the metadata even if it's already set (so in theory it doesn't need review)
             this.timeEstimateReviewNeeded(true);
             this.labelsReviewNeeded(true);
@@ -160,6 +160,7 @@ $(document).ready(function () {
                     });
                     viewModel.tasks(data);
                     viewModel.displayTaskLabels();
+                    viewModel.updateReviewSectionsVisibilityForNextTask();
                     viewModel.loadFinished(false);
                 },
                 error: function () {
@@ -184,6 +185,10 @@ $(document).ready(function () {
             // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
             viewModel.selectNextTask();
         }
+    });
+
+    $(".reviewedTask").on("click", "#show-all-sections", function () {
+        viewModel.makeAllReviewSectionsVisible();
     });
 
     $(".reviewedTask").on("click", ".priority", function () {
