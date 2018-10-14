@@ -103,6 +103,7 @@ $(document).ready(function () {
             } else {
                 $(".label").addClass("hidden");
             }
+            $(".label[data-id=-1]").removeClass("hidden"); // "eliminate task" option should always be available
 
             $(".label").removeClass("label-selected");
             taskLabels.forEach(function(taskLabelId) {
