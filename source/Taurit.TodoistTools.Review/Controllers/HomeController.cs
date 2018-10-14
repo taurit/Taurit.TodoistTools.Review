@@ -90,9 +90,10 @@ namespace Taurit.TodoistTools.Review.Controllers
             foreach (TodoTask todoTask in tasks)
             {
                 var parsedDuration = _timespanParser.Parse(todoTask.content);
+                
                 if (parsedDuration.Success)
                 {
-                    todoTask.time = (Int32) parsedDuration.Duration.TotalMinutes;
+                    todoTask.SetOriginalDurationInMinutes((Int32) parsedDuration.Duration.TotalMinutes);
                 }
             }
 
@@ -122,7 +123,7 @@ namespace Taurit.TodoistTools.Review.Controllers
             // * we don't want tasks with a default priority (1) - reviewed task should have a priority of 2, 3, or 4 assigned (low, medium or high)
             var labelsNeedReview = task.labels != null &&
                                    task.labels.Count != 1;
-            var estimatedTimeNeedsReview = task.time == 0;
+            var estimatedTimeNeedsReview = !task.timeEstimateWasAlreadyDefinedOnTheServerSide;
             var priorityNeedsReview = task.priority == 1;
             var taskIsNotCompletedYet = task.is_deleted == 0 &&
                                         task.@checked == 0;

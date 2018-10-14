@@ -19,6 +19,9 @@ namespace Taurit.TodoistTools.Review.Models
         [JsonProperty]
         public String content { get; set; }
 
+        [JsonProperty]
+        public bool timeEstimateWasAlreadyDefinedOnTheServerSide { get; set; }
+
         public string contentWithTime
         {
             get
@@ -29,6 +32,8 @@ namespace Taurit.TodoistTools.Review.Models
 
                 if (originalTime != 0) return content;
                 if (originalTime != 0 && time != originalTime) return content; // not supported yet - update is a bit difficult (time string needs to be replaced with another). Requires good tests not to break the content
+                if (timeEstimateWasAlreadyDefinedOnTheServerSide) return content; // same situation as above, but if time was defined as 0 min
+                if (time == 0) return content; // 0 is not a valid time estimate, don't save it
 
                 var newContent = $"{content} ({(int) time} min)";
 
@@ -52,7 +57,7 @@ namespace Taurit.TodoistTools.Review.Models
         /// Estimated time for a task before user's changes
         /// </summary>
         [JsonProperty]
-        public Int64 originalTime { get; set; }
+        public Int64 originalTime { get; private set; }
 
         /// <summary>
         /// Estimated time for a task
@@ -97,7 +102,6 @@ namespace Taurit.TodoistTools.Review.Models
         {
             originalLabels = labels;
             originalPriority = priority;
-            originalTime = time;
         }
 
         public Boolean ItemWasChangedByUser
@@ -141,5 +145,11 @@ namespace Taurit.TodoistTools.Review.Models
         }
 
 
+        public void SetOriginalDurationInMinutes(Int32 durationTotalMinutes)
+        {
+            this.time = durationTotalMinutes;
+            this.originalTime = durationTotalMinutes;
+            this.timeEstimateWasAlreadyDefinedOnTheServerSide = true;
+        }
     }
 }

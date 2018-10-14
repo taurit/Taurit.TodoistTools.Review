@@ -112,7 +112,6 @@ $(document).ready(function () {
         };
 
         this.updateReviewSectionsVisibilityForNextTask = function() {
-            var currentTaskTime = this.currentTask().time();
             var currentTaskOriginalTime = this.currentTask().originalTime;
             var timeReviewNeeded = currentTaskOriginalTime === 0;
 
