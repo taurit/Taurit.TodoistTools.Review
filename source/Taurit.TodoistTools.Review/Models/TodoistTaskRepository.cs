@@ -116,7 +116,8 @@ namespace Taurit.TodoistTools.Review.Models
                     args = new {
                         id = task.id,
                         priority = task.priority,
-                        labels = labelsExcludingSpecial
+                        labels = labelsExcludingSpecial,
+                        content = task.contentWithTime
                     }
                 };
                 commandString = JsonConvert.SerializeObject(commandObject);

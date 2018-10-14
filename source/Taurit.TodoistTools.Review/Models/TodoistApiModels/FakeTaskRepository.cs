@@ -46,7 +46,7 @@ namespace Taurit.TodoistTools.Review.Models.TodoistApiModels
             });
 
             // task with no labels
-            tasks.Add(new TodoTask {id = 4, priority = 2, content = "Task 5", labels = new List<Int64>()});
+            tasks.Add(new TodoTask {id = 4, priority = 2, content = "Task 5 (5 min)", labels = new List<Int64>()});
             tasks.Add(new TodoTask {id = 5, priority = 4, content = "Task 6 high priority", labels = new List<Int64>()});
 
             return tasks;

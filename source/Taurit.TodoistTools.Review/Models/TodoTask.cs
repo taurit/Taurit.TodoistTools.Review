@@ -12,11 +12,30 @@ namespace Taurit.TodoistTools.Review.Models
     /// </summary>
     public class TodoTask
     {
+
         [JsonProperty]
         public Int64 id { get; set; }
 
         [JsonProperty]
         public String content { get; set; }
+
+        public string contentWithTime
+        {
+            get
+            {
+                Debug.Assert(originalTime >= 0);
+                Debug.Assert(time >= 0);
+                Debug.Assert(content != null);
+
+                if (originalTime != 0) return content;
+                if (originalTime != 0 && time != originalTime) return content; // not supported yet - update is a bit difficult (time string needs to be replaced with another). Requires good tests not to break the content
+
+                var newContent = $"{content} ({(int) time} min)";
+
+                return newContent;
+            }
+        }
+
 
         [JsonProperty]
         public List<Int64> labels { get; set; }
