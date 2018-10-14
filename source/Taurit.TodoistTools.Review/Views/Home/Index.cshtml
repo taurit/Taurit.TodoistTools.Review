@@ -21,7 +21,11 @@
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
     <div class="task" data-bind="with: currentTask">
-        <span data-bind="text: content"></span> <strong>(<span data-bind="text: time"></span> min)</strong>
+        <span data-bind="text: content"></span> <strong class="time-inline-result">(<span data-bind="text: time"></span> min)</strong>
+        <span class="time time-inline" data-time-to-add="1">+1 min</span>
+        <span class="time time-inline" data-time-to-add="5">+5 min</span>
+        <span class="time time-inline" data-time-to-add="15">+15 min</span>
+        <span class="time time-inline" data-time-to-add="0">X</span>
     </div>
 
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
@@ -41,20 +45,6 @@
         </div>
     </div>
 
-    <div class="all-times row" data-bind="if: !currentTask.timeDefined">
-        <div class="col-xs-3">
-            <div class="time reset-time" data-time-to-add="0">reset</div>
-        </div>
-        <div class="col-xs-3">
-            <div class="time add-time" data-time-to-add="15">+15 min</div>
-        </div>
-        <div class="col-xs-3">
-            <div class="time add-time" data-time-to-add="5">+5 min</div>
-        </div>
-        <div class="col-xs-3">
-            <div class="time add-time" data-time-to-add="1">+1 min</div>
-        </div>
-    </div>
 
     <div class="all-labels row" data-bind="foreach: labels">
         <div class="col-xs-4">

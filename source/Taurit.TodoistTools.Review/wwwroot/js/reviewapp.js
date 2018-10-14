@@ -144,7 +144,8 @@ $(document).ready(function () {
         viewModel.updateTaskLabels();
 
         var contextWasSelected = $(this).hasClass("label-selected");
-        if (contextWasSelected) { // as opposed to deselected
+        var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        if (contextWasSelected && howManyLabelsAreSelected === 1) { // as opposed to deselected
             // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
             viewModel.selectNextTask();
         }
