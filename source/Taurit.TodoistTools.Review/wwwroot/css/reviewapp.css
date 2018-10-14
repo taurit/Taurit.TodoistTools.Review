@@ -104,7 +104,13 @@
   display: inline-block;
   margin-top: 4px;
 }
+.time-inline-reset {
+  color: darkred;
+}
 .time-inline-result {
+  background-color: transparent;
+}
+.time-inline-result.highlighted {
   background-color: #d0ffbb;
 }
 .hidden-by-default {

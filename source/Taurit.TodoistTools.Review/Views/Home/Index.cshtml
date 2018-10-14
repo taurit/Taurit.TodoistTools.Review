@@ -21,12 +21,12 @@
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
     <div class="task" data-bind="with: currentTask">
-        <span data-bind="text: content"></span> <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded()">(<span data-bind="text: time"></span> min)</strong>
-        <span data-bind="if: $root.timeEstimateReviewNeeded()">
-        <span class="time time-inline" data-time-to-add="1">+1 min</span>
-        <span class="time time-inline" data-time-to-add="5">+5 min</span>
-        <span class="time time-inline" data-time-to-add="15">+15 min</span>
-        <span class="time time-inline" data-time-to-add="0">X</span>
+        <span data-bind="text: content"></span> <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded(), css: { highlighted: time() != 0 }"><br />(<span data-bind="text: time"></span> min)</strong>
+        <span data-bind="if: $root.timeEstimateReviewNeeded()"><br />
+            <span class="time time-inline" data-time-to-add="1">+1 min</span>
+            <span class="time time-inline" data-time-to-add="5">+5 min</span>
+            <span class="time time-inline" data-time-to-add="15">+15 min</span>
+            <span class="time time-inline time-inline-reset" data-time-to-add="0">0 (reset)</span>
         </span>
     </div>
 
