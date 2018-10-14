@@ -96,22 +96,40 @@ namespace Taurit.TodoistTools.Review.Controllers
                 }
             }
 
-            // review only those which have no labels (contexts) or have more than 1 label
-            // (assumption: we want to have exactly 1 label/context assigned after the review)
-            tasks = tasks.Where(task => task.labels != null &&
-                                        task.labels.Count != 1 &&
-                                        task.is_deleted == 0 &&
-                                        task.@checked == 0
-                )
-                .Take(15) // batch size
-                .ToList();
-
             foreach (TodoTask task in tasks)
             {
                 task.SaveOriginalValues();
             }
 
+            tasks = FilterTasksAndReturnOnlyOnesThatNeedReview(tasks);
+
             return Json(tasks);
+        }
+
+        private static List<TodoTask> FilterTasksAndReturnOnlyOnesThatNeedReview(List<TodoTask> tasks)
+        {
+            tasks = tasks.Where(task => TaskNeedsReview(task))
+                .Take(20) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
+                .ToList();
+            return tasks;
+        }
+
+        private static Boolean TaskNeedsReview(TodoTask task)
+        {
+            // Assumptions:
+            // * we want to have exactly 1 label/context assigned after the review, so tasks with 0 or 2+ labels needs to be re-reviewed
+            // * there's no point in reviewing and updating metadata of tasks that are already deleted or done
+            // * we don't want tasks with a default priority (1) - reviewed task should have a priority of 2, 3, or 4 assigned (low, medium or high)
+            var labelsNeedReview = task.labels != null &&
+                                   task.labels.Count != 1;
+            var estimatedTimeNeedsReview = task.time == 0;
+            var priorityNeedsReview = task.priority == 1;
+            var taskIsNotCompletedYet = task.is_deleted == 0 &&
+                                        task.@checked == 0;
+
+            var taskNeedsReview = (labelsNeedReview || estimatedTimeNeedsReview || priorityNeedsReview)
+                                  && taskIsNotCompletedYet;
+            return taskNeedsReview;
         }
 
         [HttpPost]
