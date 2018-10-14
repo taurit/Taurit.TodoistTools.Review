@@ -1,4 +1,7 @@
-﻿.reviewedTask .task {
+﻿body {
+  overscroll-behavior: contain;
+}
+.reviewedTask .task {
   padding: 7px 5px 3px 5px;
   font-size: large;
   text-align: center;
@@ -92,13 +95,14 @@
   text-align: center;
   color: #000000;
   cursor: pointer;
-  margin-top: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 .time-inline {
   padding: 10px;
   border: 1px solid black;
+  display: inline-block;
+  margin-top: 4px;
 }
 .time-inline-result {
   background-color: #d0ffbb;
@@ -109,4 +113,8 @@
 .jumbotron-login,
 .jumbotron-loading {
   margin-top: 20px;
+}
+.reload-page {
+  margin-top: 30px;
+  text-align: center;
 }

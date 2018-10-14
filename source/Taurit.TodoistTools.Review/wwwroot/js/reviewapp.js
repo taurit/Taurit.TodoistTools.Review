@@ -13,6 +13,10 @@ $(document).ready(function () {
         // Did any ajax error occur while loading
         this.ajaxError = ko.observable(false);
 
+        this.timeEstimateReviewNeeded = ko.observable(false);
+        this.labelsReviewNeeded = ko.observable(false);
+        this.priorityReviewNeeded = ko.observable(false);
+
         // All labels defined by user in the right order 
         this.labels = ko.observableArray();
 
@@ -50,6 +54,8 @@ $(document).ready(function () {
             if (!this.isLastTask()) {
                 this.currentTaskIndex(currentIndex + 1);
             }
+            
+            this.updateReviewSectionsVisibilityForNextTask();
             this.displayTaskLabels();
         };
 
@@ -59,6 +65,8 @@ $(document).ready(function () {
             if (!this.isFirstTask()) {
                 this.currentTaskIndex(currentIndex - 1);
             }
+            
+            this.updateReviewSectionsVisibilityForPreviousTask();
             this.displayTaskLabels();
         };
 
@@ -90,10 +98,37 @@ $(document).ready(function () {
 
             var taskLabels = this.currentTask().labels();
 
+            if (this.labelsReviewNeeded()) {
+                $(".label").removeClass("hidden");
+            } else {
+                $(".label").addClass("hidden");
+            }
+
             $(".label").removeClass("label-selected");
             taskLabels.forEach(function(taskLabelId) {
                 $(".label[data-id=" + taskLabelId + "]").addClass("label-selected");
             });
+        };
+
+        this.updateReviewSectionsVisibilityForNextTask = function() {
+            var currentTaskTime = this.currentTask().time();
+            var currentTaskOriginalTime = this.currentTask().originalTime;
+            var timeReviewNeeded = currentTaskOriginalTime === 0;
+
+            var priorityReviewNeeded = this.currentTask().priority === 1;
+
+            var labelsNeedReview = this.currentTask().labels().length !== 1;
+
+            this.timeEstimateReviewNeeded(timeReviewNeeded);
+            this.priorityReviewNeeded(priorityReviewNeeded);
+            this.labelsReviewNeeded(labelsNeedReview);
+        };
+
+        this.updateReviewSectionsVisibilityForPreviousTask = function() {
+            // when navigating to the previous task, we usually know we made a mistake, so we want to be able to correct the metadata even if it's already set (so in theory it doesn't need review)
+            this.timeEstimateReviewNeeded(true);
+            this.labelsReviewNeeded(true);
+            this.priorityReviewNeeded(true);
         };
 
         // Saves the information that input data has been loaded

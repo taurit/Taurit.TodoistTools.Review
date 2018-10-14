@@ -22,29 +22,32 @@
 
     <div class="task" data-bind="with: currentTask">
         <span data-bind="text: content"></span> <strong class="time-inline-result">(<span data-bind="text: time"></span> min)</strong>
+        <span data-bind="if: $root.timeEstimateReviewNeeded()">
         <span class="time time-inline" data-time-to-add="1">+1 min</span>
         <span class="time time-inline" data-time-to-add="5">+5 min</span>
         <span class="time time-inline" data-time-to-add="15">+15 min</span>
         <span class="time time-inline" data-time-to-add="0">X</span>
+        </span>
     </div>
 
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
     <div class="row" data-bind="with: currentTask">
-        <div class="col-xs-3">
-            <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
-        </div>
-        <div class="col-xs-3">
-            <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 2 }" data-priority="2"></div>
-        </div>
-        <div class="col-xs-3">
-            <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 3 }" data-priority="3"></div>
-        </div>
-        <div class="col-xs-3">
-            <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 4 }" data-priority="4"></div>
-        </div>
+        <span data-bind="if: $root.priorityReviewNeeded()">
+            <div class="col-xs-3">
+                <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
+            </div>
+            <div class="col-xs-3">
+                <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 2 }" data-priority="2"></div>
+            </div>
+            <div class="col-xs-3">
+                <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 3 }" data-priority="3"></div>
+            </div>
+            <div class="col-xs-3">
+                <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 4 }" data-priority="4"></div>
+            </div>
+        </span>
     </div>
-
 
     <div class="all-labels row" data-bind="foreach: labels">
         <div class="col-xs-4">
@@ -65,8 +68,9 @@
         <div class="col-xs-8" data-bind="visible: isLastTask() === true">
             <button id="sync" type="button" class="btn btn-info btn-lg">Sync</button>
         </div>
-
     </nav>
+    
+    <p class="reload-page"><a onclick="location.reload();">Reload page</a></p>
 </div>
 
 <script src="~/lib/jquery-3.2.1.min.js"></script>

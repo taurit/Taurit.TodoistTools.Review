@@ -109,7 +109,7 @@ namespace Taurit.TodoistTools.Review.Controllers
         private static List<TodoTask> FilterTasksAndReturnOnlyOnesThatNeedReview(List<TodoTask> tasks)
         {
             tasks = tasks.Where(task => TaskNeedsReview(task))
-                .Take(20) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
+                .Take(12) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
                 .ToList();
             return tasks;
         }
