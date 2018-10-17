@@ -112,16 +112,22 @@ $(document).ready(function () {
         };
 
         this.updateReviewSectionsVisibilityForNextTask = function() {
-            var currentTaskOriginalTime = this.currentTask().originalTime;
-            var timeReviewNeeded = currentTaskOriginalTime === 0;
 
-            var priorityReviewNeeded = this.currentTask().priority === 1;
+            let currentTask = this.currentTask();
+            if (currentTask !== null && currentTask !== undefined) {
+                // there's at least one task to review
+                const currentTaskOriginalTime = currentTask.originalTime;
+                const timeReviewNeeded = currentTaskOriginalTime === 0;
 
-            var labelsNeedReview = this.currentTask().labels().length !== 1;
+                const priorityReviewNeeded = currentTask.priority === 1;
 
-            this.timeEstimateReviewNeeded(timeReviewNeeded);
-            this.priorityReviewNeeded(priorityReviewNeeded);
-            this.labelsReviewNeeded(labelsNeedReview);
+                const labelsNeedReview = currentTask.labels().length !== 1;
+
+                this.timeEstimateReviewNeeded(timeReviewNeeded);
+                this.priorityReviewNeeded(priorityReviewNeeded);
+                this.labelsReviewNeeded(labelsNeedReview);
+            }
+            
         };
 
         this.makeAllReviewSectionsVisible = function() {
