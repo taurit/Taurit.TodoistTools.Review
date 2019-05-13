@@ -74,10 +74,17 @@ body {
     cursor: pointer;
     margin-top: 10px;
 
+
     @p1Color: #000000;
     @p2Color: #4073D6;
     @p3Color: #f88900;
     @p4Color: #dc1010;
+
+    // make selection more clearly visible in Android's dark content mode - delicate outline was not enough, border needed
+    @borderSize: 2px;
+    @borderColor: #000000;
+    @borderStyle: dashed;
+    border: @borderSize solid transparent;
 
     &.priority-1 {
         // lowest, "natural" priority
@@ -86,6 +93,7 @@ body {
         background-color: #ffffff;
 
         &.selected {
+            border: @borderSize @borderStyle @borderColor;
             box-shadow: 0px 0px 5px @p1Color;
         }
     }
@@ -96,6 +104,7 @@ body {
         background-color: #ECF1FB;
 
         &.selected {
+            border: @borderSize @borderStyle @borderColor;
             box-shadow: 0px 0px 5px @p2Color;
         }
     }
@@ -106,6 +115,7 @@ body {
         background-color: #fff0de;
 
         &.selected {
+            border: @borderSize @borderStyle @borderColor;
             box-shadow: 0px 0px 5px @p3Color;
         }
     }
@@ -116,6 +126,7 @@ body {
         background-color: #ffe7e7;
 
         &.selected {
+            border: @borderSize @borderStyle @borderColor;
             box-shadow: 0px 0px 5px @p4Color;
         }
     }

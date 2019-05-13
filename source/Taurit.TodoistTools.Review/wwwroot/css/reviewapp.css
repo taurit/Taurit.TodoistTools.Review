@@ -58,6 +58,7 @@
   color: #000;
   cursor: pointer;
   margin-top: 10px;
+  border: 2px solid transparent;
 }
 .priority.priority-1 {
   color: #000000;
@@ -65,6 +66,7 @@
   background-color: #ffffff;
 }
 .priority.priority-1.selected {
+  border: 2px dashed #000000;
   box-shadow: 0px 0px 5px #000000;
 }
 .priority.priority-2 {
@@ -73,6 +75,7 @@
   background-color: #ECF1FB;
 }
 .priority.priority-2.selected {
+  border: 2px dashed #000000;
   box-shadow: 0px 0px 5px #4073D6;
 }
 .priority.priority-3 {
@@ -81,6 +84,7 @@
   background-color: #fff0de;
 }
 .priority.priority-3.selected {
+  border: 2px dashed #000000;
   box-shadow: 0px 0px 5px #f88900;
 }
 .priority.priority-4 {
@@ -89,6 +93,7 @@
   background-color: #ffe7e7;
 }
 .priority.priority-4.selected {
+  border: 2px dashed #000000;
   box-shadow: 0px 0px 5px #dc1010;
 }
 .time {
