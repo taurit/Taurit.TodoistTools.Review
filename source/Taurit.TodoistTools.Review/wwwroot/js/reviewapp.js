@@ -137,6 +137,16 @@ $(document).ready(function () {
             this.priorityReviewNeeded(true);
         };
 
+        this.proceedToNextTaskIfInputForTaskIsComplete =
+            function (actionIsSelection, howManyLabelsAreSelected) {
+                var priorityIsNonDefault = this.currentTask().priority !== 1;
+                var timeIsNonZero = this.currentTask().time() !== 0;
+                if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1 && timeIsNonZero) {
+                    // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
+                    viewModel.selectNextTask();
+                }
+            };
+
         // Saves the information that input data has been loaded
         this.loadFinished = function(withError) {
             this.loaded(true);
@@ -199,12 +209,9 @@ $(document).ready(function () {
         $(this).toggleClass("label-selected");
         viewModel.updateTaskLabels();
 
-        var contextWasSelected = $(this).hasClass("label-selected");
+        var actionIsSelection = $(this).hasClass("label-selected"); // and not deselection
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
-        if (contextWasSelected && howManyLabelsAreSelected === 1) { // as opposed to deselected
-            // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
-            viewModel.selectNextTask();
-        }
+        viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
 
     $(".reviewedTask").on("click", "#show-all-sections", function () {
@@ -215,6 +222,9 @@ $(document).ready(function () {
         var selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority = selectedPriority; // not observable
         viewModel.currentTaskIndex.valueHasMutated(); // so force refresh of computed property this way
+
+        var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
 
     $(".reviewedTask").on("click", "#save", function () {
