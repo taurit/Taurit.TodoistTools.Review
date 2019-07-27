@@ -22,9 +22,15 @@ Technically, the app is using:
 It's set up to compile with one click in most recent stable versions of Visual Studio Community IDE. It uses [Todoist API](https://developer.todoist.com/) to contact with the platform.
 
 ## Screenshot
-![](documentation/todoist-review-app-screenshot-300-2017-10-29.png)
+![](documentation/todoist-review-app-screenshot-300-2019-07-27.png)
 
 ## Changelog
+
+### Version 2019-05-13
+* Added support for Chrome's dark mode (the tool looks better with colors inverted by Chrome)
+
+### Version 2019-03-01
+* Updated priority colours for consistency with the new Todoist colours
 
 ### Version 2018-10-14
 * Added ability to estimate task duration (e.g. for stats)
