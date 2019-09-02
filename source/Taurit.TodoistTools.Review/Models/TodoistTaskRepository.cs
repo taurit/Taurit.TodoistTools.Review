@@ -11,7 +11,7 @@ namespace Taurit.TodoistTools.Review.Models
 {
     public class TodoistTaskRepository : ITaskRepository
     {
-        private const String ApiUrl = "https://todoist.com/api/v8/";
+        private const String ApiUrl = "https://api.todoist.com/sync/v8/";
         private readonly String _authToken;
 
         public TodoistTaskRepository(String authToken)
@@ -98,9 +98,9 @@ namespace Taurit.TodoistTools.Review.Models
 
             if (task.IsToBeDeleted)
             {
-                // as in documentation, https://developer.todoist.com/sync/v7/#delete-items
+                // as in documentation, https://developer.todoist.com/sync/v8/#delete-items
                 commandString =
-                    $"{{\"type\": \"item_delete\", \"uuid\": \"{commandId}\", \"args\": {{\"ids\": [{task.id}] }}}}";
+                    $"{{\"type\": \"item_delete\", \"uuid\": \"{commandId}\", \"args\": {{\"id\": {task.id} }}}}";
             }
             else
             {
