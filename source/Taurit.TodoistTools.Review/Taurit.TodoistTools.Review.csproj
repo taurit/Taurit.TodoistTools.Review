@@ -30,6 +30,9 @@
     <Content Update="wwwroot\css\reviewapp.min.css">
       <DependentUpon>reviewapp.css</DependentUpon>
     </Content>
+    <Content Update="wwwroot\lib\jquery-3.4.1.min.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

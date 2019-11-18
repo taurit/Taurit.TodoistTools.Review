@@ -20,6 +20,10 @@ namespace Taurit.TodoistTools.Review.Models
         public String content { get; set; }
 
         [JsonProperty]
+        public String originalContent { get; set; }
+
+
+        [JsonProperty]
         public bool timeEstimateWasAlreadyDefinedOnTheServerSide { get; set; }
 
         public string contentWithTime
@@ -102,6 +106,7 @@ namespace Taurit.TodoistTools.Review.Models
         {
             originalLabels = labels;
             originalPriority = priority;
+            originalContent = content;
         }
 
         public Boolean ItemWasChangedByUser
@@ -118,8 +123,9 @@ namespace Taurit.TodoistTools.Review.Models
                 var labelsDiffer = LabelsDiffer;
                 var priorityDiffers = priority != originalPriority;
                 var timeDiffers = time != originalTime;
+                var contentDiffers = content != originalContent;
 
-                return labelsDiffer || priorityDiffers || timeDiffers;
+                return labelsDiffer || priorityDiffers || timeDiffers || contentDiffers;
             }
 
         }

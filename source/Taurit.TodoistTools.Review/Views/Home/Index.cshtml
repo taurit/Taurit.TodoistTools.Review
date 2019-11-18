@@ -21,8 +21,10 @@
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
     <div class="task" data-bind="with: currentTask">
-        <span data-bind="text: content"></span> <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded(), css: { highlighted: time() != 0 }"><br />(<span data-bind="text: timeFormatted"></span>)</strong>
-        <span data-bind="if: $root.timeEstimateReviewNeeded()"><br />
+        <textarea data-bind="value: content, autosize: true" class="content-box"></textarea>
+        <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded(), css: { highlighted: time() != 0 }"><span data-bind="text: timeFormatted"></span></strong>
+        <span data-bind="if: $root.timeEstimateReviewNeeded()">
+            <br />
             <span class="time time-inline" data-time-to-add="1">+1 min</span>
             <span class="time time-inline" data-time-to-add="5">+5 min</span>
             <span class="time time-inline" data-time-to-add="15">+15 min</span>
@@ -73,7 +75,8 @@
     <p class="reload-page"><a onclick="location.reload();">Reload page</a> | <a id="show-all-sections">Show all sections</a></p>
 </div>
 
-<script src="~/lib/jquery-3.2.1.min.js"></script>
+<script src="~/lib/jquery-3.4.1.min.js"></script>
+<script src="~/lib/autosize.min.js"></script>
 <script src="~/lib/knockout-3.4.2.js"></script>
 <script src="~/js/reviewapp.js?v=4"></script>
 <script type="text/javascript">
