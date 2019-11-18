@@ -10,6 +10,7 @@ namespace Taurit.TodoistTools.Review.Models
     /// <summary>
     ///     Field names as in: https://developer.todoist.com/#items
     /// </summary>
+    [DebuggerDisplay("{" + nameof(content) + "}")]
     public class TodoTask
     {
 

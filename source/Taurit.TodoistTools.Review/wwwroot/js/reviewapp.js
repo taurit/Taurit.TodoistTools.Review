@@ -1,6 +1,6 @@
-﻿/// <reference path="../lib/knockout-3.4.2.debug.js" />
+﻿/// <reference path="../lib/knockout-3.5.1.debug.js" />
 /// <reference path="../lib/autosize.min.js" />
-/// <reference path="../lib/jquery-3.2.1.intellisense.js" />
+/// <reference path="../lib/jquery-3.4.1-vsdoc.js" />
 
 $(document).ready(function () {
     "use strict";

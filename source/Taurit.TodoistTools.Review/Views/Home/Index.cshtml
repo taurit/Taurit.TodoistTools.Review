@@ -35,7 +35,7 @@
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
     <div class="row" data-bind="with: currentTask">
-        <span data-bind="if: $root.priorityReviewNeeded()">
+        <div data-bind="if: $root.priorityReviewNeeded()">
             <div class="col-xs-3">
                 <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
             </div>
@@ -48,7 +48,7 @@
             <div class="col-xs-3">
                 <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 4 }" data-priority="4"></div>
             </div>
-        </span>
+        </div>
     </div>
 
     <div class="all-labels row" data-bind="foreach: labels">
@@ -77,8 +77,8 @@
 
 <script src="~/lib/jquery-3.4.1.min.js"></script>
 <script src="~/lib/autosize.min.js"></script>
-<script src="~/lib/knockout-3.4.2.js"></script>
-<script src="~/js/reviewapp.js?v=4"></script>
+<script src="~/lib/knockout-3.5.1.js"></script>
+<script src="~/js/reviewapp.js?v=5"></script>
 <script type="text/javascript">
         $(".hidden-by-default").removeClass("hidden-by-default");
 </script>
