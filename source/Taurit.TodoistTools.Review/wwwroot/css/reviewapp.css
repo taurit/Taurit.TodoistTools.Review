@@ -144,30 +144,3 @@
   border-color: #dc1010;
   background-color: rgba(220, 16, 16, 0.1);
 }
-.eliminate {
-  background-color: #fa8a8a;
-  color: red !important;
-}
-.dtc {
-  color: #2b7fd0 !important;
-}
-.home,
-.sanok,
-.firefox,
-.pc-home {
-  color: #0bb50e !important;
-}
-.nawyk,
-.journal {
-  color: #c723bf !important;
-}
-.anki,
-.watch,
-.\33 \30 minut {
-  color: #dea10d !important;
-}
-.market,
-.errand,
-.mobile {
-  color: #797979 !important;
-}
