@@ -143,6 +143,7 @@
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileAndDirsToSkip/=C6B9A446_002D2287_002D4A65_002D8C01_002D24C2BFC73B6F_002Fd_003AScripts_002Ff_003Ajquery_002D3_002E2_002E1_002Eslim_002Emin_002Emap/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileAndDirsToSkip/=C6B9A446_002D2287_002D4A65_002D8C01_002D24C2BFC73B6F_002Fd_003AScripts_002Ff_003Aknockout_002D3_002E4_002E2_002Edebug_002Ejs/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileAndDirsToSkip/=C6B9A446_002D2287_002D4A65_002D8C01_002D24C2BFC73B6F_002Fd_003AScripts_002Ff_003Aknockout_002D3_002E4_002E2_002Ejs/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileAndDirsToSkip/=EAA65BD8_002DBA9C_002D4A74_002DAD84_002DF05273B36632_002Fd_003Awwwroot_002Fd_003Alib/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=autosize/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Taurit/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Todoist/@EntryIndexedValue">True</s:Boolean>
