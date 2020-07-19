@@ -180,28 +180,31 @@ $(document).ready(function () {
                 url: "/Home/GetTasksToReview",
                 data: {},
                 success: function (data) {
-                    data.forEach(function (row) {
-                        row.labels = ko.observableArray(row.labels);
-                        row.time = ko.observable(row.time);
-                        row.timeFormatted = ko.computed(function() {
-                            let timeInMinutes = row.time();
-                            let timeFormatted = `${timeInMinutes} min`;
-                            if (timeInMinutes >= 60) {
-                                let hours = Math.floor(timeInMinutes / 60);
-                                timeFormatted = `${hours} h`;
-                                let minutes = timeInMinutes % 60;
-                                if (minutes !== 0) {
-                                    timeFormatted += ` ${minutes} min`;
-                                }
-                            }
+                    setTimeout(function() {
+                            data.forEach(function (row) {
+                                row.labels = ko.observableArray(row.labels);
+                                row.time = ko.observable(row.time);
+                                row.timeFormatted = ko.computed(function() {
+                                    let timeInMinutes = row.time();
+                                    let timeFormatted = `${timeInMinutes} min`;
+                                    if (timeInMinutes >= 60) {
+                                        let hours = Math.floor(timeInMinutes / 60);
+                                        timeFormatted = `${hours} h`;
+                                        let minutes = timeInMinutes % 60;
+                                        if (minutes !== 0) {
+                                            timeFormatted += ` ${minutes} min`;
+                                        }
+                                    }
 
-                            return timeFormatted;
-                        }, this);
-                    });
-                    viewModel.tasks(data);
-                    viewModel.displayTaskLabels();
-                    viewModel.updateReviewSectionsVisibilityForNextTask();
-                    viewModel.loadFinished(false);
+                                    return timeFormatted;
+                                }, this);
+                            });
+                            viewModel.tasks(data);
+                            viewModel.displayTaskLabels();
+                            viewModel.updateReviewSectionsVisibilityForNextTask();
+                            viewModel.loadFinished(false);
+                        },
+                        5000);
                 },
                 error: function () {
                     viewModel.loadFinished(true);

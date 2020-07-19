@@ -174,25 +174,33 @@ body {
     @p4Color: #dc1010;
 
     padding: 8px 7px;
-    border: 3px solid transparent;
+    border: 1px solid transparent;
+    font-size: 18px;
+    font-family: monospace;
+    font-weight: bold;
 
     &.p1 {
         border-color: @p1Color;
         background-color: fade(@p1Color, 10%);
+        color: @p1Color;
     }
 
     &.p2 {
         border-color: @p2Color;
         background-color: fade(@p2Color, 10%);
+        color: @p2Color;
     }
 
     &.p3 {
         border-color: @p3Color;
         background-color: fade(@p3Color, 10%);
+        color: @p3Color;
     }
 
     &.p4 {
         border-color: @p4Color;
         background-color: fade(@p4Color, 10%);
+        color: @p4Color;
+        margin-top: 10px;
     }
 }

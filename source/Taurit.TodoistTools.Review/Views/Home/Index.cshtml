@@ -4,10 +4,9 @@
 }
 
 <div data-bind="if: !loaded()" class="hidden-by-default">
-    <h2>Loading...</h2>
-    <p class="definition p4"><b>ASAP</b> => Visible all the time</p>
-    <p class="definition p3"><b>The sooner, the better</b> => Visible in the context, top of the list</p>
-    <p class="definition p2"><b>No hurry</b> => Visible in the proper context</p>
+    <p class="definition p4">Visible everywhere</p>
+    <p class="definition p3">Visible in the context, urgent</p>
+    <p class="definition p2">Visible in the context, not urgent</p>
 </div>
 
 <h4 data-bind="if: loaded() && ajaxError()" class="hidden-by-default">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>
