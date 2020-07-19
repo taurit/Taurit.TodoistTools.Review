@@ -114,8 +114,8 @@ namespace Taurit.TodoistTools.Review.Models
                     type = "item_update",
                     uuid = $"{commandId}",
                     args = new {
-                        id = task.id,
-                        priority = task.priority,
+                        task.id,
+                        task.priority,
                         labels = labelsExcludingSpecial,
                         content = task.contentWithTime
                     }
