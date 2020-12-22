@@ -24,6 +24,7 @@ namespace Taurit.TodoistTools.Review
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddResponseCompression();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -41,8 +42,10 @@ namespace Taurit.TodoistTools.Review
                 app.UseHsts();
             }
 
+            app.UseResponseCompression();
+                
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(GetStaticFileOptions());
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
@@ -51,6 +54,21 @@ namespace Taurit.TodoistTools.Review
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        
+        
+        private const int StaticResourceCacheTimeInDays = 180;
+        private const int StaticResourceCacheTimeInSeconds = 60 * 60 * 24 * StaticResourceCacheTimeInDays;
+        private static StaticFileOptions GetStaticFileOptions()
+        {
+            var options = new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={StaticResourceCacheTimeInSeconds}");
+                }
+            };
+            return options;
         }
     }
 }
