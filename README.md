@@ -5,6 +5,7 @@ This repository contains small, home-made web application to help review queued 
 I believe that reviewing task is a crucial part of GTD and that helps maintain clear view of what needs to be done.
 
 Currently this app allows to:
+
 * assign a label to a task, and
 * change task priority.
 
@@ -13,6 +14,7 @@ Personally I use Todoist labels as a "context" or "environment", so keeping this
 ## Dependencies
 
 Technically, the app is using:
+
 * ASP.NET MVC,
 * Knockout.js and therefore jQuery,
 * Bootstrap,
@@ -22,17 +24,25 @@ Technically, the app is using:
 It's set up to compile with one click in most recent stable versions of Visual Studio Community IDE. It uses [Todoist API](https://developer.todoist.com/) to contact with the platform.
 
 ## Screenshot
+
 ![](documentation/todoist-review-app-screenshot-300-2019-07-27.png)
 
 ## Changelog
 
+### Version 2021-04-18
+
+* Migrated to dotnet core 3.1 (LTS)
+
 ### Version 2019-05-13
+
 * Added support for Chrome's dark mode (the tool looks better with colors inverted by Chrome)
 
 ### Version 2019-03-01
+
 * Updated priority colours for consistency with the new Todoist colours
 
 ### Version 2018-10-14
+
 * Added ability to estimate task duration (e.g. for stats)
 * Sections are now hidden if they don't need review for clean UI
 * Web app was migrated from the .NET Framework to the .NET Core
@@ -40,12 +50,15 @@ It's set up to compile with one click in most recent stable versions of Visual S
 * Added code to prevent accidental page refresh during review on mobile devices
 
 ### Version 2018-04-05
+
 * Todoist API endpoint was updated because old version was shut down
 
 ### Version 2017-11-18
+
 * "Priority" section was moved above the "labels" section for more natural review flow
 
 ### Version 2017-10-29
+
 * added web app manifest for better mobile experience
 * added ability to eliminate task during review
 * added ability to set/update task priority
@@ -56,4 +69,5 @@ It's set up to compile with one click in most recent stable versions of Visual S
 * removed unused Modernizr dependency
 
 ### Version 2016-01-01
+
 * Proof of concept
