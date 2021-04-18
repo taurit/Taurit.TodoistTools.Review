@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Taurit.TodoistTools.Review
 {
@@ -8,13 +8,13 @@ namespace Taurit.TodoistTools.Review
     {
         public static void Main(String[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(String[] args)
+        private static IHostBuilder CreateHostBuilder(String[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
     }
 }
