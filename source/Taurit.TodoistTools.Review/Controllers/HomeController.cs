@@ -55,10 +55,18 @@ namespace Taurit.TodoistTools.Review.Controllers
             {
                 ControllerContext.HttpContext.Response.Cookies.Append(SyncCookieName, authData.ApiToken, new CookieOptions()
                 {
+                    // Set the secure flag, which Chrome's changes will require for SameSite none.
+                    // Note this will also require you to be running on HTTPS.
+                    Secure = true,
+
+                    // Set the cookie to HTTP only which is good practice unless you really do need
+                    // to access it client side in scripts.
                     HttpOnly = true,
+
+                    SameSite = SameSiteMode.Strict,
+
                     Expires = DateTime.Now.AddDays(360)
                 });
-
                 return RedirectToAction("Index");
             }
             return View("Login");
