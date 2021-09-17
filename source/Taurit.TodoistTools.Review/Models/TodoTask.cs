@@ -21,6 +21,9 @@ namespace Taurit.TodoistTools.Review.Models
         public String content { get; set; }
 
         [JsonProperty]
+        public String description { get; set; }
+
+        [JsonProperty]
         public String originalContent { get; set; }
 
 

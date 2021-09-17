@@ -21,6 +21,7 @@
 
     <div class="task" data-bind="with: currentTask">
         <textarea data-bind="value: content, autosize: true" class="content-box"></textarea>
+        <span class="task-description" data-bind="text: description"></span><br />
         <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded(), css: { highlighted: time() != 0 }"><span data-bind="text: timeFormatted"></span></strong>
         <span data-bind="if: $root.timeEstimateReviewNeeded()">
             <br />

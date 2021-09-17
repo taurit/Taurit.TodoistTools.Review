@@ -32,9 +32,9 @@ namespace Taurit.TodoistTools.Review.Models.TodoistApiModels
             var tasks = new List<TodoTask>();
 
             // tasks with one label
-            tasks.Add(new TodoTask {id = 1, priority = 1, content = "Update software", labels = new List<Int64> {1}});
-            tasks.Add(new TodoTask {id = 2, priority = 2, content = "Sync podcasts when on Wifi", labels = new List<Int64> {2}});
-            tasks.Add(new TodoTask {id = 3, priority = 3, content = "Buy milk", labels = new List<Int64> {3}});
+            tasks.Add(new TodoTask {id = 1, priority = 1, content = "Update software", labels = new List<Int64> {1}, description = "Avoid non-stable versions"});
+            tasks.Add(new TodoTask {id = 2, priority = 2, content = "Sync podcasts when on Wifi", labels = new List<Int64> {2}, description = "Don't re-add addictive crap"});
+            tasks.Add(new TodoTask {id = 3, priority = 3, content = "Buy milk", labels = new List<Int64> {3}, description = "Preferably made from plants"});
 
             // task with two labels
             tasks.Add(new TodoTask

@@ -6,6 +6,10 @@
   font-size: large;
   text-align: center;
 }
+.reviewedTask .task-description {
+  font-style: italic;
+  font-size: 16px;
+}
 .reviewedTask .question {
   color: #AAAAAA;
   display: none;

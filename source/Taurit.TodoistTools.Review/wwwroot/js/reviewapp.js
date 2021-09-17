@@ -1,6 +1,5 @@
-﻿/// <reference path="../lib/knockout-3.5.1.debug.js" />
+﻿/// <reference path="../lib/knockout-3.5.1.js" />
 /// <reference path="../lib/autosize.min.js" />
-/// <reference path="../lib/jquery-3.4.1-vsdoc.js" />
 
 $(document).ready(function () {
     "use strict";
@@ -122,7 +121,6 @@ $(document).ready(function () {
         };
 
         this.updateReviewSectionsVisibilityForNextTask = function() {
-
             let currentTask = this.currentTask();
             if (currentTask !== null && currentTask !== undefined) {
                 // there's at least one task to review
