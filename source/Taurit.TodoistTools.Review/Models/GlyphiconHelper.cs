@@ -4,9 +4,9 @@ namespace Taurit.TodoistTools.Review.Models;
 
 public class GlyphiconHelper
 {
-    private static Dictionary<String, String> _instance;
+    private static Dictionary<String, String>? _instance;
 
-    public static Dictionary<String, String> GetDictionary()
+    public static Dictionary<String, String>? GetDictionary()
     {
         if (_instance == null)
         {
