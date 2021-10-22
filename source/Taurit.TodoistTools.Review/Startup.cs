@@ -3,59 +3,58 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Taurit.TodoistTools.Review
-{
-    public class Startup
-    {
-        private const Int32 StaticResourceCacheTimeInDays = 180;
-        private const Int32 StaticResourceCacheTimeInSeconds = 60 * 60 * 24 * StaticResourceCacheTimeInDays;
+namespace Taurit.TodoistTools.Review;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+public class Startup
+{
+    private const Int32 StaticResourceCacheTimeInDays = 180;
+    private const Int32 StaticResourceCacheTimeInSeconds = 60 * 60 * 24 * StaticResourceCacheTimeInDays;
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.Configure<CookiePolicyOptions>(options =>
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            options.MinimumSameSitePolicy = SameSiteMode.None;
+        });
 
-            services.AddResponseCompression();
+        services.AddResponseCompression();
 
-            services.AddMvc();
-        }
+        services.AddMvc();
+    }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseDeveloperExceptionPage();
+        app.UseResponseCompression();
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles(GetStaticFileOptions());
+        app.UseCookiePolicy();
+
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
         {
-            app.UseDeveloperExceptionPage();
-            app.UseResponseCompression();
+            endpoints.MapControllers();
+            endpoints.MapControllerRoute(
+                "default",
+                "{controller=Home}/{action=Index}/{id?}");
+        });
+    }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles(GetStaticFileOptions());
-            app.UseCookiePolicy();
-
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapControllerRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}");
-            });
-        }
-
-        private static StaticFileOptions GetStaticFileOptions()
+    private static StaticFileOptions GetStaticFileOptions()
+    {
+        var options = new StaticFileOptions
         {
-            var options = new StaticFileOptions
+            OnPrepareResponse = ctx =>
             {
-                OnPrepareResponse = ctx =>
-                {
-                    ctx.Context.Response.Headers.Append("Cache-Control",
-                        $"public, max-age={StaticResourceCacheTimeInSeconds}");
-                }
-            };
-            return options;
-        }
+                ctx.Context.Response.Headers.Append("Cache-Control",
+                    $"public, max-age={StaticResourceCacheTimeInSeconds}");
+            }
+        };
+        return options;
     }
 }

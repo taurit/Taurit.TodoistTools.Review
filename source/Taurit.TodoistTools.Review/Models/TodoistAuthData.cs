@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Taurit.TodoistTools.Review.Models
+namespace Taurit.TodoistTools.Review.Models;
+
+public class TodoistAuthData
 {
-    public class TodoistAuthData
-    {
-        public String ApiToken { get; set; }
-    }
+    public String ApiToken { get; set; }
 }
