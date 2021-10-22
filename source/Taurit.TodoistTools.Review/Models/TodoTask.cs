@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Diagnostics;
-using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - names match those in documentation
 
@@ -43,7 +41,7 @@ public class TodoTask
             if (timeEstimateWasAlreadyDefinedOnTheServerSide) return content; // same situation as above, but if time was defined as 0 min
             if (time == 0) return content; // 0 is not a valid time estimate, don't save it
 
-            var newContent = $"{content} ({(int)time} min)";
+            string? newContent = $"{content} ({(int)time} min)";
 
             return newContent;
         }
@@ -124,10 +122,10 @@ public class TodoTask
             Debug.Assert(originalTime >= 0);
             Debug.Assert(time >= 0);
 
-            var labelsDiffer = LabelsDiffer;
-            var priorityDiffers = priority != originalPriority;
-            var timeDiffers = time != originalTime;
-            var contentDiffers = content != originalContent;
+            bool labelsDiffer = LabelsDiffer;
+            bool priorityDiffers = priority != originalPriority;
+            bool timeDiffers = time != originalTime;
+            bool contentDiffers = content != originalContent;
 
             return labelsDiffer || priorityDiffers || timeDiffers || contentDiffers;
         }
@@ -147,8 +145,8 @@ public class TodoTask
                 originalLabels = new List<Int64>();
             }
 
-            var set1unique = new HashSet<Int64>(labels);
-            var set2unique = new HashSet<Int64>(originalLabels);
+            HashSet<long>? set1unique = new HashSet<Int64>(labels);
+            HashSet<long>? set2unique = new HashSet<Int64>(originalLabels);
 
             return !set1unique.SetEquals(set2unique);
         }
@@ -157,8 +155,8 @@ public class TodoTask
 
     public void SetOriginalDurationInMinutes(Int32 durationTotalMinutes)
     {
-        this.time = durationTotalMinutes;
-        this.originalTime = durationTotalMinutes;
-        this.timeEstimateWasAlreadyDefinedOnTheServerSide = true;
+        time = durationTotalMinutes;
+        originalTime = durationTotalMinutes;
+        timeEstimateWasAlreadyDefinedOnTheServerSide = true;
     }
 }

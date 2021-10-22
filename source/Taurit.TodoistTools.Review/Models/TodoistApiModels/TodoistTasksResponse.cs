@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-// ReSharper disable InconsistentNaming - names reflect those in API
+﻿// ReSharper disable InconsistentNaming - names reflect those in API
 
 namespace Taurit.TodoistTools.Review.Models.TodoistApiModels;
 

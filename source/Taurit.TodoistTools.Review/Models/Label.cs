@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - this class is returned to the client-side JS and data might be used there
 

@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-
-namespace Taurit.TodoistTools.Review;
+﻿namespace Taurit.TodoistTools.Review;
 
 public class Program
 {

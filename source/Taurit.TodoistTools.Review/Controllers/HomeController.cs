@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NaturalLanguageTimespanParser;
+using System.Globalization;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Models.TodoistApiModels;
 
@@ -97,7 +93,7 @@ public class HomeController : Controller
         // parse estimated time in a natural language
         foreach (TodoTask todoTask in tasks)
         {
-            var parsedDuration = _timespanParser.Parse(todoTask.content);
+            TimespanParseResult parsedDuration = _timespanParser.Parse(todoTask.content);
 
             if (parsedDuration.Success)
             {
@@ -129,14 +125,14 @@ public class HomeController : Controller
         // * we want to have exactly 1 label/context assigned after the review, so tasks with 0 or 2+ labels needs to be re-reviewed
         // * there's no point in reviewing and updating metadata of tasks that are already deleted or done
         // * we don't want tasks with a default priority (1) - reviewed task should have a priority of 2, 3, or 4 assigned (low, medium or high)
-        var labelsNeedReview = task.labels != null &&
+        bool labelsNeedReview = task.labels != null &&
                                task.labels.Count != 1;
-        var estimatedTimeNeedsReview = !task.timeEstimateWasAlreadyDefinedOnTheServerSide;
-        var priorityNeedsReview = task.priority == 1;
-        var taskIsNotCompletedYet = task.is_deleted == 0 &&
+        bool estimatedTimeNeedsReview = !task.timeEstimateWasAlreadyDefinedOnTheServerSide;
+        bool priorityNeedsReview = task.priority == 1;
+        bool taskIsNotCompletedYet = task.is_deleted == 0 &&
                                     task.@checked == 0;
 
-        var taskNeedsReview = (labelsNeedReview || estimatedTimeNeedsReview || priorityNeedsReview)
+        bool taskNeedsReview = (labelsNeedReview || estimatedTimeNeedsReview || priorityNeedsReview)
                               && taskIsNotCompletedYet;
         return taskNeedsReview;
     }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
-using RestSharp;
 using Taurit.TodoistTools.Review.Models.TodoistApiModels;
 
 namespace Taurit.TodoistTools.Review.Models;
@@ -25,9 +22,9 @@ public class TodoistTaskRepository : ITaskRepository
 
     public IList<Label> GetAllLabels()
     {
-        var client = new RestClient(ApiUrl);
+        RestClient? client = new RestClient(ApiUrl);
 
-        var request = new RestRequest("sync", Method.POST);
+        RestRequest? request = new RestRequest("sync", Method.POST);
         request.AddParameter("token", _authToken);
         request.AddParameter("seq_no", "0");
         request.AddParameter("resource_types", "[\"labels\"]");
@@ -39,9 +36,9 @@ public class TodoistTaskRepository : ITaskRepository
 
     public IList<TodoTask> GetAllTasks()
     {
-        var client = new RestClient(ApiUrl);
+        RestClient? client = new RestClient(ApiUrl);
 
-        var request = new RestRequest("sync", Method.POST);
+        RestRequest? request = new RestRequest("sync", Method.POST);
         request.AddParameter("token", _authToken);
 
         // Sequence number, used to allow client to perform incremental sync. Pass 0 to retrieve all active resource data. 
@@ -64,15 +61,15 @@ public class TodoistTaskRepository : ITaskRepository
             return "List of tasks contains at least one invalid item";
         }
 
-        var client = new RestClient(ApiUrl);
+        RestClient? client = new RestClient(ApiUrl);
 
-        var request = new RestRequest("sync", Method.POST);
+        RestRequest? request = new RestRequest("sync", Method.POST);
         request.AddParameter("token", _authToken);
 
         // build json command as string (a shortcut)
-        var commandsString = new StringBuilder();
+        StringBuilder? commandsString = new StringBuilder();
         commandsString.Append("[");
-        for (var i = 0; i < tasksToUpdate.Count; i++)
+        for (int i = 0; i < tasksToUpdate.Count; i++)
         {
             String commandString = GetUpdateCommandString(tasksToUpdate[i]);
             commandsString.Append(commandString);
@@ -106,7 +103,7 @@ public class TodoistTaskRepository : ITaskRepository
         {
             // typical use case: update labels
             List<Int64> specialLabelsIds = Label.SpecialLabels.Select(x => x.id).ToList();
-            var labelsExcludingSpecial =
+            long[]? labelsExcludingSpecial =
                 task.labels.Where(x => !specialLabelsIds.Contains(x)).ToArray();
 
             var commandObject = new

@@ -1,9 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Taurit.TodoistTools.Review;
+﻿namespace Taurit.TodoistTools.Review;
 
 public class Startup
 {
@@ -15,8 +10,8 @@ public class Startup
     {
         services.Configure<CookiePolicyOptions>(options =>
         {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
+            // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            options.CheckConsentNeeded = context => false;
             options.MinimumSameSitePolicy = SameSiteMode.None;
         });
 
@@ -47,7 +42,7 @@ public class Startup
 
     private static StaticFileOptions GetStaticFileOptions()
     {
-        var options = new StaticFileOptions
+        StaticFileOptions? options = new StaticFileOptions
         {
             OnPrepareResponse = ctx =>
             {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Taurit.TodoistTools.Review.Models;
+﻿namespace Taurit.TodoistTools.Review.Models;
 
 internal interface ITaskRepository
 {
