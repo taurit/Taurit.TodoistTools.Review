@@ -21,7 +21,7 @@ public class HomeController : Controller
     public override void OnActionExecuting(ActionExecutingContext ctx)
     {
         base.OnActionExecuting(ctx);
-        String syncKey = ControllerContext?.HttpContext.Request.Cookies[SyncCookieName];
+        String? syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName];
         if (syncKey != null)
         {
 #if DEBUG
