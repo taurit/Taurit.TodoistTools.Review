@@ -2,7 +2,7 @@
 
 internal interface ITaskRepository
 {
-    IList<Label> GetAllLabels();
-    IList<TodoTask> GetAllTasks();
-    String UpdateTasks(List<TodoTask> tasksToUpdate);
+    Task<IList<Label>> GetAllLabels();
+    Task<IList<TodoTask>> GetAllTasks();
+    Task<String> UpdateTasks(List<TodoTask> tasksToUpdate);
 }

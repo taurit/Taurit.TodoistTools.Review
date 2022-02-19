@@ -68,27 +68,30 @@ public class HomeController : Controller
         return View("Login");
     }
 
-    public JsonResult GetAllLabels()
+    public async Task<JsonResult> GetAllLabels()
     {
         if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
         {
             throw new InvalidOperationException("Authorization cookie not found");
         }
 
-        List<Label> labels = _repository.GetAllLabels().OrderBy(label => label.item_order)
+        var allLabels = await _repository.GetAllLabels();
+        List<Label> labels = allLabels.OrderBy(label => label.item_order)
             .Union(Label.SpecialLabels)
             .ToList();
 
         return Json(labels);
     }
 
-    public JsonResult GetTasksToReview()
+    public async Task<JsonResult> GetTasksToReview()
     {
         if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
         {
             throw new InvalidOperationException("Authorization cookie not found");
         }
-        List<TodoTask> tasks = _repository.GetAllTasks().ToList();
+
+        IList<TodoTask> allTasks = (await _repository.GetAllTasks());
+        List<TodoTask> tasks = allTasks.ToList();
 
         // parse estimated time in a natural language
         foreach (TodoTask todoTask in tasks)
@@ -113,7 +116,7 @@ public class HomeController : Controller
 
     private static List<TodoTask> FilterTasksAndReturnOnlyOnesThatNeedReview(List<TodoTask> tasks)
     {
-        tasks = tasks.Where(task => TaskNeedsReview(task))
+        tasks = tasks.Where(TaskNeedsReview)
             .Take(12) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
             .ToList();
         return tasks;

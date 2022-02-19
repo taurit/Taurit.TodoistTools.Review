@@ -4,9 +4,9 @@
 }
 
 <div data-bind="if: !loaded()" class="hidden-by-default">
-    <p class="definition p4">Visible everywhere</p>
-    <p class="definition p3">Visible in the context, urgent</p>
-    <p class="definition p2">Visible in the context, not urgent</p>
+    <p class="definition p4">Critical notification</p>
+    <p class="definition p3">Important notification</p>
+    <p class="definition p2">Best-effort notification</p>
 </div>
 
 <h4 data-bind="if: loaded() && ajaxError()" class="hidden-by-default">Synchronization failed. Make sure, that your API key is valid. @Html.ActionLink("Click here to login again", "Login").</h4>

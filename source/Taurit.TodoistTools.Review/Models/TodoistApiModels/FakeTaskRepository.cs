@@ -13,7 +13,7 @@ public class FakeTaskRepository : ITaskRepository
         _syncKey = syncKey;
     }
 
-    public IList<Label> GetAllLabels()
+    public Task<IList<Label>> GetAllLabels()
     {
         List<Label>? labels = new List<Label>
         {
@@ -22,10 +22,10 @@ public class FakeTaskRepository : ITaskRepository
             new Label(3, 0, "market")
         };
 
-        return labels;
+        return Task.FromResult((IList<Label>)labels);
     }
 
-    public IList<TodoTask> GetAllTasks()
+    public Task<IList<TodoTask>> GetAllTasks()
     {
         List<TodoTask>? tasks = new List<TodoTask>
         {
@@ -49,12 +49,12 @@ public class FakeTaskRepository : ITaskRepository
             new TodoTask { id = 5, priority = 4, content = "Task 6 high priority", labels = new List<Int64>() }
         };
 
-        return tasks;
+        return Task.FromResult((IList<TodoTask>)tasks);
     }
 
-    public String UpdateTasks(List<TodoTask> tasksToUpdate)
+    public Task<String> UpdateTasks(List<TodoTask> tasksToUpdate)
     {
         // fake
-        return "I'm a fake object and I did nothing";
+        return Task.FromResult("I'm a fake object and I did nothing");
     }
 }

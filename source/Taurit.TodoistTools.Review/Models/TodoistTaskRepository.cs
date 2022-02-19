@@ -20,37 +20,37 @@ public class TodoistTaskRepository : ITaskRepository
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
     }
 
-    public IList<Label> GetAllLabels()
+    public async Task<IList<Label>> GetAllLabels()
     {
-        RestClient? client = new RestClient(ApiUrl);
+        RestClient client = new RestClient(ApiUrl);
 
-        RestRequest? request = new RestRequest("sync", Method.POST);
+        RestRequest request = new RestRequest("sync", Method.Post);
         request.AddParameter("token", _authToken);
         request.AddParameter("seq_no", "0");
         request.AddParameter("resource_types", "[\"labels\"]");
 
-        IRestResponse<TodoistLabelsResponse> response = client.Execute<TodoistLabelsResponse>(request);
+        RestResponse<TodoistLabelsResponse> response = await client.ExecuteAsync<TodoistLabelsResponse>(request);
 
         return response.Data.Labels;
     }
 
-    public IList<TodoTask> GetAllTasks()
+    public async Task<IList<TodoTask>> GetAllTasks()
     {
-        RestClient? client = new RestClient(ApiUrl);
+        RestClient client = new RestClient(ApiUrl);
 
-        RestRequest? request = new RestRequest("sync", Method.POST);
+        RestRequest request = new RestRequest("sync", Method.Post);
         request.AddParameter("token", _authToken);
 
         // Sequence number, used to allow client to perform incremental sync. Pass 0 to retrieve all active resource data. 
         request.AddParameter("seq_no", "0");
         request.AddParameter("resource_types", "[\"items\"]");
 
-        IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
+        RestResponse<TodoistTasksResponse> response = await client.ExecuteAsync<TodoistTasksResponse>(request);
 
         return response.Data.Items;
     }
 
-    public String UpdateTasks(List<TodoTask> tasksToUpdate)
+    public async Task<String> UpdateTasks(List<TodoTask> tasksToUpdate)
     {
         if (tasksToUpdate.Count == 0)
         {
@@ -63,7 +63,7 @@ public class TodoistTaskRepository : ITaskRepository
 
         RestClient? client = new RestClient(ApiUrl);
 
-        RestRequest? request = new RestRequest("sync", Method.POST);
+        RestRequest? request = new RestRequest("sync", Method.Post);
         request.AddParameter("token", _authToken);
 
         // build json command as string (a shortcut)
@@ -83,7 +83,7 @@ public class TodoistTaskRepository : ITaskRepository
         commandsString.Append("]");
         request.AddParameter("commands", commandsString.ToString());
 
-        IRestResponse<TodoistTasksResponse> response = client.Execute<TodoistTasksResponse>(request);
+        RestResponse<TodoistTasksResponse> response = await client.ExecuteAsync<TodoistTasksResponse>(request);
         String apiResponse = response.Content;
         return apiResponse;
     }
