@@ -123,7 +123,8 @@ public class HomeController : Controller
     private static List<TodoTask> FilterTasksAndReturnOnlyOnesThatNeedReview(List<TodoTask> tasks)
     {
         tasks = tasks.Where(TaskNeedsReview)
-            .Take(12) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
+            .Take(7) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
+            //.TakeLast(2) // debug only
             .ToList();
         return tasks;
     }
@@ -147,7 +148,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public JsonResult UpdateTasks([FromBody] List<TodoTask> tasks)
+    public async Task<JsonResult> UpdateTasks([FromBody] List<TodoTask> tasks)
     {
         if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
         {
@@ -165,7 +166,11 @@ public class HomeController : Controller
             _logger.LogWarning("A task (id={TaskId}) was apparently unchanged by user, which is unusual. Old content: {OldContent}, new content: {NewContent}", unchangedTask.id, unchangedTask.originalContent, unchangedTask.content);
         }
 
-        _repository.UpdateTasks(changedTasks);
+        var response = await _repository.UpdateTasks(changedTasks);
+        _logger.LogInformation("Received response from Todoist Sync API: {Response}", response);
+
+        // hack: perhaps the error was with not awaiting the task, but my another suspicion is that back-end has some eventual consistency model. And if the front-end queries too soon, it appeared to confusingly returned the same tasks again, appearing unreviewed. This is supposed to mitigate this from happening:
+        await Task.Delay(TimeSpan.FromSeconds(3));
 
         return Json(changedTasks.Count);
     }
