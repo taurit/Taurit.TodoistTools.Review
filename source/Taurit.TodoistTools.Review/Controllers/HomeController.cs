@@ -22,18 +22,18 @@ public class HomeController : Controller
     }
 
     /// <remarks>
-    ///     reading cookie can't be done in constructor as ControllerContext is still null there
+    ///     Reading cookie can't be done in constructor as ControllerContext is still null there
     /// </remarks>
-    public override void OnActionExecuting(ActionExecutingContext ctx)
+    public override void OnActionExecuting(ActionExecutingContext context)
     {
-        base.OnActionExecuting(ctx);
+        base.OnActionExecuting(context);
         String? syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName];
         if (syncKey != null)
         {
 #if DEBUG
             _repository = new FakeTaskRepository(syncKey);
 #else
-                _repository = new TodoistTaskRepository(syncKey);
+            _repository = new TodoistTaskRepository(syncKey);
 #endif
         }
 

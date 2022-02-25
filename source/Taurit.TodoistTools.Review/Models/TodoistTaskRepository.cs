@@ -8,7 +8,9 @@ namespace Taurit.TodoistTools.Review.Models;
 
 public class TodoistTaskRepository : ITaskRepository
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
     private const String ApiUrl = "https://api.todoist.com/sync/v8/";
+
     private readonly String _authToken;
 
     public TodoistTaskRepository(String authToken)
@@ -31,6 +33,18 @@ public class TodoistTaskRepository : ITaskRepository
 
         RestResponse<TodoistLabelsResponse> response = await client.ExecuteAsync<TodoistLabelsResponse>(request);
 
+        if (!response.IsSuccessful)
+        {
+            throw new InvalidOperationException(
+                $"A request to get all labels failed: the status was {response.StatusCode}, {response.ErrorMessage}");
+        }
+
+        if (response.Data is null)
+        {
+            throw new InvalidOperationException(
+                $"A request to get all labels failed: the status was {response.StatusCode}, but Data is empty");
+        }
+
         return response.Data.Labels;
     }
 
@@ -47,7 +61,19 @@ public class TodoistTaskRepository : ITaskRepository
 
         RestResponse<TodoistTasksResponse> response = await client.ExecuteAsync<TodoistTasksResponse>(request);
 
-        return response.Data.Items;
+        if (!response.IsSuccessful)
+        {
+            throw new InvalidOperationException(
+                $"A request to get all tasks failed: the status was {response.StatusCode}, {response.ErrorMessage}");
+        }
+
+        if (response.Data is null)
+        {
+            throw new InvalidOperationException(
+                $"A request to get all tasks failed: the status was {response.StatusCode}, but Data is empty");
+        }
+
+        return response.Data.Items ?? new List<TodoTask>();
     }
 
     public async Task<String> UpdateTasks(List<TodoTask> tasksToUpdate)
@@ -84,7 +110,7 @@ public class TodoistTaskRepository : ITaskRepository
         request.AddParameter("commands", commandsString.ToString());
 
         RestResponse<TodoistTasksResponse> response = await client.ExecuteAsync<TodoistTasksResponse>(request);
-        String apiResponse = response.Content;
+        String apiResponse = response.Content ?? "null";
         return apiResponse;
     }
 

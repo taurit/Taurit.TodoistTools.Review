@@ -16,13 +16,13 @@ public class TodoTask
     public Int64 id { get; set; }
 
     [JsonProperty]
-    public String content { get; set; }
+    public String? content { get; set; }
 
     [JsonProperty]
-    public String description { get; set; }
+    public String? description { get; set; }
 
     [JsonProperty]
-    public String originalContent { get; set; }
+    public String? originalContent { get; set; }
 
 
     [JsonProperty]
@@ -49,7 +49,7 @@ public class TodoTask
 
 
     [JsonProperty]
-    public List<Int64> labels { get; set; }
+    public List<Int64>? labels { get; set; }
 
     /// <summary>
     ///     A copy of "labels" which should not be changed on the client side.
@@ -57,7 +57,7 @@ public class TodoTask
     ///     calling update on Todoist API is needed.
     /// </summary>
     [JsonProperty]
-    public List<Int64> originalLabels { get; set; }
+    public List<Int64>? originalLabels { get; set; }
 
     /// <summary>
     /// Estimated time for a task before user's changes
