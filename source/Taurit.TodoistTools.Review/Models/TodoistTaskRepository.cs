@@ -61,9 +61,9 @@ public class TodoistTaskRepository : ITaskRepository
             return "List of tasks contains at least one invalid item";
         }
 
-        RestClient? client = new RestClient(ApiUrl);
+        RestClient client = new RestClient(ApiUrl);
 
-        RestRequest? request = new RestRequest("sync", Method.Post);
+        RestRequest request = new RestRequest("sync", Method.Post);
         request.AddParameter("token", _authToken);
 
         // build json command as string (a shortcut)

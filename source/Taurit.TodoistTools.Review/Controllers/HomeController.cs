@@ -9,11 +9,17 @@ namespace Taurit.TodoistTools.Review.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly ILogger<HomeController> _logger;
     private const String SyncCookieName = "SyncApiCookie2";
 
     private ITaskRepository _repository;
 
     private MultiCultureTimespanParser _timespanParser;
+
+    public HomeController(ILogger<HomeController> logger)
+    {
+        _logger = logger;
+    }
 
     /// <remarks>
     ///     reading cookie can't be done in constructor as ControllerContext is still null there
@@ -148,9 +154,19 @@ public class HomeController : Controller
             throw new InvalidOperationException("Authorization cookie not found");
         }
 
-        List<TodoTask> tasksToUpdate = tasks.Where(task => task.ItemWasChangedByUser).ToList();
-        _repository.UpdateTasks(tasksToUpdate);
+        List<TodoTask> changedTasks = tasks.Where(task => task.ItemWasChangedByUser).ToList();
+        List<TodoTask> unchangedTasks = tasks.Where(task => !task.ItemWasChangedByUser).ToList();
 
-        return Json(tasksToUpdate.Count);
+        _logger.LogInformation(
+            "App is about to POST a batch of updates. {NumUpdatedTasks} tasks updated by user, {NumNotUpdatedTasks} not updated",
+            changedTasks.Count, unchangedTasks.Count);
+        foreach (var unchangedTask in unchangedTasks)
+        {
+            _logger.LogWarning("A task (id={TaskId}) was apparently unchanged by user, which is unusual. Old content: {OldContent}, new content: {NewContent}", unchangedTask.id, unchangedTask.originalContent, unchangedTask.content);
+        }
+
+        _repository.UpdateTasks(changedTasks);
+
+        return Json(changedTasks.Count);
     }
 }
