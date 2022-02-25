@@ -5,12 +5,9 @@
 /// </summary>
 public class FakeTaskRepository : ITaskRepository
 {
-    // ReSharper disable once NotAccessedField.Local - this is mock
-    private readonly String _syncKey;
-
+    // ReSharper disable once UnusedParameter.Local
     public FakeTaskRepository(String syncKey)
     {
-        _syncKey = syncKey;
     }
 
     public Task<IList<Label>> GetAllLabels()

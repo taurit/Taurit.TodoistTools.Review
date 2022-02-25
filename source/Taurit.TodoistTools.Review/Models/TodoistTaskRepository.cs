@@ -45,7 +45,7 @@ public class TodoistTaskRepository : ITaskRepository
                 $"A request to get all labels failed: the status was {response.StatusCode}, but Data is empty");
         }
 
-        return response.Data.Labels;
+        return response.Data.Labels ?? new List<Label>(0);
     }
 
     public async Task<IList<TodoTask>> GetAllTasks()
@@ -73,7 +73,7 @@ public class TodoistTaskRepository : ITaskRepository
                 $"A request to get all tasks failed: the status was {response.StatusCode}, but Data is empty");
         }
 
-        return response.Data.Items ?? new List<TodoTask>();
+        return response.Data.Items ?? new List<TodoTask>(0);
     }
 
     public async Task<String> UpdateTasks(List<TodoTask> tasksToUpdate)
@@ -130,7 +130,7 @@ public class TodoistTaskRepository : ITaskRepository
             // typical use case: update labels
             List<Int64> specialLabelsIds = Label.SpecialLabels.Select(x => x.id).ToList();
             long[]? labelsExcludingSpecial =
-                task.labels.Where(x => !specialLabelsIds.Contains(x)).ToArray();
+                task.labels?.Where(x => !specialLabelsIds.Contains(x)).ToArray();
 
             var commandObject = new
             {

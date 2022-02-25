@@ -7,7 +7,7 @@ namespace Taurit.TodoistTools.Review.Models.TodoistApiModels;
 internal class TodoistLabelsResponse
 {
     [JsonProperty]
-    public List<Label> Labels { get; set; }
+    public List<Label>? Labels { get; set; }
 
     [JsonProperty]
     public Int64 seq_no_global { get; set; }

@@ -14,7 +14,9 @@ public class Label
     private const String GlyphiconDefaultClass = "glyphicon-paperclip";
 
     [Obsolete("Should only be used for deserialization")]
+#pragma warning disable CS8618
     public Label()
+#pragma warning restore CS8618
     {
     }
 

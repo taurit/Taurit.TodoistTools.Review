@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NaturalLanguageTimespanParser;
 using System.Globalization;
@@ -14,11 +15,14 @@ public class HomeController : Controller
 
     private ITaskRepository _repository;
 
-    private MultiCultureTimespanParser _timespanParser;
+    private readonly MultiCultureTimespanParser _timespanParser;
 
+#pragma warning disable CS8618
     public HomeController(ILogger<HomeController> logger)
+#pragma warning restore CS8618
     {
         _logger = logger;
+        _timespanParser = new MultiCultureTimespanParser(new[] { new CultureInfo("pl"), new CultureInfo("en") });
     }
 
     /// <remarks>
@@ -36,8 +40,6 @@ public class HomeController : Controller
             _repository = new TodoistTaskRepository(syncKey);
 #endif
         }
-
-        _timespanParser = new MultiCultureTimespanParser(new[] { new CultureInfo("pl"), new CultureInfo("en") });
     }
 
     // GET: Home
@@ -102,11 +104,14 @@ public class HomeController : Controller
         // parse estimated time in a natural language
         foreach (TodoTask todoTask in tasks)
         {
-            TimespanParseResult parsedDuration = _timespanParser.Parse(todoTask.content);
-
-            if (parsedDuration.Success)
+            if (todoTask.content is not null)
             {
-                todoTask.SetOriginalDurationInMinutes((Int32)parsedDuration.Duration.TotalMinutes);
+                TimespanParseResult parsedDuration = _timespanParser.Parse(todoTask.content);
+
+                if (parsedDuration.Success)
+                {
+                    todoTask.SetOriginalDurationInMinutes((Int32)parsedDuration.Duration.TotalMinutes);
+                }
             }
         }
 
@@ -122,11 +127,11 @@ public class HomeController : Controller
 
     private static List<TodoTask> FilterTasksAndReturnOnlyOnesThatNeedReview(List<TodoTask> tasks)
     {
-        tasks = tasks.Where(TaskNeedsReview)
+        var filteredTasks = tasks.Where(TaskNeedsReview)
             .Take(7) // batch size - only this much tasks will be passed to the client side (browser), and only this much tasks will be updated via the Todoist API in a single update request
             //.TakeLast(2) // debug only
             .ToList();
-        return tasks;
+        return filteredTasks;
     }
 
     private static Boolean TaskNeedsReview(TodoTask task)

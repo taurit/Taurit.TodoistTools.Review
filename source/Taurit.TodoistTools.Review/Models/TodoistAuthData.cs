@@ -2,5 +2,5 @@
 
 public class TodoistAuthData
 {
-    public String ApiToken { get; set; }
+    public String? ApiToken { get; set; }
 }
