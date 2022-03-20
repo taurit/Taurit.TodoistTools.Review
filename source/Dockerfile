@@ -6,7 +6,7 @@
 # docker rm review
 #
 # RUN:
-# docker run --detach --name review -p 8888:80/tcp --restart unless-stopped --env TodoistApiKey=XXXXXXXXXXXX review:latest
+# docker run --detach --name review -p 8888:80/tcp --restart unless-stopped --env-file .env review:latest
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
