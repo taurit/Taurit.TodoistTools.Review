@@ -31,21 +31,33 @@ public class HomeController : Controller
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         base.OnActionExecuting(context);
-        String? syncKey = ControllerContext.HttpContext.Request.Cookies[SyncCookieName];
-        if (syncKey != null)
+        String? todoistApiKey = TryGetTodoistApiKeyForCurrentRequest();
+        if (todoistApiKey != null)
         {
 #if DEBUG
-            _repository = new FakeTaskRepository(syncKey);
+            _repository = new FakeTaskRepository(todoistApiKey);
 #else
-            _repository = new TodoistTaskRepository(syncKey);
+            _repository = new TodoistTaskRepository(todoistApiKey);
 #endif
         }
+    }
+
+    private string? TryGetTodoistApiKeyForCurrentRequest()
+    {
+        // From cookie (assuming multi-user mode, hosted in Azure)
+        String? apiKeyFromCookie = ControllerContext.HttpContext.Request.Cookies[SyncCookieName];
+
+        // From env variable (assuming local Docker instance for my own usage)
+        String? apiKeyFromEnv = Environment.GetEnvironmentVariable("TodoistApiKey");
+
+        return apiKeyFromCookie ?? apiKeyFromEnv;
     }
 
     // GET: Home
     public ActionResult Index()
     {
-        if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
+        var apiKey = TryGetTodoistApiKeyForCurrentRequest();
+        if (apiKey is null)
         {
             return RedirectToAction("Login");
         }
@@ -78,9 +90,9 @@ public class HomeController : Controller
 
     public async Task<JsonResult> GetAllLabels()
     {
-        if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
+        if (TryGetTodoistApiKeyForCurrentRequest() is null)
         {
-            throw new InvalidOperationException("Authorization cookie not found");
+            throw new InvalidOperationException("Todoist API Key was not found in cookie nor env variable");
         }
 
         var allLabels = await _repository.GetAllLabels();
@@ -93,9 +105,9 @@ public class HomeController : Controller
 
     public async Task<JsonResult> GetTasksToReview()
     {
-        if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
+        if (TryGetTodoistApiKeyForCurrentRequest() is null)
         {
-            throw new InvalidOperationException("Authorization cookie not found");
+            throw new InvalidOperationException("Todoist API Key was not found in cookie nor env variable");
         }
 
         IList<TodoTask> allTasks = (await _repository.GetAllTasks());
@@ -155,9 +167,9 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<JsonResult> UpdateTasks([FromBody] List<TodoTask> tasks)
     {
-        if (!ControllerContext.HttpContext.Request.Cookies.ContainsKey(SyncCookieName))
+        if (TryGetTodoistApiKeyForCurrentRequest() is null)
         {
-            throw new InvalidOperationException("Authorization cookie not found");
+            throw new InvalidOperationException("Todoist API Key was not found in cookie nor env variable");
         }
 
         List<TodoTask> changedTasks = tasks.Where(task => task.ItemWasChangedByUser).ToList();
