@@ -15,7 +15,6 @@
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
 		<PackageReference Include="Lindhart.Analyser.MissingAwaitWarning" Version="2.0.0" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="RestSharp" Version="107.3.0" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.36.0.43782">

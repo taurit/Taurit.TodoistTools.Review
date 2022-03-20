@@ -309,3 +309,4 @@ source/.vs/
 source/TodoistReview/obj/
 source/TodoistReview/bin/
 source/TodoistReview/Properties/PublishProfiles/TodoistReviewApp - Web Deploy.pubxml
+source/.vscode/settings.json
