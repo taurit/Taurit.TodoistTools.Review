@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taurit.TodoistTools.Review", "Taurit.TodoistTools.Review\Taurit.TodoistTools.Review.csproj", "{EAA65BD8-BA9C-4A74-AD84-F05273B36632}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taurit.TodoistTools.Review.UnitTests", "Taurit.TodoistTools.Review.UnitTests\Taurit.TodoistTools.Review.UnitTests.csproj", "{ADF6846A-C66C-4A93-88B2-F02D39CC4F6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{EAA65BD8-BA9C-4A74-AD84-F05273B36632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAA65BD8-BA9C-4A74-AD84-F05273B36632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAA65BD8-BA9C-4A74-AD84-F05273B36632}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADF6846A-C66C-4A93-88B2-F02D39CC4F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADF6846A-C66C-4A93-88B2-F02D39CC4F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADF6846A-C66C-4A93-88B2-F02D39CC4F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADF6846A-C66C-4A93-88B2-F02D39CC4F6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
