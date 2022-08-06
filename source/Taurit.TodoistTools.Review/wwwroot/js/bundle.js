@@ -207,8 +207,6 @@ $(() => {
     $(".reviewedTask").on("click", ".priority", function () {
         const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
-        const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
-        viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
     $(".reviewedTask").on("click", "#save", () => {
         viewModel.updateTaskLabels();

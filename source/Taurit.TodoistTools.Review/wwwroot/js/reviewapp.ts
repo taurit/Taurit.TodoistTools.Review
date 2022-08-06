@@ -49,7 +49,7 @@
     });
 
     $(".reviewedTask").on("click", ".label", function (eventObject: Event) {
-        const label = eventObject.target as HTMLDivElement;
+        const label = eventObject.currentTarget as HTMLDivElement;
         const labelName = label.dataset["id"];
         const labelViewModel = viewModel.labels().find(x => x.name === labelName) as LabelViewModel;
         
@@ -66,8 +66,8 @@
         const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
 
-        const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
-        viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
+        //const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
+        //viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
 
     $(".reviewedTask").on("click", "#save", () => {
