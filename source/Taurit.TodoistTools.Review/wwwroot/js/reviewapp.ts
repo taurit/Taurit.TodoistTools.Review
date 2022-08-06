@@ -19,8 +19,8 @@
         type: "GET",
         url: "/Home/GetAllLabels",
         data: {},
-        success: (data: string[]) => {
-            viewModel.labels(data);
+        success: (data: Label[]) => {
+            viewModel.labels(data.map(x => new LabelViewModel(x.name, ko.observable(false))));
 
             $.ajax({
                 type: "GET",
@@ -36,7 +36,6 @@
                     viewModel.tasks(tasksWithModifications);
                     viewModel.displayTaskLabels();
                     viewModel.loadFinished(false);
-
                 },
                 error: () => {
                     viewModel.loadFinished(true);
@@ -49,20 +48,24 @@
         }
     });
 
-    $(".reviewedTask").on("click", ".label", function () {
-        $(this).toggleClass("label-selected");
+    $(".reviewedTask").on("click", ".label", function (eventObject: Event) {
+        const label = eventObject.target as HTMLDivElement;
+        const labelName = label.dataset["id"];
+        const labelViewModel = viewModel.labels().find(x => x.name === labelName) as LabelViewModel;
+        const oldValue = labelViewModel.isSelected();
+        labelViewModel.isSelected(!oldValue);
         viewModel.updateTaskLabels();
 
-        var actionIsSelection = $(this).hasClass("label-selected"); // and not deselection
-        var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        const actionIsSelection = oldValue === false; // and not deselection
+        const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
 
     $(".reviewedTask").on("click", ".priority", function () {
-        var selectedPriority = $(this).data('priority');
+        const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
 
-        var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        const howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
 

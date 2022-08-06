@@ -1,10 +1,17 @@
-﻿// Define and initialize app's data model
+﻿class LabelViewModel {
+    constructor(
+        public name: string,
+        public isSelected: KnockoutObservable<boolean>)
+    {
+    }
+}
+
 class ViewModel {
     loaded: KnockoutObservable<Boolean>;
     ajaxError: KnockoutObservable<Boolean>;
     showPriority: KnockoutObservable<Boolean>;
     showLabels: KnockoutObservable<Boolean>;
-    labels: KnockoutObservableArray<String>;
+    labels: KnockoutObservableArray<LabelViewModel>;
     tasks: KnockoutObservableArray<TodoistTaskWithModifications>;
     currentTaskIndex: KnockoutObservable<number>;
     currentTask: KnockoutComputed<TodoistTaskWithModifications>;
@@ -17,7 +24,7 @@ class ViewModel {
         this.ajaxError = ko.observable<Boolean>(false);
 
         // All labels defined by user in the right order 
-        this.labels = ko.observableArray<String>();
+        this.labels = ko.observableArray<LabelViewModel>();
 
         // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
         this.tasks = ko.observableArray<TodoistTaskWithModifications>();
@@ -90,7 +97,7 @@ class ViewModel {
     };
 
     // Updates label collection in a task based on what is selected by the user.
-    // The clean way to do this would be with two-way binding of labels,
+    // The clean way to do this would be with two-way binding of labels (?),
     // but I want to keep the model simple
     updateTaskLabels() {
         if (this.tasks().length === 0) return;
@@ -111,11 +118,11 @@ class ViewModel {
 
         const taskLabels = this.currentTask().labels();
 
-        $(".label[data-id=-1]").removeClass("hidden"); // "eliminate task" option should always be available
+        //$(".label[data-id=eliminate]").removeClass("hidden"); // "eliminate task" option should always be available TODO is it needed?
 
-        $(".label").removeClass("label-selected");
-        taskLabels.forEach((taskLabel: string) => {
-            $(".label[data-id=" + taskLabel + "]").addClass("label-selected");
+        this.labels().forEach((labelViewModel: LabelViewModel) => {
+            const labelIsSelected = taskLabels.filter(x => x === labelViewModel.name).length > 0;
+            labelViewModel.isSelected(labelIsSelected);
         });
     };
 

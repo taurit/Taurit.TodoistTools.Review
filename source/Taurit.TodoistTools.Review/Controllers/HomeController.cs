@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Globalization;
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -11,7 +10,7 @@ namespace Taurit.TodoistTools.Review.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly HttpClient _httpClient;
     private const String SyncCookieName = "SyncApiCookie2";
 
     private ITodoistApiClient _todoistApiClient;
@@ -19,10 +18,10 @@ public class HomeController : Controller
     private readonly MultiCultureTimespanParser _timespanParser;
 
 #pragma warning disable CS8618
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(HttpClient httpClient)
 #pragma warning restore CS8618
     {
-        _logger = logger;
+        _httpClient = httpClient;
         _timespanParser = new MultiCultureTimespanParser(new[] { new CultureInfo("pl"), new CultureInfo("en") });
     }
 
@@ -38,7 +37,7 @@ public class HomeController : Controller
 #if DEBUG
             _todoistApiClient = new FakeTodoistApiClient(todoistApiKey);
 #else
-            _todoistApiClient = new TodoistSyncApiV9Client(todoistApiKey);
+            _todoistApiClient = new TodoistSyncApiV9Client(todoistApiKey, _httpClient, _timespanParser);
 #endif
         }
     }

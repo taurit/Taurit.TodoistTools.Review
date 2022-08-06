@@ -17,6 +17,7 @@ public class Startup
 
         services.AddResponseCompression();
 
+        services.AddHttpClient();
         services.AddMvc();
     }
 

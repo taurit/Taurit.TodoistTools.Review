@@ -38,6 +38,14 @@ class TodoistTaskWithModifications {
     estimatedTimeMinutes;
     timeFormatted;
 }
+class LabelViewModel {
+    name;
+    isSelected;
+    constructor(name, isSelected) {
+        this.name = name;
+        this.isSelected = isSelected;
+    }
+}
 class ViewModel {
     loaded;
     ajaxError;
@@ -122,10 +130,9 @@ class ViewModel {
         if (this.tasks().length === 0)
             return;
         const taskLabels = this.currentTask().labels();
-        $(".label[data-id=-1]").removeClass("hidden");
-        $(".label").removeClass("label-selected");
-        taskLabels.forEach((taskLabel) => {
-            $(".label[data-id=" + taskLabel + "]").addClass("label-selected");
+        this.labels().forEach((labelViewModel) => {
+            const labelIsSelected = taskLabels.filter(x => x === labelViewModel.name).length > 0;
+            labelViewModel.isSelected(labelIsSelected);
         });
     }
     ;
@@ -161,7 +168,7 @@ $(() => {
         url: "/Home/GetAllLabels",
         data: {},
         success: (data) => {
-            viewModel.labels(data);
+            viewModel.labels(data.map(x => new LabelViewModel(x.name, ko.observable(false))));
             $.ajax({
                 type: "GET",
                 url: "/Home/GetTasksToReview",
@@ -185,17 +192,21 @@ $(() => {
             viewModel.loadFinished(true);
         }
     });
-    $(".reviewedTask").on("click", ".label", function () {
-        $(this).toggleClass("label-selected");
+    $(".reviewedTask").on("click", ".label", function (eventObject) {
+        const label = eventObject.target;
+        const labelName = label.dataset["id"];
+        const labelViewModel = viewModel.labels().find(x => x.name === labelName);
+        const oldValue = labelViewModel.isSelected();
+        labelViewModel.isSelected(!oldValue);
         viewModel.updateTaskLabels();
-        var actionIsSelection = $(this).hasClass("label-selected");
-        var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        const actionIsSelection = oldValue === false;
+        const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
     $(".reviewedTask").on("click", ".priority", function () {
-        var selectedPriority = $(this).data('priority');
+        const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
-        var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        const howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
     $(".reviewedTask").on("click", "#save", () => {
