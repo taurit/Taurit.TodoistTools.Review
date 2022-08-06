@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NaturalLanguageTimespanParser;
 using Taurit.TodoistTools.Review.Models;
-using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+using Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 using Taurit.TodoistTools.Review.Services;
 
 namespace Taurit.TodoistTools.Review.Controllers;
@@ -13,7 +13,7 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private const String SyncCookieName = "SyncApiCookie2";
 
-    private ITaskRepository _repository;
+    private ILegacyTaskRepository _repository;
 
     private readonly MultiCultureTimespanParser _timespanParser;
 
@@ -65,11 +65,11 @@ public class HomeController : Controller
         return View();
     }
 
-    public ActionResult Login(TodoistAuthData authData)
+    public ActionResult Login(TodoistAuthenticationData authenticationData)
     {
-        if (authData != null && !String.IsNullOrWhiteSpace(authData.ApiToken))
+        if (authenticationData != null && !String.IsNullOrWhiteSpace(authenticationData.ApiToken))
         {
-            ControllerContext.HttpContext.Response.Cookies.Append(SyncCookieName, authData.ApiToken, new CookieOptions
+            ControllerContext.HttpContext.Response.Cookies.Append(SyncCookieName, authenticationData.ApiToken, new CookieOptions
             {
                 // Set the secure flag, which Chrome's changes will require for SameSite none.
                 // Note this will also require you to be running on HTTPS.

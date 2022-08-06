@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - names match those in documentation
 
-namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 /// <summary>
 ///     Field names as in: https://developer.todoist.com/#items

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming - names reflect those in API
 
-namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 public class TodoistTasksResponse
 {

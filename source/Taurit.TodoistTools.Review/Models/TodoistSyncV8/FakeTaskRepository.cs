@@ -1,11 +1,11 @@
 ﻿using Taurit.TodoistTools.Review.Services;
 
-namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 /// <summary>
 ///     Fake repository for development purposes, so the real API is not called too many times
 /// </summary>
-public class FakeTaskRepository : ITaskRepository
+public class FakeTaskRepository : ILegacyTaskRepository
 {
     // ReSharper disable once UnusedParameter.Local
     public FakeTaskRepository(String syncKey)

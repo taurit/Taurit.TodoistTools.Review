@@ -2,18 +2,19 @@
 using System.Text;
 using Newtonsoft.Json;
 using RestSharp;
-using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+using Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 namespace Taurit.TodoistTools.Review.Services;
 
-public class TodoistTaskRepositoryV8 : ITaskRepository
+[Obsolete("Todoist Sync API v8 won't work after 2022-11-01.")]
+public class LegacyTaskRepositoryV8 : ILegacyTaskRepository
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
     private const string ApiUrl = "https://api.todoist.com/sync/v8/";
 
     private readonly string _authToken;
 
-    public TodoistTaskRepositoryV8(string authToken)
+    public LegacyTaskRepositoryV8(string authToken)
     {
         _authToken = authToken;
 

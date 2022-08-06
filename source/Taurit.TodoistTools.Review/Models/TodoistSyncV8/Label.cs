@@ -3,7 +3,7 @@ using Taurit.TodoistTools.Review.Services;
 
 // ReSharper disable InconsistentNaming - this class is returned to the client-side JS and data might be used there
 
-namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 /// <summary>
 ///     This class is returned to client-side code. Be cautious with name changes.

@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+using Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 namespace Taurit.TodoistTools.Review.UnitTests;
 
