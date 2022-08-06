@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
@@ -17,13 +16,13 @@
 
     <button id="reload" type="button" class="btn btn-primary btn-lg">Reload page</button>
 </div>
-<div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
 
+<div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
     <div class="task" data-bind="with: currentTask">
         <textarea data-bind="value: content, autosize: true" class="content-box"></textarea>
         <span class="task-description" data-bind="text: description"></span><br />
-        <strong class="time-inline-result" data-bind="if: $root.timeEstimateReviewNeeded(), css: { highlighted: time() != 0 }"><span data-bind="text: timeFormatted"></span></strong>
-        <span data-bind="if: $root.timeEstimateReviewNeeded()">
+        <strong class="time-inline-result" data-bind="css: { highlighted: estimatedTimeMinutes() != 0 }"><span data-bind="text: timeFormatted"></span></strong>
+        <span>
             <br />
             <span class="time time-inline" data-time-to-add="1">+1 min</span>
             <span class="time time-inline" data-time-to-add="5">+5 min</span>
@@ -35,7 +34,7 @@
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
     <div class="row" data-bind="with: currentTask">
-        <div data-bind="if: $root.priorityReviewNeeded()">
+        <div>
             <div class="col-xs-3">
                 <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
             </div>
@@ -53,8 +52,7 @@
 
     <div class="all-labels row" data-bind="foreach: labels">
         <div class="col-xs-4">
-            <div class="label" data-bind='attr: {"data-id": id}'>
-                <span data-bind="css: glyphicon" class="glyphicon"></span><br />
+            <div class="label" data-bind='attr: {"data-id": name}'>
                 <span data-bind="text: name"></span>
             </div>
         </div>
@@ -71,8 +69,7 @@
             <button id="sync" type="button" class="btn btn-info btn-lg">Sync</button>
         </div>
     </nav>
-    
-    <p class="reload-page"><a onclick="location.reload();">Reload page</a> | <a id="show-all-sections">Show all sections</a></p>
+    <p class="reload-page"><a onclick="location.reload();">Reload page</a></p>
 </div>
 
 <script src="~/lib/jquery-3.6.0.min.js"></script>
@@ -80,5 +77,5 @@
 <script src="~/lib/knockout-3.5.1.js"></script>
 <script src="~/js/reviewapp.js" asp-append-version="true"></script>
 <script type="text/javascript">
-        $(".hidden-by-default").removeClass("hidden-by-default");
+    $(".hidden-by-default").removeClass("hidden-by-default");
 </script>

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
-namespace Taurit.TodoistTools.Review.Services;
+namespace Taurit.TodoistTools.Review.Services.TodoistSyncV8;
 
 [Obsolete("Todoist Sync API v8 won't work after 2022-11-01.")]
 public class LegacyTaskRepositoryV8 : ILegacyTaskRepository

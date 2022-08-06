@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Taurit.TodoistTools.Review.Services;
+using Taurit.TodoistTools.Review.Services.TodoistSyncV8;
 
 // ReSharper disable InconsistentNaming - this class is returned to the client-side JS and data might be used there
 

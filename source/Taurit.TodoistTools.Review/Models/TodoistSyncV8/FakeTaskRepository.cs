@@ -1,10 +1,11 @@
-﻿using Taurit.TodoistTools.Review.Services;
+﻿using Taurit.TodoistTools.Review.Services.TodoistSyncV8;
 
 namespace Taurit.TodoistTools.Review.Models.TodoistSyncV8;
 
 /// <summary>
 ///     Fake repository for development purposes, so the real API is not called too many times
 /// </summary>
+[Obsolete("Works only with deprecated Todoist Sync API v8")]
 public class FakeTaskRepository : ILegacyTaskRepository
 {
     // ReSharper disable once UnusedParameter.Local

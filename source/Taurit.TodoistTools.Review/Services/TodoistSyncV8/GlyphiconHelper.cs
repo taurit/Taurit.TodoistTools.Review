@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Taurit.TodoistTools.Review.Services;
+namespace Taurit.TodoistTools.Review.Services.TodoistSyncV8;
 
 public static class GlyphiconHelper
 {

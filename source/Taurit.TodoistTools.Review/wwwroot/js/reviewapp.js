@@ -22,10 +22,6 @@ $(document).ready(function () {
         // Did any ajax error occur while loading
         this.ajaxError = ko.observable(false);
 
-        this.timeEstimateReviewNeeded = ko.observable(false);
-        this.labelsReviewNeeded = ko.observable(false);
-        this.priorityReviewNeeded = ko.observable(false);
-
         // All labels defined by user in the right order 
         this.labels = ko.observableArray();
 
@@ -64,7 +60,6 @@ $(document).ready(function () {
                 this.currentTaskIndex(currentIndex + 1);
             }
             
-            this.updateReviewSectionsVisibilityForNextTask();
             this.displayTaskLabels();
         };
 
@@ -95,7 +90,7 @@ $(document).ready(function () {
             var selectedLabels = [];
             $(".label-selected").each(function () {
                 var label = ko.dataFor(this);
-                selectedLabels.push(label.id);
+                selectedLabels.push(label.name);
             });
 
             this.currentTask().labels(selectedLabels);
@@ -107,11 +102,6 @@ $(document).ready(function () {
 
             var taskLabels = this.currentTask().labels();
 
-            if (this.labelsReviewNeeded()) {
-                $(".label").removeClass("hidden");
-            } else {
-                $(".label").addClass("hidden");
-            }
             $(".label[data-id=-1]").removeClass("hidden"); // "eliminate task" option should always be available
 
             $(".label").removeClass("label-selected");
@@ -119,32 +109,7 @@ $(document).ready(function () {
                 $(".label[data-id=" + taskLabelId + "]").addClass("label-selected");
             });
         };
-
-        this.updateReviewSectionsVisibilityForNextTask = function() {
-            let currentTask = this.currentTask();
-            if (currentTask !== null && currentTask !== undefined) {
-                // there's at least one task to review
-                const currentTaskOriginalTime = currentTask.originalTime;
-                const timeReviewNeeded = currentTaskOriginalTime === 0;
-
-                const priorityReviewNeeded = currentTask.priority === 1;
-
-                const labelsNeedReview = currentTask.labels().length !== 1;
-
-                this.timeEstimateReviewNeeded(timeReviewNeeded);
-                this.priorityReviewNeeded(priorityReviewNeeded);
-                this.labelsReviewNeeded(labelsNeedReview);
-            }
-            
-        };
-
-        this.makeAllReviewSectionsVisible = function() {
-            // when navigating to the previous task, we usually know we made a mistake, so we want to be able to correct the metadata even if it's already set (so in theory it doesn't need review)
-            this.timeEstimateReviewNeeded(true);
-            this.labelsReviewNeeded(true);
-            this.priorityReviewNeeded(true);
-        };
-
+        
         this.proceedToNextTaskIfInputForTaskIsComplete =
             function (actionIsSelection, howManyLabelsAreSelected) {
                 var priorityIsNonDefault = this.currentTask().priority !== 1;
@@ -180,9 +145,9 @@ $(document).ready(function () {
                 success: function (data) {
                     data.forEach(function (row) {
                         row.labels = ko.observableArray(row.labels);
-                        row.time = ko.observable(row.time);
+                        row.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
                         row.timeFormatted = ko.computed(function() {
-                            let timeInMinutes = row.time();
+                            let timeInMinutes = row.estimatedTimeMinutes();
                             let timeFormatted = `${timeInMinutes} min`;
                             if (timeInMinutes >= 60) {
                                 let hours = Math.floor(timeInMinutes / 60);
@@ -198,7 +163,6 @@ $(document).ready(function () {
                     });
                     viewModel.tasks(data);
                     viewModel.displayTaskLabels();
-                    viewModel.updateReviewSectionsVisibilityForNextTask();
                     viewModel.loadFinished(false);
 
                 },
@@ -213,7 +177,6 @@ $(document).ready(function () {
         }
     });
 
-    // define app behavious
     $(".reviewedTask").on("click", ".label", function () {
         $(this).toggleClass("label-selected");
         viewModel.updateTaskLabels();
@@ -221,10 +184,6 @@ $(document).ready(function () {
         var actionIsSelection = $(this).hasClass("label-selected"); // and not deselection
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
-    });
-
-    $(".reviewedTask").on("click", "#show-all-sections", function () {
-        viewModel.makeAllReviewSectionsVisible();
     });
 
     $(".reviewedTask").on("click", ".priority", function () {
@@ -269,6 +228,4 @@ $(document).ready(function () {
     $("#all-done").on("click", "#reload", function () {
         location.reload();
     });
-
-
 });

@@ -20,17 +20,13 @@
 .reviewedTask .all-labels .label {
   display: inline-block;
   width: 100%;
-  padding: 20px;
+  padding: 30px;
   border: 1px solid #AAAAAA;
   text-align: center;
   color: #000000;
   cursor: pointer;
   margin-top: 10px;
-}
-.reviewedTask .all-labels .label .glyphicon {
-  padding-bottom: 10px;
-  display: inline-block;
-  font-size: large;
+  font-size: 100%;
 }
 .reviewedTask .all-labels .label.label-selected {
   background-color: #2ECC40;
