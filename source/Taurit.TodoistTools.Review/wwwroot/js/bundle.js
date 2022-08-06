@@ -207,7 +207,7 @@ $(() => {
     $(".reviewedTask").on("click", ".priority", function () {
         const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
-        const howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
     $(".reviewedTask").on("click", "#save", () => {
@@ -227,10 +227,12 @@ $(() => {
             type: "POST",
             url: "/Home/UpdateTasks",
             data: ko.toJSON(viewModel.tasks),
-            dataType: "json",
             contentType: "application/json",
             success() {
                 window.location.reload();
+            },
+            error(msg) {
+                console.error(msg);
             }
         });
     });

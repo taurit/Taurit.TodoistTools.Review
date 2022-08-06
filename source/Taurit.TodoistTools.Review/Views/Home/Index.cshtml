@@ -36,16 +36,16 @@
     <div class="row" data-bind="with: currentTask, visible: showPriority() === true">
         <div>
             <div class="col-xs-3">
-                <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>
+                <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 1 }" data-priority="1"></div>
             </div>
             <div class="col-xs-3">
-                <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 2 }" data-priority="2"></div>
+                <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 2 }" data-priority="2"></div>
             </div>
             <div class="col-xs-3">
-                <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 3 }" data-priority="3"></div>
+                <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 3 }" data-priority="3"></div>
             </div>
             <div class="col-xs-3">
-                <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 4 }" data-priority="4"></div>
+                <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 4 }" data-priority="4"></div>
             </div>
         </div>
     </div>

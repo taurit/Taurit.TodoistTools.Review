@@ -52,6 +52,7 @@
         const label = eventObject.target as HTMLDivElement;
         const labelName = label.dataset["id"];
         const labelViewModel = viewModel.labels().find(x => x.name === labelName) as LabelViewModel;
+        
         const oldValue = labelViewModel.isSelected();
         labelViewModel.isSelected(!oldValue);
         viewModel.updateTaskLabels();
@@ -65,7 +66,7 @@
         const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
 
-        const howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
+        const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
 
@@ -90,10 +91,12 @@
             type: "POST",
             url: "/Home/UpdateTasks",
             data: ko.toJSON(viewModel.tasks),
-            dataType: "json",
             contentType: "application/json",
             success() {
                 window.location.reload();
+            },
+            error(msg) {
+                console.error(msg);
             }
         });
 
