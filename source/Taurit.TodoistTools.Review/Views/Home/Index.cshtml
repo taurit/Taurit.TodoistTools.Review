@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="all-labels row" data-bind="foreach: labels">
+    <div class="all-labels row" data-bind="foreach: labels, visible: showLabels() === true">
         <div class="col-xs-4">
             <div class="label" data-bind='attr: {"data-id": name}'>
                 <span data-bind="text: name"></span>

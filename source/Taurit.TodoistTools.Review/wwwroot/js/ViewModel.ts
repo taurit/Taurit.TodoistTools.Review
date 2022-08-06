@@ -3,6 +3,7 @@ class ViewModel {
     loaded: KnockoutObservable<Boolean>;
     ajaxError: KnockoutObservable<Boolean>;
     showPriority: KnockoutObservable<Boolean>;
+    showLabels: KnockoutObservable<Boolean>;
     labels: KnockoutObservableArray<String>;
     tasks: KnockoutObservableArray<TodoistTaskWithModifications>;
     currentTaskIndex: KnockoutObservable<number>;
@@ -38,9 +39,14 @@ class ViewModel {
                 if (priority < 1 || priority > 4) {
                     throw new Error(`Expected priority in range 1-4 inclusive, but got ${priority}`);
                 }
-                return priority == 1;
+                return priority === 1;
             }
             return false;
+        }, this);
+
+        this.showLabels = ko.computed(() => {
+            var currentTask = this.currentTask();
+            return currentTask != null && currentTask.labels.length !== 1;
         }, this);
     }
 
@@ -92,7 +98,7 @@ class ViewModel {
         // get selected labels
         const selectedLabels: string[] = [];
         $(".label-selected").each(function () {
-            const label = ko.dataFor(this);
+            const label: Label = ko.dataFor(this);
             selectedLabels.push(label.name);
         });
 

@@ -42,6 +42,7 @@ class ViewModel {
     loaded;
     ajaxError;
     showPriority;
+    showLabels;
     labels;
     tasks;
     currentTaskIndex;
@@ -64,9 +65,13 @@ class ViewModel {
                 if (priority < 1 || priority > 4) {
                     throw new Error(`Expected priority in range 1-4 inclusive, but got ${priority}`);
                 }
-                return priority == 1;
+                return priority === 1;
             }
             return false;
+        }, this);
+        this.showLabels = ko.computed(() => {
+            var currentTask = this.currentTask();
+            return currentTask != null && currentTask.labels.length !== 1;
         }, this);
     }
     isLastTask() {
