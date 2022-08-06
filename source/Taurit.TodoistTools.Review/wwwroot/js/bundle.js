@@ -194,7 +194,7 @@ $(() => {
         }
     });
     $(".reviewedTask").on("click", ".label", function (eventObject) {
-        const label = eventObject.target;
+        const label = eventObject.currentTarget;
         const labelName = label.dataset["id"];
         const labelViewModel = viewModel.labels().find(x => x.name === labelName);
         const oldValue = labelViewModel.isSelected();

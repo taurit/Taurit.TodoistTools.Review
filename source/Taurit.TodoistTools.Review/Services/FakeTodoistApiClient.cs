@@ -11,7 +11,7 @@ internal class FakeTodoistApiClient : ITodoistApiClient
     {
         return new List<TodoistTask>
         {
-            new TodoistTask("task id 1", "Buy milk (mock task)", "Some description", 1, new List<Label>() { new Label("home"), new Label("pc") }, 0),
+            new TodoistTask("task id 1", "Buy milk (mock task) (10 min)", "Some description", 1, new List<Label>() { new Label("home"), new Label("pc") }, 0),
             new TodoistTask("task id 2", "Buy carrots (mock task)", "Some description 2", 2, new List<Label>(), 0)
 
         };
