@@ -1,5 +1,6 @@
 $(function () {
     "use strict";
+    // ReSharper disable once TsResolvedFromInaccessibleModule
     ko.bindingHandlers.autosize = {
         init: function (element, valueAccessor) {
             var enabled = ko.unwrap(valueAccessor());
@@ -114,11 +115,15 @@ $(function () {
                 url: "/Home/GetTasksToReview",
                 data: {},
                 success: function (data) {
+                    var tasksWithModifications = new Array();
                     data.forEach(function (row) {
-                        row.labels = ko.observableArray(row.labels);
-                        row.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
-                        row.timeFormatted = ko.computed(function () {
-                            var timeInMinutes = row.estimatedTimeMinutes();
+                        var updatedTodoistTask = new TodoistTaskWithModifications();
+                        updatedTodoistTask.content = "fake";
+                        updatedTodoistTask.labels = ko.observableArray(row.labels);
+                        updatedTodoistTask.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
+                        // todo: can i move this computed getter to class from here?
+                        updatedTodoistTask.timeFormatted = ko.computed(function () {
+                            var timeInMinutes = updatedTodoistTask.estimatedTimeMinutes();
                             var timeFormatted = "".concat(timeInMinutes, " min");
                             if (timeInMinutes >= 60) {
                                 var hours = Math.floor(timeInMinutes / 60);
@@ -130,8 +135,9 @@ $(function () {
                             }
                             return timeFormatted;
                         }, this);
+                        tasksWithModifications.push(updatedTodoistTask);
                     });
-                    viewModel.tasks(data);
+                    viewModel.tasks(tasksWithModifications);
                     viewModel.displayTaskLabels();
                     viewModel.loadFinished(false);
                 },
