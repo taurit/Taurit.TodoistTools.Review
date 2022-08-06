@@ -9,7 +9,27 @@ var TodoistTask = /** @class */ (function () {
     return TodoistTask;
 }());
 var TodoistTaskWithModifications = /** @class */ (function () {
-    function TodoistTaskWithModifications() {
+    function TodoistTaskWithModifications(originalTask) {
+        var _this = this;
+        this.originalTask = originalTask;
+        this.content = originalTask.content;
+        this.description = originalTask.description;
+        this.labels = ko.observableArray(originalTask.labels);
+        this.estimatedTimeMinutes = ko.observable(originalTask.estimatedTimeMinutes);
+        this.priority = originalTask.priority;
+        this.timeFormatted = ko.computed(function () {
+            var timeInMinutes = _this.estimatedTimeMinutes();
+            var timeFormatted = "".concat(timeInMinutes, " min");
+            if (timeInMinutes >= 60) {
+                var hours = Math.floor(timeInMinutes / 60);
+                timeFormatted = "".concat(hours, " h");
+                var minutes = timeInMinutes % 60;
+                if (minutes !== 0) {
+                    timeFormatted += " ".concat(minutes, " min");
+                }
+            }
+            return timeFormatted;
+        }, this);
     }
     return TodoistTaskWithModifications;
 }());
@@ -132,25 +152,7 @@ $(function () {
                 success: function (data) {
                     var tasksWithModifications = new Array();
                     data.forEach(function (row) {
-                        var updatedTodoistTask = new TodoistTaskWithModifications();
-                        updatedTodoistTask.content = "fake";
-                        updatedTodoistTask.description = "fake2";
-                        updatedTodoistTask.labels = ko.observableArray(row.labels);
-                        updatedTodoistTask.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
-                        // todo: can i move this computed getter to class from here?
-                        updatedTodoistTask.timeFormatted = ko.computed(function () {
-                            var timeInMinutes = updatedTodoistTask.estimatedTimeMinutes();
-                            var timeFormatted = "".concat(timeInMinutes, " min");
-                            if (timeInMinutes >= 60) {
-                                var hours = Math.floor(timeInMinutes / 60);
-                                timeFormatted = "".concat(hours, " h");
-                                var minutes = timeInMinutes % 60;
-                                if (minutes !== 0) {
-                                    timeFormatted += " ".concat(minutes, " min");
-                                }
-                            }
-                            return timeFormatted;
-                        }, this);
+                        var updatedTodoistTask = new TodoistTaskWithModifications(row);
                         tasksWithModifications.push(updatedTodoistTask);
                     });
                     viewModel.tasks(tasksWithModifications);

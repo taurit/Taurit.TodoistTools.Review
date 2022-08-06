@@ -143,27 +143,8 @@
                 success: data => {
                     let tasksWithModifications = new Array<TodoistTaskWithModifications>();
 
-                    data.forEach(function (row: TodoistTask) {
-                        var updatedTodoistTask = new TodoistTaskWithModifications();
-                        updatedTodoistTask.content = "fake";
-                        updatedTodoistTask.description = "fake2";
-                        updatedTodoistTask.labels = ko.observableArray(row.labels);
-                        updatedTodoistTask.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
-                        // todo: can i move this computed getter to class from here?
-                        updatedTodoistTask.timeFormatted = ko.computed(() => {
-                            let timeInMinutes = updatedTodoistTask.estimatedTimeMinutes();
-                            let timeFormatted = `${timeInMinutes} min`;
-                            if (timeInMinutes >= 60) {
-                                let hours = Math.floor(timeInMinutes / 60);
-                                timeFormatted = `${hours} h`;
-                                let minutes = timeInMinutes % 60;
-                                if (minutes !== 0) {
-                                    timeFormatted += ` ${minutes} min`;
-                                }
-                            }
-
-                            return timeFormatted;
-                        }, this);
+                    data.forEach((row: TodoistTask) => {
+                        const updatedTodoistTask = new TodoistTaskWithModifications(row);
                         tasksWithModifications.push(updatedTodoistTask);
                     });
                     viewModel.tasks(tasksWithModifications);
