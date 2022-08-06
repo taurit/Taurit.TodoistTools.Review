@@ -137,24 +137,10 @@ public class HomeController : Controller
             throw new InvalidOperationException("Todoist API Key was not found in cookie nor env variable");
         }
 
-        // TODO
-        //List<TodoTask> changedTasks = tasks.Where(task => task.ItemWasChangedByUser).ToList();
-        //List<TodoTask> unchangedTasks = tasks.Where(task => !task.ItemWasChangedByUser).ToList();
+        List<UpdatedTodoistTask> changedTasks = tasks.Where(task => task.ItemWasChangedByUser).ToList();
 
-        //_logger.LogInformation(
-        //    "App is about to POST a batch of updates. {NumUpdatedTasks} tasks updated by user, {NumNotUpdatedTasks} not updated",
-        //    changedTasks.Count, unchangedTasks.Count);
-        //foreach (var unchangedTask in unchangedTasks)
-        //{
-        //    _logger.LogWarning("A task (id={TaskId}) was apparently unchanged by user, which is unusual. Old content: {OldContent}, new content: {NewContent}", unchangedTask.id, unchangedTask.originalContent, unchangedTask.content);
-        //}
-
-        //var response = await _repository.UpdateTasks(changedTasks);
-        //_logger.LogInformation("Received response from Todoist Sync API: {Response}", response);
-
-        //// hack: perhaps the error was with not awaiting the task, but my another suspicion is that back-end has some eventual consistency model. And if the front-end queries too soon, it appeared to confusingly returned the same tasks again, appearing unreviewed. This is supposed to mitigate this from happening:
-        //await Task.Delay(TimeSpan.FromSeconds(3));
-
+        await _todoistApiClient.UpdateTasks(changedTasks);
+        
         return Ok();
     }
 }
