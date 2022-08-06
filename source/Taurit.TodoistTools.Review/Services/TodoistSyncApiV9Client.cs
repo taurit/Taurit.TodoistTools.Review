@@ -85,13 +85,14 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
             return;
         }
 
-        var request = new HttpRequestMessage(HttpMethod.Post, ApiUrl);
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _todoistApiKey);
         String commands = BuildUpdateString(changedTasks);
         var parameters = new Dictionary<string, string>
         {
             { "commands", commands }
         };
+
+        var request = new HttpRequestMessage(HttpMethod.Post, ApiUrl);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _todoistApiKey);
         request.Content = new FormUrlEncodedContent(parameters);
         HttpResponseMessage response = await _httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
@@ -139,9 +140,9 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
                 args = new
                 {
                     id = task.OriginalTask.Id,
-                    prioroty = task.Priority,
+                    priority = task.Priority,
                     labels = task.Labels.Where(x => x != "eliminate").ToList(),
-                    content = task.Content
+                    content = task.ContentWithTimeMetadata
                 }
             };
             commandString = JsonSerializer.Serialize(commandObject);

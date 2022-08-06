@@ -109,7 +109,9 @@ public class HomeController : Controller
 
         IList<TodoistTask> allTasks = (await _todoistApiClient.GetAllTasks());
         List<TodoistTask> tasks = allTasks.ToList();
-        var tasksThatNeedReview = tasks.Where(TaskNeedsReview).Take(7).ToList();
+        var tasksThatNeedReview = tasks.Where(TaskNeedsReview)
+            //.TakeLast(2).ToList(); // debug
+            .Take(7).ToList();
 
         return Json(tasksThatNeedReview);
     }

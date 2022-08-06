@@ -40,6 +40,7 @@ class ViewModel {
         }, this);
 
         this.showPriority = ko.computed(() => {
+            return true;
             var currentTask = this.currentTask();
             if (currentTask != null) {
                 var priority = currentTask.priority();

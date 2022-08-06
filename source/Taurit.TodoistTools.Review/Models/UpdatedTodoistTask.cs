@@ -13,13 +13,40 @@ public sealed record UpdatedTodoistTask(
     {
         get
         {
-            var contentChanged = this.Content != OriginalTask.Content;
-            var labelsChanged = !this.Labels.OrderBy(x => x).SequenceEqual(OriginalTask.Labels.Select(x => x.Name).OrderBy(x => x));
-            var priorityChanged = Priority != OriginalTask.Priority;
-            var descriptionChanged = Description != OriginalTask.Description;
-            var estimatedTimeChanged = EstimatedTimeMinutes != OriginalTask.EstimatedTimeMinutes;
+            Boolean contentChanged = Content != OriginalTask.Content;
+            Boolean labelsChanged = !Labels.OrderBy(x => x)
+                .SequenceEqual(OriginalTask.Labels.Select(x => x.Name).OrderBy(x => x));
+            Boolean priorityChanged = Priority != OriginalTask.Priority;
+            Boolean descriptionChanged = Description != OriginalTask.Description;
+            Boolean estimatedTimeChanged = EstimatedTimeMinutes != OriginalTask.EstimatedTimeMinutes;
 
             return contentChanged || labelsChanged || priorityChanged || descriptionChanged || estimatedTimeChanged;
+        }
+    }
+
+    public string ContentWithTimeMetadata
+    {
+        get
+        {
+            if (OriginalTask.EstimatedTimeMinutes != 0)
+            {
+                return Content;
+            }
+
+            if (OriginalTask.EstimatedTimeMinutes != 0 && EstimatedTimeMinutes != OriginalTask.EstimatedTimeMinutes)
+            {
+                return
+                    Content; // not supported yet - update is a bit difficult (time string needs to be replaced with another). Requires good tests not to break the content
+            }
+
+            if (EstimatedTimeMinutes == 0)
+            {
+                return Content; // 0 is not a valid time estimate, don't save it
+            }
+
+            string newContent = $"{Content} ({EstimatedTimeMinutes} min)";
+
+            return newContent;
         }
     }
 }
