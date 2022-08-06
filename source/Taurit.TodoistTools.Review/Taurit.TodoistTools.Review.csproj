@@ -8,12 +8,17 @@
 	<ItemGroup>
 		<Content Remove="compilerconfig.json" />
 		<Content Remove="wwwroot\fonts\HomeController.cs" />
+		<Content Remove="wwwroot\js\reviewapp.ts" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="compilerconfig.json" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Lindhart.Analyser.MissingAwaitWarning" Version="*" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.7.4">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="*" />
 		<PackageReference Include="RestSharp" Version="108.0.*" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.*">
@@ -22,6 +27,9 @@
 		</PackageReference>
 		<PackageReference Include="Taurit.Libraries.NaturalLanguageTimespanParser" Version="0.0.4-beta" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.*" />
+	</ItemGroup>
+	<ItemGroup>
+	  <TypeScriptCompile Include="wwwroot\js\reviewapp.ts" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="wwwroot\css\reviewapp.css">

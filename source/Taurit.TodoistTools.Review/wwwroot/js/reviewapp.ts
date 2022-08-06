@@ -1,91 +1,114 @@
-var ko, autosize;
-$(document).ready(function () {
+﻿var ko, autosize: any;
+
+$(() => {
     "use strict";
+    
     ko.bindingHandlers.autosize = {
-        init: function (element, valueAccessor) {
-            var enabled = ko.unwrap(valueAccessor());
+        init(element, valueAccessor) {
+            const enabled = ko.unwrap(valueAccessor());
             if (enabled === true) {
                 autosize(element);
             }
         }
     };
+
     // Define and initialize app's data model
     var ViewModel = function () {
+
         // Is all necessary data from API fully loaded?
         this.loaded = ko.observable(false);
+
         // Did any ajax error occur while loading
         this.ajaxError = ko.observable(false);
+
         // All labels defined by user in the right order 
         this.labels = ko.observableArray();
+
         // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
         this.tasks = ko.observableArray();
+
         // Index in the array of tasks of currently visible task in UI
         this.currentTaskIndex = ko.observable(0);
+
         // Current tasks
         var viewModel = this;
+
         this.currentTask = ko.computed(function () {
             var numTasks = viewModel.tasks().length;
             var currentTask = numTasks > 0 ? viewModel.tasks()[viewModel.currentTaskIndex()] : null;
             return currentTask;
         }, this);
+        
         // Is current task the last task?
-        this.isLastTask = function () {
+        this.isLastTask = function() {
             var currentIndex = this.currentTaskIndex();
             var numTasks = this.tasks().length;
             return currentIndex + 1 === numTasks;
         };
+
         // Is current task the first task?
-        this.isFirstTask = function () {
+        this.isFirstTask = function() {
             var currentIndex = this.currentTaskIndex();
             return currentIndex === 0;
         };
+
         // Moves to the next task in the queue if it is valid operation in current state
         this.selectNextTask = function () {
             var currentIndex = this.currentTaskIndex();
             if (!this.isLastTask()) {
                 this.currentTaskIndex(currentIndex + 1);
             }
+            
             this.displayTaskLabels();
         };
+
         // Moves to the previous task in the queue if it is valid operation in current state
         this.selectPreviousTask = function () {
             var currentIndex = this.currentTaskIndex();
             if (!this.isFirstTask()) {
                 this.currentTaskIndex(currentIndex - 1);
             }
+            
             this.makeAllReviewSectionsVisible();
             this.displayTaskLabels();
         };
+
         this.addTime = function (timeToAddInMinutes) {
             var timeBeforeOperation = this.currentTask().time();
             var newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
             this.currentTask().time(newTime);
         };
+
         // Updates label collection in a task based on what is selected by the user.
         // The clean way to do this would be with two-way binding of labels,
         // but I want to keep the model simple
         this.updateTaskLabels = function () {
-            if (this.tasks().length === 0)
-                return;
+            if (this.tasks().length === 0) return;
+
             // get selected labels
             var selectedLabels = [];
             $(".label-selected").each(function () {
                 var label = ko.dataFor(this);
                 selectedLabels.push(label.name);
             });
+
             this.currentTask().labels(selectedLabels);
         };
+
         // Makes sure that labels associated with the task are highlighted (have a certain CSS class)
-        this.displayTaskLabels = function () {
-            if (this.tasks().length === 0)
-                return;
+        this.displayTaskLabels = function() {
+            if (this.tasks().length === 0) return;
+
             var taskLabels = this.currentTask().labels();
+
             $(".label[data-id=-1]").removeClass("hidden"); // "eliminate task" option should always be available
+
             $(".label").removeClass("label-selected");
-            taskLabels.forEach(function (taskLabelId) {
+            taskLabels.forEach(function(taskLabelId) {
                 $(".label[data-id=" + taskLabelId + "]").addClass("label-selected");
             });
         };
+        
         this.proceedToNextTaskIfInputForTaskIsComplete =
             function (actionIsSelection, howManyLabelsAreSelected) {
                 var priorityIsNonDefault = this.currentTask().priority !== 1;
@@ -95,14 +118,17 @@ $(document).ready(function () {
                     viewModel.selectNextTask();
                 }
             };
+
         // Saves the information that input data has been loaded
-        this.loadFinished = function (withError) {
+        this.loadFinished = function(withError) {
             this.loaded(true);
             this.ajaxError(withError);
         };
     };
+    
     var viewModel = new ViewModel();
     ko.applyBindings(viewModel);
+
     // Initialize: load all necessary data in only two API-calls
     $.ajax({
         type: "GET",
@@ -110,6 +136,7 @@ $(document).ready(function () {
         data: {},
         success: function (data) {
             viewModel.labels(data);
+
             $.ajax({
                 type: "GET",
                 url: "/Home/GetTasksToReview",
@@ -118,59 +145,71 @@ $(document).ready(function () {
                     data.forEach(function (row) {
                         row.labels = ko.observableArray(row.labels);
                         row.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
-                        row.timeFormatted = ko.computed(function () {
-                            var timeInMinutes = row.estimatedTimeMinutes();
-                            var timeFormatted = "".concat(timeInMinutes, " min");
+                        row.timeFormatted = ko.computed(function() {
+                            let timeInMinutes = row.estimatedTimeMinutes();
+                            let timeFormatted = `${timeInMinutes} min`;
                             if (timeInMinutes >= 60) {
-                                var hours = Math.floor(timeInMinutes / 60);
-                                timeFormatted = "".concat(hours, " h");
-                                var minutes = timeInMinutes % 60;
+                                let hours = Math.floor(timeInMinutes / 60);
+                                timeFormatted = `${hours} h`;
+                                let minutes = timeInMinutes % 60;
                                 if (minutes !== 0) {
-                                    timeFormatted += " ".concat(minutes, " min");
+                                    timeFormatted += ` ${minutes} min`;
                                 }
                             }
+
                             return timeFormatted;
                         }, this);
                     });
                     viewModel.tasks(data);
                     viewModel.displayTaskLabels();
                     viewModel.loadFinished(false);
+
                 },
                 error: function () {
                     viewModel.loadFinished(true);
                 }
             });
+
         },
-        error: function () {
+        error: function() {
             viewModel.loadFinished(true);
         }
     });
+
     $(".reviewedTask").on("click", ".label", function () {
         $(this).toggleClass("label-selected");
         viewModel.updateTaskLabels();
+
         var actionIsSelection = $(this).hasClass("label-selected"); // and not deselection
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
+
     $(".reviewedTask").on("click", ".priority", function () {
         var selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority = selectedPriority; // not observable
         viewModel.currentTaskIndex.valueHasMutated(); // so force refresh of computed property this way
+
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
+
     $(".reviewedTask").on("click", "#save", function () {
         viewModel.updateTaskLabels();
+
         $(".label-selected").removeClass("label-selected");
         viewModel.selectNextTask();
     });
+
     $(".reviewedTask").on("click", "#back", function () {
         viewModel.selectPreviousTask();
     });
+
     $(".reviewedTask").on("click", ".time", function () {
         var timeToAddInMinutes = parseInt($(this).data('time-to-add'));
         viewModel.addTime(timeToAddInMinutes);
     });
+    
     $(".reviewedTask").on("click", "#sync", function () {
         $.ajax({
             type: "POST",
@@ -182,9 +221,10 @@ $(document).ready(function () {
                 window.location.reload();
             }
         });
+
     });
+
     $("#all-done").on("click", "#reload", function () {
         location.reload();
     });
 });
-//# sourceMappingURL=reviewapp.js.map
