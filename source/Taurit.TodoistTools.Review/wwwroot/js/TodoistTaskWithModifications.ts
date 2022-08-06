@@ -27,7 +27,7 @@
     content: string;
     description: string;
     priority: number;
-    labels: KnockoutObservableArray<Label>;
+    labels: KnockoutObservableArray<string>;
     estimatedTimeMinutes: KnockoutObservable<number>;
     timeFormatted: KnockoutComputed<string>;
 }

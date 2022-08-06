@@ -1,6 +1,6 @@
 ﻿$(() => {
     "use strict";
-    
+
     // ReSharper disable once TsResolvedFromInaccessibleModule
     ko.bindingHandlers.autosize = {
         init(element, valueAccessor) {
@@ -11,121 +11,8 @@
         }
     };
 
-    // Define and initialize app's data model
-    var ViewModel = function () {
-        
-        // Is all necessary data from API fully loaded?
-        this.loaded = ko.observable(false);
-
-        // Did any ajax error occur while loading
-        this.ajaxError = ko.observable(false);
-
-        // All labels defined by user in the right order 
-        this.labels = ko.observableArray<Label>();
-        
-        // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
-        this.tasks = ko.observableArray<TodoistTaskWithModifications>();
-
-        // Index in the array of tasks of currently visible task in UI
-        this.currentTaskIndex = ko.observable(0);
-
-        // Current tasks
-        var viewModel = this;
-
-        this.currentTask = ko.computed(function () {
-            var numTasks = viewModel.tasks().length;
-            var currentTask = numTasks > 0 ? viewModel.tasks()[viewModel.currentTaskIndex()] : null;
-            return currentTask;
-        }, this);
-        
-        // Is current task the last task?
-        this.isLastTask = function() {
-            var currentIndex = this.currentTaskIndex();
-            var numTasks = this.tasks().length;
-            return currentIndex + 1 === numTasks;
-        };
-
-        // Is current task the first task?
-        this.isFirstTask = function() {
-            var currentIndex = this.currentTaskIndex();
-            return currentIndex === 0;
-        };
-
-        // Moves to the next task in the queue if it is valid operation in current state
-        this.selectNextTask = function () {
-            var currentIndex = this.currentTaskIndex();
-            if (!this.isLastTask()) {
-                this.currentTaskIndex(currentIndex + 1);
-            }
-            
-            this.displayTaskLabels();
-        };
-
-        // Moves to the previous task in the queue if it is valid operation in current state
-        this.selectPreviousTask = function () {
-            var currentIndex = this.currentTaskIndex();
-            if (!this.isFirstTask()) {
-                this.currentTaskIndex(currentIndex - 1);
-            }
-            
-            this.makeAllReviewSectionsVisible();
-            this.displayTaskLabels();
-        };
-
-        this.addTime = function (timeToAddInMinutes) {
-            var timeBeforeOperation = this.currentTask().time();
-            var newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
-            this.currentTask().time(newTime);
-        };
-
-        // Updates label collection in a task based on what is selected by the user.
-        // The clean way to do this would be with two-way binding of labels,
-        // but I want to keep the model simple
-        this.updateTaskLabels = function () {
-            if (this.tasks().length === 0) return;
-
-            // get selected labels
-            var selectedLabels = [];
-            $(".label-selected").each(function () {
-                var label = ko.dataFor(this);
-                selectedLabels.push(label.name);
-            });
-
-            this.currentTask().labels(selectedLabels);
-        };
-
-        // Makes sure that labels associated with the task are highlighted (have a certain CSS class)
-        this.displayTaskLabels = function() {
-            if (this.tasks().length === 0) return;
-
-            var taskLabels = this.currentTask().labels();
-
-            $(".label[data-id=-1]").removeClass("hidden"); // "eliminate task" option should always be available
-
-            $(".label").removeClass("label-selected");
-            taskLabels.forEach(function(taskLabelId) {
-                $(".label[data-id=" + taskLabelId + "]").addClass("label-selected");
-            });
-        };
-        
-        this.proceedToNextTaskIfInputForTaskIsComplete =
-            function (actionIsSelection, howManyLabelsAreSelected) {
-                var priorityIsNonDefault = this.currentTask().priority !== 1;
-                var timeIsNonZero = this.currentTask().time() !== 0;
-                if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1 && timeIsNonZero) {
-                    // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
-                    viewModel.selectNextTask();
-                }
-            };
-
-        // Saves the information that input data has been loaded
-        this.loadFinished = function(withError) {
-            this.loaded(true);
-            this.ajaxError(withError);
-        };
-    };
-    
-    var viewModel = new ViewModel();
+   
+    const viewModel = new ViewModel();
     ko.applyBindings(viewModel);
 
     // Initialize: load all necessary data in only two API-calls
@@ -133,7 +20,7 @@
         type: "GET",
         url: "/Home/GetAllLabels",
         data: {},
-        success: (data: Label[]) => {
+        success: (data: string[]) => {
             viewModel.labels(data);
 
             $.ajax({
@@ -196,7 +83,7 @@
         var timeToAddInMinutes = parseInt($(this).data('time-to-add'));
         viewModel.addTime(timeToAddInMinutes);
     });
-    
+
     $(".reviewedTask").on("click", "#sync", () => {
         $.ajax({
             type: "POST",
@@ -211,7 +98,7 @@
 
     });
 
-    $("#all-done").on("click", "#reload", function () {
+    $("#all-done").on("click", "#reload", () => {
         location.reload();
     });
 });
