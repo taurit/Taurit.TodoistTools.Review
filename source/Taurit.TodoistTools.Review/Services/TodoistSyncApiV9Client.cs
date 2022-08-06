@@ -1,5 +1,6 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 using NaturalLanguageTimespanParser;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
@@ -15,7 +16,8 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
     private readonly MultiCultureTimespanParser _timespanParser;
     private readonly String? _todoistApiKey;
 
-    public TodoistSyncApiV9Client(String? todoistApiKey, HttpClient httpClient, MultiCultureTimespanParser timespanParser)
+    public TodoistSyncApiV9Client(String? todoistApiKey, HttpClient httpClient,
+        MultiCultureTimespanParser timespanParser)
     {
         _todoistApiKey = todoistApiKey;
         _httpClient = httpClient;
@@ -58,7 +60,7 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
         var tasksResponse = await response.Content.ReadFromJsonAsync<GetTodoistTasksResponse>();
         var taskModels = new List<TodoistTask>();
 
-        foreach (var task in tasksResponse!.Items)
+        foreach (Models.TodoistSyncV9.TodoistTask task in tasksResponse!.Items)
         {
             var estimateMinutes = 0;
             TimespanParseResult parsedDuration = _timespanParser.Parse(task.Content);
@@ -66,17 +68,85 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
             {
                 estimateMinutes = (Int32)parsedDuration.Duration.TotalMinutes;
             }
-            var labels = task.Labels.Select(x => new Label(x)).ToList();
+
+            List<Label> labels = task.Labels.Select(x => new Label(x)).ToList();
             var taskModel = new TodoistTask(task.Id, task.Content, task.Description, task.Priority, labels,
                 estimateMinutes);
             taskModels.Add(taskModel);
         }
-        
+
         return taskModels;
     }
 
-    public Task UpdateTasks(List<UpdatedTodoistTask> changedTasks)
+    public async Task UpdateTasks(List<UpdatedTodoistTask> changedTasks)
     {
-        throw new NotImplementedException();
+        if (changedTasks.Count == 0)
+        {
+            return;
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Post, ApiUrl);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _todoistApiKey);
+        String commands = BuildUpdateString(changedTasks);
+        var parameters = new Dictionary<string, string>
+        {
+            { "commands", commands }
+        };
+        request.Content = new FormUrlEncodedContent(parameters);
+        HttpResponseMessage response = await _httpClient.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        Task<String> responseContentDebug = response.Content.ReadAsStringAsync();
+    }
+
+    private String BuildUpdateString(List<UpdatedTodoistTask> tasksToUpdate)
+    {
+        // build json command as string (a shortcut)
+        var commandsString = new StringBuilder();
+        commandsString.Append("[");
+        for (var i = 0; i < tasksToUpdate.Count; i++)
+        {
+            string commandString = GetUpdateCommandString(tasksToUpdate[i]);
+            commandsString.Append(commandString);
+
+            if (i != tasksToUpdate.Count - 1)
+            {
+                commandsString.Append(",");
+            }
+        }
+
+        commandsString.Append("]");
+        return commandsString.ToString();
+    }
+
+    private string GetUpdateCommandString(UpdatedTodoistTask task)
+    {
+        string commandString;
+        var commandId = Guid.NewGuid();
+
+        if (task.Labels.Contains("eliminate"))
+        {
+            // as in documentation, https://developer.todoist.com/sync/v9/#delete-item
+            commandString =
+                $"{{\"type\": \"item_delete\", \"uuid\": \"{commandId}\", \"args\": {{\"id\": \"{task.OriginalTask.Id}\" }}}}";
+        }
+        else
+        {
+            // typical use case: update labels
+            var commandObject = new
+            {
+                type = "item_update",
+                uuid = $"{commandId}",
+                args = new
+                {
+                    id = task.OriginalTask.Id,
+                    prioroty = task.Priority,
+                    labels = task.Labels.Where(x => x != "eliminate").ToList(),
+                    content = task.Content
+                }
+            };
+            commandString = JsonSerializer.Serialize(commandObject);
+        }
+
+        return commandString;
     }
 }
