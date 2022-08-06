@@ -33,7 +33,7 @@
 
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
-    <div class="row" data-bind="with: currentTask">
+    <div class="row" data-bind="with: currentTask, visible: showPriority() === true">
         <div>
             <div class="col-xs-3">
                 <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority === 1 }" data-priority="1"></div>

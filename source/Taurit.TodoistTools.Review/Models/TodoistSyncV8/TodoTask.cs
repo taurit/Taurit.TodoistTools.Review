@@ -72,7 +72,7 @@ public class TodoTask
     public long time { get; set; }
 
     /// <summary>
-    ///     The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for natural).
+    ///     The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for default/undefined).
     /// </summary>
     [JsonProperty]
     public int priority { get; set; }

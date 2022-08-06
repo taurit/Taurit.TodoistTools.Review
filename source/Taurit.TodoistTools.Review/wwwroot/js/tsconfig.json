@@ -1,14 +1,18 @@
 {
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "noEmitOnError": true,
-    "removeComments": false,
-    "sourceMap": true,
-    "target": "es5",
-    "outFile": "bundle.js"
-  },
-  "exclude": [
-    "node_modules",
-    "wwwroot"
-  ]
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "removeComments": true,
+        "sourceMap": true,
+        "target": "ES2022",
+        "outFile": "bundle.js",
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": false,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true
+    },
+    "exclude": [
+        "node_modules",
+        "wwwroot"
+    ]
 }

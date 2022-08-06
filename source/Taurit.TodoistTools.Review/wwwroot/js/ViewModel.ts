@@ -2,21 +2,21 @@
 class ViewModel {
     loaded: KnockoutObservable<Boolean>;
     ajaxError: KnockoutObservable<Boolean>;
-    labels: KnockoutObservableArray<string>;
+    showPriority: KnockoutObservable<Boolean>;
+    labels: KnockoutObservableArray<String>;
     tasks: KnockoutObservableArray<TodoistTaskWithModifications>;
     currentTaskIndex: KnockoutObservable<number>;
     currentTask: KnockoutComputed<TodoistTaskWithModifications>;
 
     constructor() {
-
         // Is all necessary data from API fully loaded?
-        this.loaded = ko.observable<boolean>(false);
+        this.loaded = ko.observable<Boolean>(false);
 
         // Did any ajax error occur while loading
-        this.ajaxError = ko.observable<boolean>(false);
+        this.ajaxError = ko.observable<Boolean>(false);
 
         // All labels defined by user in the right order 
-        this.labels = ko.observableArray<string>();
+        this.labels = ko.observableArray<String>();
 
         // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
         this.tasks = ko.observableArray<TodoistTaskWithModifications>();
@@ -24,12 +24,24 @@ class ViewModel {
         // Index in the array of tasks of currently visible task in UI
         this.currentTaskIndex = ko.observable(0);
 
+        // @ts-ignore true that it can be null, but i don't want to deal with it now
         this.currentTask = ko.computed(() => {
             var numTasks = this.tasks().length;
             var currentTask = numTasks > 0 ? this.tasks()[this.currentTaskIndex()] : null;
             return currentTask;
-        },
-            this);
+        }, this);
+
+        this.showPriority = ko.computed(() => {
+            var currentTask = this.currentTask();
+            if (currentTask != null) {
+                var priority = currentTask.priority();
+                if (priority < 1 || priority > 4) {
+                    throw new Error(`Expected priority in range 1-4 inclusive, but got ${priority}`);
+                }
+                return priority == 1;
+            }
+            return false;
+        }, this);
     }
 
     // Is current task the last task?
@@ -102,7 +114,7 @@ class ViewModel {
     };
 
     proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection: boolean, howManyLabelsAreSelected: number) {
-        var priorityIsNonDefault = this.currentTask().priority !== 1;
+        var priorityIsNonDefault = this.currentTask().priority() !== 1;
         var timeIsNonZero = this.currentTask().estimatedTimeMinutes() !== 0;
         if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1 && timeIsNonZero) {
             // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)

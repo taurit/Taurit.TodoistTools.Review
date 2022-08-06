@@ -1,222 +1,223 @@
-var Label = /** @class */ (function () {
-    function Label() {
-    }
-    return Label;
-}());
-var TodoistTask = /** @class */ (function () {
-    function TodoistTask() {
-    }
-    return TodoistTask;
-}());
-var TodoistTaskWithModifications = /** @class */ (function () {
-    function TodoistTaskWithModifications(originalTask) {
-        var _this = this;
+class Label {
+    name;
+}
+class TodoistTask {
+    content;
+    description;
+    priority;
+    labels;
+    estimatedTimeMinutes;
+}
+class TodoistTaskWithModifications {
+    originalTask;
+    constructor(originalTask) {
         this.originalTask = originalTask;
         this.content = originalTask.content;
         this.description = originalTask.description;
-        this.labels = ko.observableArray(originalTask.labels.map(function (x) { return x.name; }));
+        this.labels = ko.observableArray(originalTask.labels.map(x => x.name));
         this.estimatedTimeMinutes = ko.observable(originalTask.estimatedTimeMinutes);
-        this.priority = originalTask.priority;
-        this.timeFormatted = ko.computed(function () {
-            var timeInMinutes = _this.estimatedTimeMinutes();
-            var timeFormatted = "".concat(timeInMinutes, " min");
+        this.priority = ko.observable(originalTask.priority);
+        this.timeFormatted = ko.computed(() => {
+            let timeInMinutes = this.estimatedTimeMinutes();
+            let timeFormatted = `${timeInMinutes} min`;
             if (timeInMinutes >= 60) {
-                var hours = Math.floor(timeInMinutes / 60);
-                timeFormatted = "".concat(hours, " h");
-                var minutes = timeInMinutes % 60;
+                let hours = Math.floor(timeInMinutes / 60);
+                timeFormatted = `${hours} h`;
+                let minutes = timeInMinutes % 60;
                 if (minutes !== 0) {
-                    timeFormatted += " ".concat(minutes, " min");
+                    timeFormatted += ` ${minutes} min`;
                 }
             }
             return timeFormatted;
         }, this);
     }
-    return TodoistTaskWithModifications;
-}());
-// Define and initialize app's data model
-var ViewModel = /** @class */ (function () {
-    function ViewModel() {
-        var _this = this;
-        // Is all necessary data from API fully loaded?
+    content;
+    description;
+    priority;
+    labels;
+    estimatedTimeMinutes;
+    timeFormatted;
+}
+class ViewModel {
+    loaded;
+    ajaxError;
+    showPriority;
+    labels;
+    tasks;
+    currentTaskIndex;
+    currentTask;
+    constructor() {
         this.loaded = ko.observable(false);
-        // Did any ajax error occur while loading
         this.ajaxError = ko.observable(false);
-        // All labels defined by user in the right order 
         this.labels = ko.observableArray();
-        // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
         this.tasks = ko.observableArray();
-        // Index in the array of tasks of currently visible task in UI
         this.currentTaskIndex = ko.observable(0);
-        this.currentTask = ko.computed(function () {
-            var numTasks = _this.tasks().length;
-            var currentTask = numTasks > 0 ? _this.tasks()[_this.currentTaskIndex()] : null;
+        this.currentTask = ko.computed(() => {
+            var numTasks = this.tasks().length;
+            var currentTask = numTasks > 0 ? this.tasks()[this.currentTaskIndex()] : null;
             return currentTask;
         }, this);
+        this.showPriority = ko.computed(() => {
+            var currentTask = this.currentTask();
+            if (currentTask != null) {
+                var priority = currentTask.priority();
+                if (priority < 1 || priority > 4) {
+                    throw new Error(`Expected priority in range 1-4 inclusive, but got ${priority}`);
+                }
+                return priority == 1;
+            }
+            return false;
+        }, this);
     }
-    // Is current task the last task?
-    ViewModel.prototype.isLastTask = function () {
-        var currentIndex = this.currentTaskIndex();
-        var numTasks = this.tasks().length;
+    isLastTask() {
+        const currentIndex = this.currentTaskIndex();
+        const numTasks = this.tasks().length;
         return currentIndex + 1 === numTasks;
-    };
+    }
     ;
-    // Is current task the first task?
-    ViewModel.prototype.isFirstTask = function () {
-        var currentIndex = this.currentTaskIndex();
+    isFirstTask() {
+        const currentIndex = this.currentTaskIndex();
         return currentIndex === 0;
-    };
+    }
     ;
-    // Moves to the next task in the queue if it is valid operation in current state
-    ViewModel.prototype.selectNextTask = function () {
-        var currentIndex = this.currentTaskIndex();
+    selectNextTask() {
+        const currentIndex = this.currentTaskIndex();
         if (!this.isLastTask()) {
             this.currentTaskIndex(currentIndex + 1);
         }
         this.displayTaskLabels();
-    };
+    }
     ;
-    // Moves to the previous task in the queue if it is valid operation in current state
-    ViewModel.prototype.selectPreviousTask = function () {
-        var currentIndex = this.currentTaskIndex();
+    selectPreviousTask() {
+        const currentIndex = this.currentTaskIndex();
         if (!this.isFirstTask()) {
             this.currentTaskIndex(currentIndex - 1);
         }
         this.displayTaskLabels();
-    };
+    }
     ;
-    ViewModel.prototype.addTime = function (timeToAddInMinutes) {
-        var timeBeforeOperation = this.currentTask().estimatedTimeMinutes();
-        var newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
+    addTime(timeToAddInMinutes) {
+        const timeBeforeOperation = this.currentTask().estimatedTimeMinutes();
+        const newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
         this.currentTask().estimatedTimeMinutes(newTime);
-    };
+    }
     ;
-    // Updates label collection in a task based on what is selected by the user.
-    // The clean way to do this would be with two-way binding of labels,
-    // but I want to keep the model simple
-    ViewModel.prototype.updateTaskLabels = function () {
+    updateTaskLabels() {
         if (this.tasks().length === 0)
             return;
-        // get selected labels
-        var selectedLabels = [];
+        const selectedLabels = [];
         $(".label-selected").each(function () {
-            var label = ko.dataFor(this);
+            const label = ko.dataFor(this);
             selectedLabels.push(label.name);
         });
         this.currentTask().labels(selectedLabels);
-    };
+    }
     ;
-    // Makes sure that labels associated with the task are highlighted (have a certain CSS class)
-    ViewModel.prototype.displayTaskLabels = function () {
+    displayTaskLabels() {
         if (this.tasks().length === 0)
             return;
-        var taskLabels = this.currentTask().labels();
-        $(".label[data-id=-1]").removeClass("hidden"); // "eliminate task" option should always be available
+        const taskLabels = this.currentTask().labels();
+        $(".label[data-id=-1]").removeClass("hidden");
         $(".label").removeClass("label-selected");
-        taskLabels.forEach(function (taskLabel) {
+        taskLabels.forEach((taskLabel) => {
             $(".label[data-id=" + taskLabel + "]").addClass("label-selected");
         });
-    };
+    }
     ;
-    ViewModel.prototype.proceedToNextTaskIfInputForTaskIsComplete = function (actionIsSelection, howManyLabelsAreSelected) {
-        var priorityIsNonDefault = this.currentTask().priority !== 1;
+    proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected) {
+        var priorityIsNonDefault = this.currentTask().priority() !== 1;
         var timeIsNonZero = this.currentTask().estimatedTimeMinutes() !== 0;
         if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1 && timeIsNonZero) {
-            // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
             this.selectNextTask();
         }
-    };
+    }
     ;
-    // Saves the information that input data has been loaded
-    ViewModel.prototype.loadFinished = function (loadFinishedWithError) {
+    loadFinished(loadFinishedWithError) {
         this.loaded(true);
         this.ajaxError(loadFinishedWithError);
-    };
+    }
     ;
-    return ViewModel;
-}());
+}
 ;
-$(function () {
+$(() => {
     "use strict";
-    // ReSharper disable once TsResolvedFromInaccessibleModule
     ko.bindingHandlers.autosize = {
-        init: function (element, valueAccessor) {
-            var enabled = ko.unwrap(valueAccessor());
+        init(element, valueAccessor) {
+            const enabled = ko.unwrap(valueAccessor());
             if (enabled === true) {
                 autosize(element);
             }
         }
     };
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     ko.applyBindings(viewModel);
-    // Initialize: load all necessary data in only two API-calls
     $.ajax({
         type: "GET",
         url: "/Home/GetAllLabels",
         data: {},
-        success: function (data) {
+        success: (data) => {
             viewModel.labels(data);
             $.ajax({
                 type: "GET",
                 url: "/Home/GetTasksToReview",
                 data: {},
-                success: function (data) {
-                    var tasksWithModifications = new Array();
-                    data.forEach(function (row) {
-                        var updatedTodoistTask = new TodoistTaskWithModifications(row);
+                success: data => {
+                    let tasksWithModifications = new Array();
+                    data.forEach((row) => {
+                        const updatedTodoistTask = new TodoistTaskWithModifications(row);
                         tasksWithModifications.push(updatedTodoistTask);
                     });
                     viewModel.tasks(tasksWithModifications);
                     viewModel.displayTaskLabels();
                     viewModel.loadFinished(false);
                 },
-                error: function () {
+                error: () => {
                     viewModel.loadFinished(true);
                 }
             });
         },
-        error: function () {
+        error: () => {
             viewModel.loadFinished(true);
         }
     });
     $(".reviewedTask").on("click", ".label", function () {
         $(this).toggleClass("label-selected");
         viewModel.updateTaskLabels();
-        var actionIsSelection = $(this).hasClass("label-selected"); // and not deselection
+        var actionIsSelection = $(this).hasClass("label-selected");
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
     $(".reviewedTask").on("click", ".priority", function () {
         var selectedPriority = $(this).data('priority');
-        viewModel.currentTask().priority = selectedPriority; // not observable
-        viewModel.currentTaskIndex.valueHasMutated(); // so force refresh of computed property this way
+        viewModel.currentTask().priority(selectedPriority);
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
-    $(".reviewedTask").on("click", "#save", function () {
+    $(".reviewedTask").on("click", "#save", () => {
         viewModel.updateTaskLabels();
         $(".label-selected").removeClass("label-selected");
         viewModel.selectNextTask();
     });
-    $(".reviewedTask").on("click", "#back", function () {
+    $(".reviewedTask").on("click", "#back", () => {
         viewModel.selectPreviousTask();
     });
     $(".reviewedTask").on("click", ".time", function () {
         var timeToAddInMinutes = parseInt($(this).data('time-to-add'));
         viewModel.addTime(timeToAddInMinutes);
     });
-    $(".reviewedTask").on("click", "#sync", function () {
+    $(".reviewedTask").on("click", "#sync", () => {
         $.ajax({
             type: "POST",
             url: "/Home/UpdateTasks",
             data: ko.toJSON(viewModel.tasks),
             dataType: "json",
             contentType: "application/json",
-            success: function () {
+            success() {
                 window.location.reload();
             }
         });
     });
-    $("#all-done").on("click", "#reload", function () {
+    $("#all-done").on("click", "#reload", () => {
         location.reload();
     });
 });

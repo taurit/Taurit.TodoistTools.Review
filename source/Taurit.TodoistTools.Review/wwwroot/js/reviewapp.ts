@@ -10,8 +10,7 @@
             }
         }
     };
-
-   
+    
     const viewModel = new ViewModel();
     ko.applyBindings(viewModel);
 
@@ -61,8 +60,7 @@
 
     $(".reviewedTask").on("click", ".priority", function () {
         var selectedPriority = $(this).data('priority');
-        viewModel.currentTask().priority = selectedPriority; // not observable
-        viewModel.currentTaskIndex.valueHasMutated(); // so force refresh of computed property this way
+        viewModel.currentTask().priority(selectedPriority);
 
         var howManyLabelsAreSelected = $(".reviewedTask .label-selected").length;
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
