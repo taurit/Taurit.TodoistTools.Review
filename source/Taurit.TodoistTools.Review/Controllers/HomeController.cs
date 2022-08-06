@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NaturalLanguageTimespanParser;
 using Taurit.TodoistTools.Review.Models;
-using Taurit.TodoistTools.Review.Models.TodoistApiModels;
+using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
+using Taurit.TodoistTools.Review.Services;
 
 namespace Taurit.TodoistTools.Review.Controllers;
 
@@ -36,7 +37,7 @@ public class HomeController : Controller
 #if DEBUG
             _repository = new FakeTaskRepository(todoistApiKey);
 #else
-            _repository = new TodoistTaskRepository(todoistApiKey);
+            _repository = new TodoistTaskRepositoryV8(todoistApiKey);
 #endif
         }
     }

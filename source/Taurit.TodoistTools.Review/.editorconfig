@@ -1,0 +1,12 @@
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+[*.{cs}]
+# Sonar analyzer doesn't support C# 10 file-scoped namespaces yet
+dotnet_diagnostic.S3903.severity = None
+
+# I'm ok with hardcoded URLs in this toolset, I'm their only user and can update the code quickly in case it's needed
+dotnet_diagnostic.S1075.severity = None

@@ -1,17 +1,18 @@
 ﻿using Newtonsoft.Json;
+using Taurit.TodoistTools.Review.Services;
 
 // ReSharper disable InconsistentNaming - this class is returned to the client-side JS and data might be used there
 
-namespace Taurit.TodoistTools.Review.Models;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 
 /// <summary>
 ///     This class is returned to client-side code. Be cautious with name changes.
 /// </summary>
 public class Label
 {
-    internal const Int64 SpecialId_TaskToRemove = -1;
+    internal const long SpecialId_TaskToRemove = -1;
 
-    private const String GlyphiconDefaultClass = "glyphicon-paperclip";
+    private const string GlyphiconDefaultClass = "glyphicon-paperclip";
 
     [Obsolete("Should only be used for deserialization")]
 #pragma warning disable CS8618
@@ -20,7 +21,7 @@ public class Label
     {
     }
 
-    public Label(Int64 id, Int32 isDeleted, String name)
+    public Label(long id, int isDeleted, string name)
     {
         this.id = id;
         is_deleted = isDeleted;
@@ -28,28 +29,28 @@ public class Label
     }
 
     [JsonProperty]
-    public Int64 id { get; set; }
+    public long id { get; set; }
 
     [JsonProperty]
-    public Int32 is_deleted { get; set; }
+    public int is_deleted { get; set; }
 
     [JsonProperty]
-    public String name { get; set; }
+    public string name { get; set; }
 
     [JsonProperty]
-    public Int32 item_order { get; set; }
+    public int item_order { get; set; }
 
     /// <summary>
     ///     Bootstrap glyphicon class for this label
     /// </summary>
     [JsonProperty]
-    public String glyphicon
+    public string glyphicon
     {
         get
         {
-            Dictionary<String, String> glyphiconDict = GlyphiconHelper.GetDictionary();
+            Dictionary<string, string> glyphiconDict = GlyphiconHelper.GetDictionary();
 
-            String glyphiconClass = glyphiconDict.ContainsKey(name) ? glyphiconDict[name] : GlyphiconDefaultClass;
+            string glyphiconClass = glyphiconDict.ContainsKey(name) ? glyphiconDict[name] : GlyphiconDefaultClass;
             return glyphiconClass;
         }
     }

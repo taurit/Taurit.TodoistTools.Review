@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - names match those in documentation
 
-namespace Taurit.TodoistTools.Review.Models;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 
 /// <summary>
 ///     Field names as in: https://developer.todoist.com/#items
@@ -13,16 +13,16 @@ public class TodoTask
 {
 
     [JsonProperty]
-    public Int64 id { get; set; }
+    public long id { get; set; }
 
     [JsonProperty]
-    public String? content { get; set; }
+    public string? content { get; set; }
 
     [JsonProperty]
-    public String? description { get; set; }
+    public string? description { get; set; }
 
     [JsonProperty]
-    public String? originalContent { get; set; }
+    public string? originalContent { get; set; }
 
 
     [JsonProperty]
@@ -49,7 +49,7 @@ public class TodoTask
 
 
     [JsonProperty]
-    public List<Int64>? labels { get; set; }
+    public List<long>? labels { get; set; }
 
     /// <summary>
     ///     A copy of "labels" which should not be changed on the client side.
@@ -57,48 +57,48 @@ public class TodoTask
     ///     calling update on Todoist API is needed.
     /// </summary>
     [JsonProperty]
-    public List<Int64>? originalLabels { get; set; }
+    public List<long>? originalLabels { get; set; }
 
     /// <summary>
     /// Estimated time for a task before user's changes
     /// </summary>
     [JsonProperty]
-    public Int64 originalTime { get; private set; }
+    public long originalTime { get; private set; }
 
     /// <summary>
     /// Estimated time for a task
     /// </summary>
     [JsonProperty]
-    public Int64 time { get; set; }
+    public long time { get; set; }
 
     /// <summary>
     ///     The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for natural).
     /// </summary>
     [JsonProperty]
-    public Int32 priority { get; set; }
+    public int priority { get; set; }
 
     /// <summary>
     /// Initial priority value from the server, before user might have changed it
     /// </summary>
     [JsonProperty]
-    public Int32 originalPriority { get; set; }
+    public int originalPriority { get; set; }
 
     [JsonProperty]
-    public Int64 project_id { get; set; }
+    public long project_id { get; set; }
 
     /// <summary>
     ///     Whether the task is marked as completed (where 1 is true and 0 is false).
     /// </summary>
     [JsonProperty]
-    public Int32 @checked { get; set; }
+    public int @checked { get; set; }
 
     /// <summary>
     ///     Whether the task is marked as deleted (where 1 is true and 0 is false).
     /// </summary>
     [JsonProperty]
-    public Int32 is_deleted { get; set; }
+    public int is_deleted { get; set; }
 
-    public Boolean IsToBeDeleted => labels != null && labels.Contains(Label.SpecialId_TaskToRemove);
+    public bool IsToBeDeleted => labels != null && labels.Contains(Label.SpecialId_TaskToRemove);
 
     /// <summary>
     ///     Save copies of values that user can modify.
@@ -111,7 +111,7 @@ public class TodoTask
         originalContent = content;
     }
 
-    public Boolean ItemWasChangedByUser
+    public bool ItemWasChangedByUser
     {
         get
         {
@@ -131,29 +131,29 @@ public class TodoTask
         }
 
     }
-    private Boolean LabelsDiffer
+    private bool LabelsDiffer
     {
         get
         {
             // json deserialization returns null for empty arrays, so here's a conversion for an empty list
             if (labels == null)
             {
-                labels = new List<Int64>();
+                labels = new List<long>();
             }
             if (originalLabels == null)
             {
-                originalLabels = new List<Int64>();
+                originalLabels = new List<long>();
             }
 
-            HashSet<long>? set1unique = new HashSet<Int64>(labels);
-            HashSet<long>? set2unique = new HashSet<Int64>(originalLabels);
+            HashSet<long>? set1unique = new HashSet<long>(labels);
+            HashSet<long>? set2unique = new HashSet<long>(originalLabels);
 
             return !set1unique.SetEquals(set2unique);
         }
     }
 
 
-    public void SetOriginalDurationInMinutes(Int32 durationTotalMinutes)
+    public void SetOriginalDurationInMinutes(int durationTotalMinutes)
     {
         time = durationTotalMinutes;
         originalTime = durationTotalMinutes;

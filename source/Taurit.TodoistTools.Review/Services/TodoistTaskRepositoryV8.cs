@@ -2,18 +2,18 @@
 using System.Text;
 using Newtonsoft.Json;
 using RestSharp;
-using Taurit.TodoistTools.Review.Models.TodoistApiModels;
+using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 
-namespace Taurit.TodoistTools.Review.Models;
+namespace Taurit.TodoistTools.Review.Services;
 
-public class TodoistTaskRepository : ITaskRepository
+public class TodoistTaskRepositoryV8 : ITaskRepository
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
-    private const String ApiUrl = "https://api.todoist.com/sync/v8/";
+    private const string ApiUrl = "https://api.todoist.com/sync/v8/";
 
-    private readonly String _authToken;
+    private readonly string _authToken;
 
-    public TodoistTaskRepository(String authToken)
+    public TodoistTaskRepositoryV8(string authToken)
     {
         _authToken = authToken;
 
@@ -76,7 +76,7 @@ public class TodoistTaskRepository : ITaskRepository
         return response.Data.Items ?? new List<TodoTask>(0);
     }
 
-    public async Task<String> UpdateTasks(List<TodoTask> tasksToUpdate)
+    public async Task<string> UpdateTasks(List<TodoTask> tasksToUpdate)
     {
         if (tasksToUpdate.Count == 0)
         {
@@ -97,7 +97,7 @@ public class TodoistTaskRepository : ITaskRepository
         commandsString.Append("[");
         for (int i = 0; i < tasksToUpdate.Count; i++)
         {
-            String commandString = GetUpdateCommandString(tasksToUpdate[i]);
+            string commandString = GetUpdateCommandString(tasksToUpdate[i]);
             commandsString.Append(commandString);
 
             if (i != tasksToUpdate.Count - 1)
@@ -110,13 +110,13 @@ public class TodoistTaskRepository : ITaskRepository
         request.AddParameter("commands", commandsString.ToString());
 
         RestResponse<TodoistTasksResponse> response = await client.ExecuteAsync<TodoistTasksResponse>(request);
-        String apiResponse = response.Content ?? "null";
+        string apiResponse = response.Content ?? "null";
         return apiResponse;
     }
 
-    private String GetUpdateCommandString(TodoTask task)
+    private string GetUpdateCommandString(TodoTask task)
     {
-        String commandString;
+        string commandString;
         Guid commandId = Guid.NewGuid();
 
         if (task.IsToBeDeleted)
@@ -128,7 +128,7 @@ public class TodoistTaskRepository : ITaskRepository
         else
         {
             // typical use case: update labels
-            List<Int64> specialLabelsIds = Label.SpecialLabels.Select(x => x.id).ToList();
+            List<long> specialLabelsIds = Label.SpecialLabels.Select(x => x.id).ToList();
             long[]? labelsExcludingSpecial =
                 task.labels?.Where(x => !specialLabelsIds.Contains(x)).ToArray();
 

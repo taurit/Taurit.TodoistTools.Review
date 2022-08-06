@@ -1,4 +1,6 @@
-﻿namespace Taurit.TodoistTools.Review.Models.TodoistApiModels;
+﻿using Taurit.TodoistTools.Review.Services;
+
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 
 /// <summary>
 ///     Fake repository for development purposes, so the real API is not called too many times

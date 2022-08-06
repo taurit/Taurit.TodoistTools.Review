@@ -2,7 +2,7 @@
 
 // ReSharper disable InconsistentNaming
 
-namespace Taurit.TodoistTools.Review.Models.TodoistApiModels;
+namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 
 internal class TodoistLabelsResponse
 {
