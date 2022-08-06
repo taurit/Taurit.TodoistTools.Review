@@ -3,5 +3,14 @@
     "@types/autosize": "^4.0.1",
     "@types/jquery": "^3.5.14",
     "@types/knockout": "^3.4.72"
-  }
+  },
+  "name": "todoistreviewapp",
+  "version": "1.0.0",
+  "main": "bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
