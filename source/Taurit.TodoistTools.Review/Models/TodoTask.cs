@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming - names match those in documentation
 

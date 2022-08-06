@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Taurit.TodoistTools.Review;
+﻿namespace Taurit.TodoistTools.Review;
 
 public static class Program
 {

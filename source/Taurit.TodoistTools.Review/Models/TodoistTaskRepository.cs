@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using RestSharp;
-using System.Net;
+﻿using System.Net;
 using System.Text;
+using Newtonsoft.Json;
+using RestSharp;
 using Taurit.TodoistTools.Review.Models.TodoistApiModels;
 
 namespace Taurit.TodoistTools.Review.Models;

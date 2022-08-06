@@ -1,8 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NaturalLanguageTimespanParser;
-using System.Globalization;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Models.TodoistApiModels;
 
@@ -69,7 +68,7 @@ public class HomeController : Controller
     {
         if (authData != null && !String.IsNullOrWhiteSpace(authData.ApiToken))
         {
-            ControllerContext.HttpContext.Response.Cookies.Append(SyncCookieName, authData.ApiToken, new CookieOptions()
+            ControllerContext.HttpContext.Response.Cookies.Append(SyncCookieName, authData.ApiToken, new CookieOptions
             {
                 // Set the secure flag, which Chrome's changes will require for SameSite none.
                 // Note this will also require you to be running on HTTPS.
