@@ -1,5 +1,4 @@
-var ko, autosize;
-$(document).ready(function () {
+$(function () {
     "use strict";
     ko.bindingHandlers.autosize = {
         init: function (element, valueAccessor) {

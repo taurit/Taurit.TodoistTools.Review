@@ -1,6 +1,4 @@
-﻿var ko, autosize: any;
-
-$(() => {
+﻿$(() => {
     "use strict";
     
     ko.bindingHandlers.autosize = {
@@ -14,7 +12,7 @@ $(() => {
 
     // Define and initialize app's data model
     var ViewModel = function () {
-
+        
         // Is all necessary data from API fully loaded?
         this.loaded = ko.observable(false);
 
