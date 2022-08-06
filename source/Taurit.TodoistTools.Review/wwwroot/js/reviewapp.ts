@@ -1,6 +1,18 @@
-﻿$(() => {
+﻿class Label {
+    name: string;
+}
+
+class TodoistTask {
+    content: string;
+    description: string;
+    labels: Label[];
+    estimatedTimeMinutes: number;
+}
+
+$(() => {
     "use strict";
     
+    // ReSharper disable once TsResolvedFromInaccessibleModule
     ko.bindingHandlers.autosize = {
         init(element, valueAccessor) {
             const enabled = ko.unwrap(valueAccessor());
@@ -20,10 +32,10 @@
         this.ajaxError = ko.observable(false);
 
         // All labels defined by user in the right order 
-        this.labels = ko.observableArray();
-
+        this.labels = ko.observableArray<Label>();
+        
         // Tasks filtered to those that are worth reviewing (the logic of choice is in back end)
-        this.tasks = ko.observableArray();
+        this.tasks = ko.observableArray<TodoistTask>();
 
         // Index in the array of tasks of currently visible task in UI
         this.currentTaskIndex = ko.observable(0);
@@ -132,15 +144,15 @@
         type: "GET",
         url: "/Home/GetAllLabels",
         data: {},
-        success: function (data) {
+        success: (data: Label[]) => {
             viewModel.labels(data);
 
             $.ajax({
                 type: "GET",
                 url: "/Home/GetTasksToReview",
                 data: {},
-                success: function (data) {
-                    data.forEach(function (row) {
+                success: data => {
+                    data.forEach(function (row: TodoistTask) {
                         row.labels = ko.observableArray(row.labels);
                         row.estimatedTimeMinutes = ko.observable(row.estimatedTimeMinutes);
                         row.timeFormatted = ko.computed(function() {
@@ -163,13 +175,13 @@
                     viewModel.loadFinished(false);
 
                 },
-                error: function () {
+                error: () => {
                     viewModel.loadFinished(true);
                 }
             });
 
         },
-        error: function() {
+        error: () => {
             viewModel.loadFinished(true);
         }
     });
@@ -192,14 +204,14 @@
         viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
 
-    $(".reviewedTask").on("click", "#save", function () {
+    $(".reviewedTask").on("click", "#save", () => {
         viewModel.updateTaskLabels();
 
         $(".label-selected").removeClass("label-selected");
         viewModel.selectNextTask();
     });
 
-    $(".reviewedTask").on("click", "#back", function () {
+    $(".reviewedTask").on("click", "#back", () => {
         viewModel.selectPreviousTask();
     });
 
@@ -208,14 +220,14 @@
         viewModel.addTime(timeToAddInMinutes);
     });
     
-    $(".reviewedTask").on("click", "#sync", function () {
+    $(".reviewedTask").on("click", "#sync", () => {
         $.ajax({
             type: "POST",
             url: "/Home/UpdateTasks",
             data: ko.toJSON(viewModel.tasks),
             dataType: "json",
             contentType: "application/json",
-            success: function () {
+            success() {
                 window.location.reload();
             }
         });
