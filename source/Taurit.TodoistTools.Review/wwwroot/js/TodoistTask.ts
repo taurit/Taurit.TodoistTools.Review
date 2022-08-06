@@ -2,6 +2,6 @@
     content: string;
     description: string;
     priority: number;
-    labels: string[];
+    labels: Label[];
     estimatedTimeMinutes: number;
 }

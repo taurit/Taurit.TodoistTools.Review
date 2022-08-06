@@ -4,7 +4,7 @@
     {
         this.content = originalTask.content;
         this.description = originalTask.description;
-        this.labels = ko.observableArray(originalTask.labels);
+        this.labels = ko.observableArray(originalTask.labels.map(x => x.name));
         this.estimatedTimeMinutes = ko.observable(originalTask.estimatedTimeMinutes);
         this.priority = originalTask.priority;
 

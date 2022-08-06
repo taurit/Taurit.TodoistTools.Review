@@ -1,3 +1,8 @@
+var Label = /** @class */ (function () {
+    function Label() {
+    }
+    return Label;
+}());
 var TodoistTask = /** @class */ (function () {
     function TodoistTask() {
     }
@@ -9,7 +14,7 @@ var TodoistTaskWithModifications = /** @class */ (function () {
         this.originalTask = originalTask;
         this.content = originalTask.content;
         this.description = originalTask.description;
-        this.labels = ko.observableArray(originalTask.labels);
+        this.labels = ko.observableArray(originalTask.labels.map(function (x) { return x.name; }));
         this.estimatedTimeMinutes = ko.observable(originalTask.estimatedTimeMinutes);
         this.priority = originalTask.priority;
         this.timeFormatted = ko.computed(function () {
