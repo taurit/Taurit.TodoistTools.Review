@@ -27,7 +27,7 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
     public async Task<List<Label>> GetAllLabels()
     {
         // rest api is a bit more convenient and unlikely to change to the degree where I can't just get list of label names
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://api.todoist.com/rest/v1/labels");
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://api.todoist.com/rest/v2/labels");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _todoistApiKey);
         HttpResponseMessage response = await _httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
