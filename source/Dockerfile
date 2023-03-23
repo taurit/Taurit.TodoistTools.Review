@@ -1,6 +1,7 @@
 # BUILD:
 # docker image prune
-# docker build --pull --no-cache -f ./Dockerfile -t review:latest .
+# Cache allowed => docker build --pull --no-cache -f ./Dockerfile -t review:latest .
+# Long time no build? => docker build --pull --no-cache -f ./Dockerfile -t review:latest .
 #
 # CLEAN:
 # docker stop review
@@ -10,8 +11,11 @@
 # docker run --detach --name review -p 8888:80/tcp --restart unless-stopped --env-file .env review:latest
 
 # TODO: when .NET 8 is out and I migrate, I might want to try image like 8.0.0-jammy-chiseled (stable! not nightly). I expect it to take less space and be more secure (all redundant tools removed). Here it's alsow working for .NET7, but it uses nightly/unstable builds:
-FROM mcr.microsoft.com/dotnet/nightly/aspnet:7.0-jammy-chiseled AS base
-#FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+
+#FROM mcr.microsoft.com/dotnet/nightly/aspnet:7.0-jammy-chiseled AS base
+# I cannot connect to such website from browser, so I'm back to old one now
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 
