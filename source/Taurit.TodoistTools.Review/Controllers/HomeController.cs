@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NaturalLanguageTimespanParser;
+using System.Globalization;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Services;
 
@@ -34,7 +34,7 @@ public class HomeController : Controller
         String? todoistApiKey = TryGetTodoistApiKeyForCurrentRequest();
         if (todoistApiKey != null)
         {
-#if DEBUG
+#if !DEBUG
             _todoistApiClient = new FakeTodoistApiClient(todoistApiKey);
 #else
             _todoistApiClient = new TodoistSyncApiV9Client(todoistApiKey, _httpClient, _timespanParser);
@@ -141,7 +141,7 @@ public class HomeController : Controller
         List<UpdatedTodoistTask> changedTasks = tasks.Where(task => task.ItemWasChangedByUser).ToList();
 
         await _todoistApiClient.UpdateTasks(changedTasks);
-        
+
         return Ok();
     }
 }

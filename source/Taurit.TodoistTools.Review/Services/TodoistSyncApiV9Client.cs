@@ -1,7 +1,7 @@
-﻿using System.Net.Http.Headers;
+﻿using NaturalLanguageTimespanParser;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using NaturalLanguageTimespanParser;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 using Label = Taurit.TodoistTools.Review.Models.Label;
@@ -142,7 +142,12 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
                     id = task.OriginalTask.Id,
                     priority = task.Priority,
                     labels = task.Labels.Where(x => x != "eliminate").ToList(),
-                    content = task.ContentWithTimeMetadata
+                    content = task.ContentWithTimeMetadata,
+                    duration = new
+                    {
+                        amount = task.EstimatedTimeMinutes,
+                        unit = "minute"
+                    }
                 }
             };
             commandString = JsonSerializer.Serialize(commandObject);
