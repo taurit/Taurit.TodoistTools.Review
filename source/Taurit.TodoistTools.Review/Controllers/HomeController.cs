@@ -34,7 +34,7 @@ public class HomeController : Controller
         String? todoistApiKey = TryGetTodoistApiKeyForCurrentRequest();
         if (todoistApiKey != null)
         {
-#if !DEBUG
+#if DEBUG
             _todoistApiClient = new FakeTodoistApiClient(todoistApiKey);
 #else
             _todoistApiClient = new TodoistSyncApiV9Client(todoistApiKey, _httpClient, _timespanParser);
@@ -50,7 +50,9 @@ public class HomeController : Controller
         // From env variable (assuming local Docker instance for my own usage)
         String? apiKeyFromEnv = Environment.GetEnvironmentVariable("TodoistApiKey");
 
-        return apiKeyFromCookie ?? apiKeyFromEnv;
+        String? apiKeyFromDisk = System.IO.File.ReadAllText("d:\\Projekty\\Taurit.Toolkit\\Taurit.Toolkit.TopTask\\.env").Split("TodoistApiKey=")[1].Trim();
+
+        return apiKeyFromCookie ?? apiKeyFromEnv ?? apiKeyFromDisk;
     }
 
     // GET: Home

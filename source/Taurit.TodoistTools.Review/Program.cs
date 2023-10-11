@@ -10,6 +10,7 @@ public static class Program
     private static IHostBuilder CreateHostBuilder(String[] args)
     {
         return Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>().UseUrls("http://*:8888"); })
+            .UseWindowsService(); ;
     }
 }
