@@ -5,6 +5,7 @@ namespace Taurit.TodoistTools.Review.Models.TodoistSyncV9;
 
 public enum DurationUnit { minute, day }
 
+[Serializable]
 [DebuggerDisplay("{amount} {unit}")]
 public class Duration
 {
@@ -15,6 +16,7 @@ public class Duration
 
 }
 
+[Serializable]
 public record TodoistTask(
     string Id,
     string Content,
