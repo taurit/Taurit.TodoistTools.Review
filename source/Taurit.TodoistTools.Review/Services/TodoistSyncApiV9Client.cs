@@ -63,6 +63,12 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
         foreach (Models.TodoistSyncV9.TodoistTask task in tasksResponse!.Items)
         {
             var estimateMinutes = 0;
+
+            if (task.duration?.unit == DurationUnit.minute)
+            {
+                estimateMinutes = task.duration.amount;
+            }
+
             TimespanParseResult parsedDuration = _timespanParser.Parse(task.Content);
             if (parsedDuration.Success)
             {

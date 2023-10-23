@@ -89,7 +89,7 @@ public class HomeController : Controller
     {
         if (TryGetTodoistApiKeyForCurrentRequest() is null)
         {
-            throw new InvalidOperationException("Todoist API Key was not found in cookie nor env variable");
+            throw new InvalidOperationException("Todoist API Key was not found in neither cookie nor configuration files");
         }
 
         List<Label> labels = await _todoistApiClient.GetAllLabels();
@@ -101,7 +101,7 @@ public class HomeController : Controller
     {
         if (TryGetTodoistApiKeyForCurrentRequest() is null)
         {
-            throw new InvalidOperationException("Todoist API Key was not found in cookie nor env variable");
+            throw new InvalidOperationException("Todoist API Key was not found in neither cookie nor configuration files");
         }
 
         IList<TodoistTask> allTasks = (await _todoistApiClient.GetAllTasks());
