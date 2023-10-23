@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NaturalLanguageTimespanParser;
-using System.Globalization;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Services;
 
@@ -15,14 +14,14 @@ public class HomeController : Controller
 
     private ITodoistApiClient _todoistApiClient;
 
-    private readonly MultiCultureTimespanParser _timespanParser;
+    private readonly TimespanParser _timespanParser;
 
 #pragma warning disable CS8618
     public HomeController(HttpClient httpClient)
 #pragma warning restore CS8618
     {
         _httpClient = httpClient;
-        _timespanParser = new MultiCultureTimespanParser(new[] { new CultureInfo("pl"), new CultureInfo("en") });
+        _timespanParser = new TimespanParser();
     }
 
     /// <remarks>

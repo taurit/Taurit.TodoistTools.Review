@@ -13,11 +13,11 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
 {
     private const string ApiUrl = "https://api.todoist.com/sync/v9/sync";
     private readonly HttpClient _httpClient;
-    private readonly MultiCultureTimespanParser _timespanParser;
+    private readonly TimespanParser _timespanParser;
     private readonly String? _todoistApiKey;
 
     public TodoistSyncApiV9Client(String? todoistApiKey, HttpClient httpClient,
-        MultiCultureTimespanParser timespanParser)
+        TimespanParser timespanParser)
     {
         _todoistApiKey = todoistApiKey;
         _httpClient = httpClient;
