@@ -45,13 +45,9 @@ public class HomeController : Controller
     {
         // From cookie (assuming multi-user mode, hosted in Azure)
         String? apiKeyFromCookie = ControllerContext.HttpContext.Request.Cookies[SyncCookieName];
-
-        // From env variable (assuming local Docker instance for my own usage)
-        String? apiKeyFromEnv = Environment.GetEnvironmentVariable("TodoistApiKey");
-
         String? apiKeyFromDisk = System.IO.File.ReadAllText("d:\\Projekty\\Taurit.Toolkit\\Taurit.Toolkit.TopTask\\.env").Split("TodoistApiKey=")[1].Trim();
 
-        return apiKeyFromCookie ?? apiKeyFromEnv ?? apiKeyFromDisk;
+        return apiKeyFromCookie ?? apiKeyFromDisk;
     }
 
     // GET: Home
