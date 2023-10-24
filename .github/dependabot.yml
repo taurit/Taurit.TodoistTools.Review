@@ -4,13 +4,16 @@ updates:
     directory: "/source/"
     schedule:
       interval: "monthly"
-
-  - package-ecosystem: "docker"
-    directory: "/source/"
-    schedule:
-      interval: "monthly"
+    groups:
+      nuget-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    groups:
+      github-actions-dependencies:
+        patterns:
+          - "*"
