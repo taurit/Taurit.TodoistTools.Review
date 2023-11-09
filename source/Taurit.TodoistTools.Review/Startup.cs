@@ -2,10 +2,6 @@
 
 public class Startup
 {
-    private const Int32 StaticResourceCacheTimeInDays = 180;
-    private const Int32 StaticResourceCacheTimeInSeconds = 60 * 60 * 24 * StaticResourceCacheTimeInDays;
-
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.Configure<CookiePolicyOptions>(options =>
@@ -15,8 +11,6 @@ public class Startup
             options.MinimumSameSitePolicy = SameSiteMode.None;
         });
 
-        services.AddResponseCompression();
-
         services.AddHttpClient();
         services.AddMvc();
     }
@@ -24,11 +18,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app)
     {
-        app.UseDeveloperExceptionPage();
-        app.UseResponseCompression();
-
-        app.UseHttpsRedirection();
-        app.UseStaticFiles(GetStaticFileOptions());
+        app.UseStaticFiles();
         app.UseCookiePolicy();
 
         app.UseRouting();
@@ -41,16 +31,4 @@ public class Startup
         });
     }
 
-    private static StaticFileOptions GetStaticFileOptions()
-    {
-        StaticFileOptions options = new StaticFileOptions
-        {
-            OnPrepareResponse = ctx =>
-            {
-                ctx.Context.Response.Headers.Append("Cache-Control",
-                    $"public, max-age={StaticResourceCacheTimeInSeconds}");
-            }
-        };
-        return options;
-    }
 }
