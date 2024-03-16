@@ -11,7 +11,6 @@
   font-size: 16px;
 }
 .reviewedTask .question {
-  color: #AAAAAA;
   display: none;
 }
 .reviewedTask .all-labels {
@@ -23,14 +22,12 @@
   padding: 30px;
   border: 1px solid #AAAAAA;
   text-align: center;
-  color: #000000;
   cursor: pointer;
   margin-top: 10px;
   font-size: 100%;
 }
 .reviewedTask .all-labels .label.label-selected {
   background-color: #2ECC40;
-  color: #fff;
   border: 1px solid #29b739;
 }
 .reviewedTask .all-labels .label.label-selected:hover {
@@ -51,23 +48,24 @@
   padding: 20px;
   font-size: larger;
   text-align: center;
-  color: #000;
   cursor: pointer;
   margin-top: 10px;
   border: 2px solid transparent;
 }
+.priority.selected {
+  border: 2px solid transparent;
+}
 .priority.priority-1 {
-  color: #333333;
-  border-color: #333333;
-  background-color: transparent;
+  color: #ffffff;
+  border-color: #ffffff;
 }
 .priority.priority-1.selected {
-  box-shadow: 0px 0px 13px #333333;
+  box-shadow: 0px 0px 13px #ffffff;
 }
 .priority.priority-2 {
   color: #4073D6;
   border-color: #4073D6;
-  background-color: #ECF1FB;
+  background: #273339;
 }
 .priority.priority-2.selected {
   box-shadow: 0px 0px 13px #4073D6;
@@ -75,7 +73,7 @@
 .priority.priority-3 {
   color: #f88900;
   border-color: #f88900;
-  background-color: #fff0de;
+  background: #393327;
 }
 .priority.priority-3.selected {
   box-shadow: 0px 0px 13px #f88900;
@@ -83,14 +81,13 @@
 .priority.priority-4 {
   color: #dc1010;
   border-color: #dc1010;
-  background-color: #ffe7e7;
+  background: #392727;
 }
 .priority.priority-4.selected {
   box-shadow: 0px 0px 13px #dc1010;
 }
 .time {
   text-align: center;
-  color: #000000;
   cursor: pointer;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -119,7 +116,7 @@
   background-color: transparent;
 }
 .time-inline-result.highlighted {
-  background-color: #d0ffbb;
+  background-color: green;
 }
 .hidden-by-default {
   display: none;

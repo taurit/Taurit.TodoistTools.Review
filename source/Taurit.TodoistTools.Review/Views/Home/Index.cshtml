@@ -34,42 +34,40 @@
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
     <div class="row" data-bind="with: currentTask, visible: showPriority() === true">
-        <div>
-            <div class="col-xs-3">
-                <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 1 }" data-priority="1"></div>
+            <div class="col-3 ">
+            <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 1 }" data-priority="1">Undefined</div>
             </div>
-            <div class="col-xs-3">
-                <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 2 }" data-priority="2"></div>
+            <div class="col-3">
+            <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 2 }" data-priority="2">Low</div>
             </div>
-            <div class="col-xs-3">
-                <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 3 }" data-priority="3"></div>
+            <div class="col-3">
+            <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 3 }" data-priority="3">Medium</div>
             </div>
-            <div class="col-xs-3">
-                <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 4 }" data-priority="4"></div>
+            <div class="col-3">
+            <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 4 }" data-priority="4">High</div>
             </div>
-        </div>
     </div>
 
     <div class="all-labels row" data-bind="foreach: labels(), visible: showLabels() === true">
-        <div class="col-xs-4">
+        <div class="col-4">
             <div class="label" data-bind='attr: {"data-id": name}, css: { "label-selected": isSelected() }'>
                 <span data-bind='text: name'></span>
             </div>
         </div>
     </div>
 
-    <nav class="footer row">
-        <div class="col-xs-4">
+    <nav class="footer row p-2">
+        <div class="col-4">
             <button id="back" type="button" class="btn btn-lg" data-bind="enable: isFirstTask() === false">Back</button>
         </div>
-        <div class="col-xs-8" data-bind="visible: isLastTask() === false">
+        <div class="col-8 ps-3" data-bind="visible: isLastTask() === false" >
             <button id="save" type="button" class="btn btn-primary btn-lg" data-bind="enable: isLastTask() === false">Next</button>
         </div>
-        <div class="col-xs-8" data-bind="visible: isLastTask() === true">
+        <div class="col-8 ps-3" data-bind="visible: isLastTask() === true">
             <button id="sync" type="button" class="btn btn-info btn-lg">Sync</button>
         </div>
     </nav>
-    <p class="reload-page"><a onclick="location.reload();">Reload page</a></p>
+    <p class="reload-page"><a onclick="location.reload();" class="btn">Reload page</a></p>
 </div>
 
 <script src="~/lib/jquery-3.6.0.min.js"></script>
