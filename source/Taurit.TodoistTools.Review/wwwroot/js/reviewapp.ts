@@ -59,15 +59,11 @@
 
         const actionIsSelection = oldValue === false; // and not deselection
         const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
-        viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
 
     $(".reviewedTask").on("click", ".priority", function () {
         const selectedPriority = $(this).data('priority');
         viewModel.currentTask().priority(selectedPriority);
-
-        //const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
-        //viewModel.proceedToNextTaskIfInputForTaskIsComplete(true, howManyLabelsAreSelected);
     });
 
     $(".reviewedTask").on("click", "#save", () => {

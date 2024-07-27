@@ -10,7 +10,6 @@ class ViewModel {
     loaded: KnockoutObservable<Boolean>;
     ajaxError: KnockoutObservable<Boolean>;
     showPriority: KnockoutObservable<Boolean>;
-    showLabels: KnockoutObservable<Boolean>;
     labels: KnockoutObservableArray<LabelViewModel>;
     tasks: KnockoutObservableArray<TodoistTaskWithModifications>;
     currentTaskIndex: KnockoutObservable<number>;
@@ -50,11 +49,6 @@ class ViewModel {
                 return priority === 1;
             }
             return false;
-        }, this);
-
-        this.showLabels = ko.computed(() => {
-            var currentTask = this.currentTask();
-            return currentTask != null && currentTask.labels.length !== 1;
         }, this);
     }
 

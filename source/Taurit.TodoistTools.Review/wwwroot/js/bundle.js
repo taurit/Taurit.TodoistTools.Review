@@ -50,7 +50,6 @@ class ViewModel {
     loaded;
     ajaxError;
     showPriority;
-    showLabels;
     labels;
     tasks;
     currentTaskIndex;
@@ -77,10 +76,6 @@ class ViewModel {
                 return priority === 1;
             }
             return false;
-        }, this);
-        this.showLabels = ko.computed(() => {
-            var currentTask = this.currentTask();
-            return currentTask != null && currentTask.labels.length !== 1;
         }, this);
     }
     isLastTask() {
@@ -202,7 +197,6 @@ $(() => {
         viewModel.updateTaskLabels();
         const actionIsSelection = oldValue === false;
         const howManyLabelsAreSelected = viewModel.labels().filter(x => x.isSelected()).length;
-        viewModel.proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected);
     });
     $(".reviewedTask").on("click", ".priority", function () {
         const selectedPriority = $(this).data('priority');
