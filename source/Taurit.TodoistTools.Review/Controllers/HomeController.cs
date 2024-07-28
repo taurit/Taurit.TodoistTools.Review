@@ -116,10 +116,9 @@ public class HomeController : Controller
     private static Boolean TaskNeedsReview(TodoistTask task)
     {
         // Assumptions:
-        // * we want to have exactly 1 label/context assigned after the review, so tasks with 0 or 2+ labels needs to be re-reviewed
         // * there's no point in reviewing and updating metadata of tasks that are already deleted or done
         // * we don't want tasks with a default priority (1) - reviewed task should have a priority of 2, 3, or 4 assigned (low, medium or high)
-        bool labelsNeedReview = task.Labels.Count != 1;
+        bool labelsNeedReview = task.Labels.Count == 0;
         bool estimatedTimeNeedsReview = task.EstimatedTimeMinutes == 0;
         bool priorityNeedsReview = task.Priority == 1;
 
