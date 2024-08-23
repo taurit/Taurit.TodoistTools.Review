@@ -311,5 +311,4 @@ source/TodoistReview/bin/
 source/TodoistReview/Properties/PublishProfiles/TodoistReviewApp - Web Deploy.pubxml
 source/.vscode/settings.json
 source/.env
-desktop.ini
 source/Taurit.TodoistTools.Review.v2/.env
