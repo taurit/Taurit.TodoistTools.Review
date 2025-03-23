@@ -29,7 +29,7 @@ public class HomeController : Controller
         String? todoistApiKey = TryGetTodoistApiKeyForCurrentRequest();
         if (todoistApiKey != null)
         {
-#if !DEBUG
+#if DEBUG
             _todoistApiClient = new FakeTodoistApiClient(todoistApiKey);
 #else
             _todoistApiClient = new TodoistSyncApiV9Client(todoistApiKey, _httpClient);
