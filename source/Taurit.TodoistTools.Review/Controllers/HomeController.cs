@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using NaturalLanguageTimespanParser;
 using Taurit.TodoistTools.Review.Models;
 using Taurit.TodoistTools.Review.Services;
 
@@ -14,14 +13,11 @@ public class HomeController : Controller
 
     private ITodoistApiClient _todoistApiClient;
 
-    private readonly TimespanParser _timespanParser;
-
 #pragma warning disable CS8618
     public HomeController(HttpClient httpClient)
 #pragma warning restore CS8618
     {
         _httpClient = httpClient;
-        _timespanParser = new TimespanParser();
     }
 
     /// <remarks>
@@ -119,10 +115,9 @@ public class HomeController : Controller
         // * there's no point in reviewing and updating metadata of tasks that are already deleted or done
         // * we don't want tasks with a default priority (1) - reviewed task should have a priority of 2, 3, or 4 assigned (low, medium or high)
         bool labelsNeedReview = task.Labels.Count == 0;
-        bool estimatedTimeNeedsReview = task.EstimatedTimeMinutes == 0;
         bool priorityNeedsReview = task.Priority == 1;
 
-        bool taskNeedsReview = labelsNeedReview || estimatedTimeNeedsReview || priorityNeedsReview;
+        bool taskNeedsReview = labelsNeedReview || priorityNeedsReview;
         return taskNeedsReview;
     }
 

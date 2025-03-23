@@ -1,4 +1,5 @@
-﻿namespace Taurit.TodoistTools.Review;
+﻿#pragma warning disable S2325
+namespace Taurit.TodoistTools.Review;
 
 public class Startup
 {

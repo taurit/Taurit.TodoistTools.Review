@@ -1,6 +1,6 @@
 ﻿namespace Taurit.TodoistTools.Review;
 
-public class Program
+public static class Program
 {
     public static void Main(String[] args)
     {
@@ -11,7 +11,6 @@ public class Program
     {
         return Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>().UseUrls("http://*:8888"); })
-        //.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>().UseUrls("http://*:6888"); }) // debug on another port
         .UseWindowsService();
     }
 }

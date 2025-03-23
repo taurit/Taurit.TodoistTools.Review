@@ -6,7 +6,6 @@ class TodoistTask {
     description;
     priority;
     labels;
-    estimatedTimeMinutes;
 }
 class TodoistTaskWithModifications {
     originalTask;
@@ -15,27 +14,12 @@ class TodoistTaskWithModifications {
         this.content = originalTask.content;
         this.description = originalTask.description;
         this.labels = ko.observableArray(originalTask.labels.map(x => x.name));
-        this.estimatedTimeMinutes = ko.observable(originalTask.estimatedTimeMinutes);
         this.priority = ko.observable(originalTask.priority);
-        this.timeFormatted = ko.computed(() => {
-            let timeInMinutes = this.estimatedTimeMinutes();
-            let timeFormatted = `${timeInMinutes} min`;
-            if (timeInMinutes >= 60) {
-                let hours = Math.floor(timeInMinutes / 60);
-                timeFormatted = `${hours} h`;
-                let minutes = timeInMinutes % 60;
-                if (minutes !== 0) {
-                    timeFormatted += ` ${minutes} min`;
-                }
-            }
-            return timeFormatted;
-        }, this);
     }
     content;
     description;
     priority;
     labels;
-    estimatedTimeMinutes;
     timeFormatted;
 }
 class LabelViewModel {
@@ -65,18 +49,6 @@ class ViewModel {
             var currentTask = numTasks > 0 ? this.tasks()[this.currentTaskIndex()] : null;
             return currentTask;
         }, this);
-        this.showPriority = ko.computed(() => {
-            return true;
-            var currentTask = this.currentTask();
-            if (currentTask != null) {
-                var priority = currentTask.priority();
-                if (priority < 1 || priority > 4) {
-                    throw new Error(`Expected priority in range 1-4 inclusive, but got ${priority}`);
-                }
-                return priority === 1;
-            }
-            return false;
-        }, this);
     }
     isLastTask() {
         const currentIndex = this.currentTaskIndex();
@@ -105,12 +77,6 @@ class ViewModel {
         this.displayTaskLabels();
     }
     ;
-    addTime(timeToAddInMinutes) {
-        const timeBeforeOperation = this.currentTask().estimatedTimeMinutes();
-        const newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
-        this.currentTask().estimatedTimeMinutes(newTime);
-    }
-    ;
     updateTaskLabels() {
         if (this.tasks().length === 0)
             return;
@@ -134,8 +100,7 @@ class ViewModel {
     ;
     proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection, howManyLabelsAreSelected) {
         var priorityIsNonDefault = this.currentTask().priority() !== 1;
-        var timeIsNonZero = this.currentTask().estimatedTimeMinutes() !== 0;
-        if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1 && timeIsNonZero) {
+        if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1) {
             this.selectNextTask();
         }
     }
@@ -208,10 +173,6 @@ $(() => {
     });
     $(".reviewedTask").on("click", "#back", () => {
         viewModel.selectPreviousTask();
-    });
-    $(".reviewedTask").on("click", ".time", function () {
-        var timeToAddInMinutes = parseInt($(this).data('time-to-add'));
-        viewModel.addTime(timeToAddInMinutes);
     });
     $(".reviewedTask").on("click", "#sync", () => {
         $.ajax({

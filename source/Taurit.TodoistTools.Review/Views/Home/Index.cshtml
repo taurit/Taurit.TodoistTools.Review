@@ -21,19 +21,12 @@
     <div class="task" data-bind="with: currentTask">
         <textarea data-bind="value: content, autosize: true" class="content-box"></textarea>
         <span class="task-description" data-bind="text: description"></span><br />
-        <strong class="time-inline-result" data-bind="css: { highlighted: estimatedTimeMinutes() != 0 }"><span data-bind="text: timeFormatted"></span></strong>
-        <span>
-            <br />
-            <span class="time time-inline" data-time-to-add="1">+1 min</span>
-            <span class="time time-inline" data-time-to-add="5">+5 min</span>
-            <span class="time time-inline" data-time-to-add="15">+15 min</span>
-            <span class="time time-inline time-inline-reset" data-time-to-add="0">0 (reset)</span>
-        </span>
+
     </div>
 
     <h4 data-bind="if: labels().length == 0">You have no labels defined. Define your contexts as labels in Todoist first.</h4>
 
-    <div class="row" data-bind="with: currentTask, visible: showPriority() === true">
+    <div class="row" data-bind="with: currentTask">
             <div class="col-3 ">
             <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 1 }" data-priority="1">Undefined</div>
             </div>

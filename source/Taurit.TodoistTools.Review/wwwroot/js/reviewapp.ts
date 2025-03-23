@@ -77,10 +77,6 @@
         viewModel.selectPreviousTask();
     });
 
-    $(".reviewedTask").on("click", ".time", function () {
-        var timeToAddInMinutes = parseInt($(this).data('time-to-add'));
-        viewModel.addTime(timeToAddInMinutes);
-    });
 
     $(".reviewedTask").on("click", "#sync", () => {
         $.ajax({

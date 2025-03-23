@@ -38,18 +38,6 @@ class ViewModel {
             return currentTask;
         }, this);
 
-        this.showPriority = ko.computed(() => {
-            return true;
-            var currentTask = this.currentTask();
-            if (currentTask != null) {
-                var priority = currentTask.priority();
-                if (priority < 1 || priority > 4) {
-                    throw new Error(`Expected priority in range 1-4 inclusive, but got ${priority}`);
-                }
-                return priority === 1;
-            }
-            return false;
-        }, this);
     }
 
     // Is current task the last task?
@@ -85,12 +73,7 @@ class ViewModel {
         this.displayTaskLabels();
     };
 
-    addTime(timeToAddInMinutes: number) {
-        const timeBeforeOperation = this.currentTask().estimatedTimeMinutes();
-        const newTime = timeToAddInMinutes === 0 ? 0 : timeBeforeOperation + timeToAddInMinutes;
-        this.currentTask().estimatedTimeMinutes(newTime);
-    };
-
+    
     // Updates label collection in a task based on what is selected by the user.
     // The clean way to do this would be with two-way binding of labels (?),
     // but I want to keep the model simple
@@ -113,8 +96,6 @@ class ViewModel {
 
         const taskLabels = this.currentTask().labels();
 
-        //$(".label[data-id=eliminate]").removeClass("hidden"); // "eliminate task" option should always be available TODO is it needed?
-
         this.labels().forEach((labelViewModel: LabelViewModel) => {
             const labelIsSelected = taskLabels.filter(x => x === labelViewModel.name).length > 0;
             labelViewModel.isSelected(labelIsSelected);
@@ -123,8 +104,7 @@ class ViewModel {
 
     proceedToNextTaskIfInputForTaskIsComplete(actionIsSelection: boolean, howManyLabelsAreSelected: number) {
         var priorityIsNonDefault = this.currentTask().priority() !== 1;
-        var timeIsNonZero = this.currentTask().estimatedTimeMinutes() !== 0;
-        if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1 && timeIsNonZero) {
+        if (priorityIsNonDefault && actionIsSelection && howManyLabelsAreSelected === 1) {
             // this brings assumption that user wants to select exactly one context. When it happens, next task in the queue will be displayed automatically (without need for confirmation)
             this.selectNextTask();
         }

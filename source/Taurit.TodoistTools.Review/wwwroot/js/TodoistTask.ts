@@ -3,5 +3,4 @@
     description: string;
     priority: number;
     labels: Label[];
-    estimatedTimeMinutes: number;
 }

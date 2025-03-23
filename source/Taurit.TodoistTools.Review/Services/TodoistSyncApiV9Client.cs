@@ -102,7 +102,6 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
         request.Content = new FormUrlEncodedContent(parameters);
         HttpResponseMessage response = await _httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
-        Task<String> responseContentDebug = response.Content.ReadAsStringAsync();
     }
 
     private String BuildUpdateString(List<UpdatedTodoistTask> tasksToUpdate)
@@ -149,11 +148,6 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
                     priority = task.Priority,
                     labels = task.Labels.Where(x => x != "eliminate").ToList(),
                     content = task.ContentWithTimeMetadata,
-                    duration = new
-                    {
-                        amount = task.EstimatedTimeMinutes,
-                        unit = "minute"
-                    }
                 }
             };
             commandString = JsonSerializer.Serialize(commandObject);

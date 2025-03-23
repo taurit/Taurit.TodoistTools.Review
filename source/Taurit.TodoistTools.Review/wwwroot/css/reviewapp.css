@@ -2,7 +2,7 @@
   overscroll-behavior: contain;
 }
 .reviewedTask .task {
-  padding: 7px 5px 3px 5px;
+  padding: 7px 0 3px 0;
   font-size: large;
   text-align: center;
 }
@@ -73,38 +73,6 @@
   color: #dc1010;
   border-color: #dc1010;
   background: #392727;
-}
-.time {
-  text-align: center;
-  cursor: pointer;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Safari */
-  -moz-user-select: none;
-  /* Old versions of Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-.time-inline {
-  padding: 10px;
-  border: 2px solid #AAAAAA;
-  display: inline-block;
-  margin-top: 4px;
-}
-.time-inline-reset {
-  color: darkred;
-}
-.time-inline-result {
-  background-color: transparent;
-}
-.time-inline-result.highlighted {
-  background-color: green;
 }
 .hidden-by-default {
   display: none;

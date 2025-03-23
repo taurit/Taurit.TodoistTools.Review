@@ -7,7 +7,7 @@ body {
 
 .reviewedTask {
     .task {
-        padding: 7px 5px 3px 5px;
+        padding: 7px 0 3px 0;
         font-size: large;
         text-align: center;
     }
@@ -78,7 +78,7 @@ body {
     border: @borderSize solid transparent;
 
     &.selected {
-       border-bottom: 10px solid;
+        border-bottom: 10px solid;
     }
 
     &.priority-1 {
@@ -106,90 +106,60 @@ body {
     }
 }
 
-    .time {
-        text-align: center;
-        cursor: pointer;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+
+
+
+.hidden-by-default {
+    display: none;
+}
+
+.jumbotron-login, .jumbotron-loading {
+    margin-top: 20px;
+}
+
+.reload-page {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.content-box {
+    width: 100%;
+}
+
+.definition {
+    @p1Color: #333333;
+    @p2Color: #4073D6;
+    @p3Color: #f88900;
+    @p4Color: #dc1010;
+
+    padding: 8px 7px;
+    border: 1px solid transparent;
+    font-size: 18px;
+    font-family: monospace;
+    font-weight: bold;
+
+    &.p1 {
+        border-color: @p1Color;
+        background-color: fade(@p1Color, 10%);
+        color: @p1Color;
     }
 
-    .time-inline {
-        padding: 10px;
-        border: 2px solid #AAAAAA;
-        display: inline-block;
-        margin-top: 4px;
+    &.p2 {
+        border-color: @p2Color;
+        background-color: fade(@p2Color, 10%);
+        color: @p2Color;
     }
 
-    .time-inline-reset {
-        color: darkred;
+    &.p3 {
+        border-color: @p3Color;
+        background-color: fade(@p3Color, 10%);
+        color: @p3Color;
     }
 
-    .time-inline-result {
-        background-color: transparent;
-
-        &.highlighted {
-            background-color: green;
-        }
+    &.p4 {
+        border-color: @p4Color;
+        background-color: fade(@p4Color, 10%);
+        color: @p4Color;
+        margin-top: 10px;
     }
-
-
-    .hidden-by-default {
-        display: none;
-    }
-
-    .jumbotron-login, .jumbotron-loading {
-        margin-top: 20px;
-    }
-
-    .reload-page {
-        margin-top: 30px;
-        text-align: center;
-    }
-
-    .content-box {
-        width: 100%;
-    }
-
-    .definition {
-        @p1Color: #333333;
-        @p2Color: #4073D6;
-        @p3Color: #f88900;
-        @p4Color: #dc1010;
-
-        padding: 8px 7px;
-        border: 1px solid transparent;
-        font-size: 18px;
-        font-family: monospace;
-        font-weight: bold;
-
-        &.p1 {
-            border-color: @p1Color;
-            background-color: fade(@p1Color, 10%);
-            color: @p1Color;
-        }
-
-        &.p2 {
-            border-color: @p2Color;
-            background-color: fade(@p2Color, 10%);
-            color: @p2Color;
-        }
-
-        &.p3 {
-            border-color: @p3Color;
-            background-color: fade(@p3Color, 10%);
-            color: @p3Color;
-        }
-
-        &.p4 {
-            border-color: @p4Color;
-            background-color: fade(@p4Color, 10%);
-            color: @p4Color;
-            margin-top: 10px;
-        }
-    }
+}
