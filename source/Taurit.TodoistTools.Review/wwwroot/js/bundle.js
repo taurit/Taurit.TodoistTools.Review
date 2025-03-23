@@ -204,7 +204,6 @@ $(() => {
     });
     $(".reviewedTask").on("click", "#save", () => {
         viewModel.updateTaskLabels();
-        $(".label-selected").removeClass("label-selected");
         viewModel.selectNextTask();
     });
     $(".reviewedTask").on("click", "#back", () => {

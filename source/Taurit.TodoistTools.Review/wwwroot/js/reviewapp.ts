@@ -69,7 +69,7 @@
     $(".reviewedTask").on("click", "#save", () => {
         viewModel.updateTaskLabels();
 
-        $(".label-selected").removeClass("label-selected");
+        //$(".label-selected").removeClass("label-selected");
         viewModel.selectNextTask();
     });
 
