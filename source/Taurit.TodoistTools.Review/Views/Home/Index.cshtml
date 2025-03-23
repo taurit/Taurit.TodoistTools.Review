@@ -19,8 +19,7 @@
 
 <div class="reviewedTask hidden-by-default" data-bind="if: loaded() && !ajaxError() && tasks().length !== 0">
     <div class="task" data-bind="with: currentTask">
-        <textarea data-bind="value: content, autosize: true" class="content-box"></textarea>
-        <span class="task-description" data-bind="text: description"></span><br />
+        <textarea data-bind="value: content, autosize: true" class="content-box"></textarea><textarea data-bind="value: description, autosize: true" class="task-description" readonly="readonly"></textarea>
 
     </div>
 
@@ -28,21 +27,21 @@
 
     <div class="row" data-bind="with: currentTask">
             <div class="col-3 ">
-            <div class="priority priority-1 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 1 }" data-priority="1">Undefined</div>
+            <div class="priority priority-1" data-bind="css: { selected: priority() === 1 }" data-priority="1">Undefined</div>
             </div>
             <div class="col-3">
-            <div class="priority priority-2 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 2 }" data-priority="2">Low</div>
+            <div class="priority priority-2" data-bind="css: { selected: priority() === 2 }" data-priority="2">Low</div>
             </div>
             <div class="col-3">
-            <div class="priority priority-3 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 3 }" data-priority="3">Medium</div>
+            <div class="priority priority-3" data-bind="css: { selected: priority() === 3 }" data-priority="3">Medium</div>
             </div>
             <div class="col-3">
-            <div class="priority priority-4 glyphicon glyphicon-flag" data-bind="css: { selected: priority() === 4 }" data-priority="4">High</div>
+            <div class="priority priority-4" data-bind="css: { selected: priority() === 4 }" data-priority="4">High</div>
             </div>
     </div>
 
     <div class="all-labels row" data-bind="foreach: labels()">
-        <div class="col-4">
+        <div class="col-1">
             <div class="label" data-bind='attr: {"data-id": name}, css: { "label-selected": isSelected() }'>
                 <span data-bind='text: name'></span>
             </div>

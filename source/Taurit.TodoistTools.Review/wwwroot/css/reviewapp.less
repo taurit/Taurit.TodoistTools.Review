@@ -1,5 +1,5 @@
 ﻿// color definitions
-@selectedLabelBackground: #2ECC40;
+@selectedLabelBackground: #2d7235;
 
 body {
     overscroll-behavior: contain; // this should prevent the "refresh" action on mobile devices, which often causes loss of reviewed data
@@ -9,12 +9,13 @@ body {
     .task {
         padding: 7px 0 3px 0;
         font-size: large;
-        text-align: center;
     }
 
     .task-description {
+        width: 100%;
         font-style: italic;
         font-size: 16px;
+        margin-top: 0;
     }
 
     .question {
@@ -27,7 +28,7 @@ body {
         .label {
             display: inline-block;
             width: 100%;
-            padding: 30px;
+            padding: 10px;
             border: 1px solid #AAAAAA;
             text-align: center;
             cursor: pointer;
@@ -40,6 +41,15 @@ body {
 
                 &:hover {
                     background-color: lighten(@selectedLabelBackground, 5);
+                }
+            }
+            // label with data-id ="eliminate" should be highlighted in red and not green
+            &.label-selected[data-id="eliminate"] {
+                background-color: #FF4136;
+                border: 1px solid darken(#FF4136, 5);
+
+                &:hover {
+                    background-color: lighten(#FF4136, 5);
                 }
             }
         }
@@ -61,7 +71,7 @@ body {
 .priority {
     display: inline-block;
     width: 100%;
-    padding: 15px;
+    padding: 20px;
     font-size: larger;
     text-align: center;
     cursor: pointer;

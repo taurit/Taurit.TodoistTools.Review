@@ -14,5 +14,4 @@
     /** The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for default/undefined). */ 
     priority: KnockoutObservable<number>;
     labels: KnockoutObservableArray<string>;
-    timeFormatted: KnockoutComputed<string>;
 }

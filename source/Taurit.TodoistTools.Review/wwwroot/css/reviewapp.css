@@ -4,11 +4,12 @@
 .reviewedTask .task {
   padding: 7px 0 3px 0;
   font-size: large;
-  text-align: center;
 }
 .reviewedTask .task-description {
+  width: 100%;
   font-style: italic;
   font-size: 16px;
+  margin-top: 0;
 }
 .reviewedTask .question {
   display: none;
@@ -19,7 +20,7 @@
 .reviewedTask .all-labels .label {
   display: inline-block;
   width: 100%;
-  padding: 30px;
+  padding: 10px;
   border: 1px solid #AAAAAA;
   text-align: center;
   cursor: pointer;
@@ -27,11 +28,18 @@
   font-size: 100%;
 }
 .reviewedTask .all-labels .label.label-selected {
-  background-color: #2ECC40;
-  border: 1px solid #29b739;
+  background-color: #2d7235;
+  border: 1px solid #26602d;
 }
 .reviewedTask .all-labels .label.label-selected:hover {
-  background-color: #40d451;
+  background-color: #34843e;
+}
+.reviewedTask .all-labels .label.label-selected[data-id="eliminate"] {
+  background-color: #FF4136;
+  border: 1px solid #ff291c;
+}
+.reviewedTask .all-labels .label.label-selected[data-id="eliminate"]:hover {
+  background-color: #ff5950;
 }
 .reviewedTask nav.footer {
   margin-top: 15px;
@@ -45,7 +53,7 @@
 .priority {
   display: inline-block;
   width: 100%;
-  padding: 15px;
+  padding: 20px;
   font-size: larger;
   text-align: center;
   cursor: pointer;

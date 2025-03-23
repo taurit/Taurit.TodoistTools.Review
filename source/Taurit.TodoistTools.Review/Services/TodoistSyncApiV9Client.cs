@@ -1,5 +1,4 @@
-﻿using NaturalLanguageTimespanParser;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Taurit.TodoistTools.Review.Models;
@@ -13,15 +12,12 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
 {
     private const string ApiUrl = "https://api.todoist.com/sync/v9/sync";
     private readonly HttpClient _httpClient;
-    private readonly TimespanParser _timespanParser;
     private readonly String? _todoistApiKey;
 
-    public TodoistSyncApiV9Client(String? todoistApiKey, HttpClient httpClient,
-        TimespanParser timespanParser)
+    public TodoistSyncApiV9Client(String? todoistApiKey, HttpClient httpClient)
     {
         _todoistApiKey = todoistApiKey;
         _httpClient = httpClient;
-        _timespanParser = timespanParser;
     }
 
     public async Task<List<Label>> GetAllLabels()
@@ -62,22 +58,9 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
 
         foreach (Models.TodoistSyncV9.TodoistTask task in tasksResponse!.Items)
         {
-            var estimateMinutes = 0;
-
-            if (task.duration?.unit == DurationUnit.minute)
-            {
-                estimateMinutes = task.duration.amount;
-            }
-
-            TimespanParseResult parsedDuration = _timespanParser.Parse(task.Content);
-            if (parsedDuration.Success)
-            {
-                estimateMinutes = (Int32)parsedDuration.Duration.TotalMinutes;
-            }
 
             List<Label> labels = task.Labels.Select(x => new Label(x)).ToList();
-            var taskModel = new TodoistTask(task.Id, task.Content, task.Description, task.Priority, labels,
-                estimateMinutes);
+            var taskModel = new TodoistTask(task.Id, task.Content, task.Description, task.Priority, labels);
             taskModels.Add(taskModel);
         }
 
@@ -147,7 +130,7 @@ internal class TodoistSyncApiV9Client : ITodoistApiClient
                     id = task.OriginalTask.Id,
                     priority = task.Priority,
                     labels = task.Labels.Where(x => x != "eliminate").ToList(),
-                    content = task.ContentWithTimeMetadata,
+                    content = task.Content,
                 }
             };
             commandString = JsonSerializer.Serialize(commandObject);

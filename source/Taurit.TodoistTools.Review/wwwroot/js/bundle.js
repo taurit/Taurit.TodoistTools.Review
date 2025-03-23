@@ -20,7 +20,6 @@ class TodoistTaskWithModifications {
     description;
     priority;
     labels;
-    timeFormatted;
 }
 class LabelViewModel {
     name;
