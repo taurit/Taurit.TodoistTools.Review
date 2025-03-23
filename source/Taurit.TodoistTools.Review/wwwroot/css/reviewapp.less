@@ -61,7 +61,7 @@ body {
 .priority {
     display: inline-block;
     width: 100%;
-    padding: 20px;
+    padding: 15px;
     font-size: larger;
     text-align: center;
     cursor: pointer;
@@ -78,47 +78,31 @@ body {
     border: @borderSize solid transparent;
 
     &.selected {
-        border: @borderSize solid transparent;
+       border-bottom: 10px solid;
     }
 
     &.priority-1 {
         // lowest, "natural" priority
         color: @p1Color;
-        border-color: #ffffff;
-
-        &.selected {
-            box-shadow: 0px 0px 13px @p1Color;
-        }
+        border-color: rgba(255,255,255,0.3);
     }
 
     &.priority-2 {
         color: @p2Color;
         border-color: @p2Color;
         background: #273339;
-
-        &.selected {
-            box-shadow: 0px 0px 13px @p2Color;
-        }
     }
 
     &.priority-3 {
         color: @p3Color;
         border-color: @p3Color;
         background: #393327;
-
-        &.selected {
-            box-shadow: 0px 0px 13px @p3Color;
-        }
     }
 
     &.priority-4 {
         color: @p4Color;
         border-color: @p4Color;
         background: #392727;
-
-        &.selected {
-            box-shadow: 0px 0px 13px @p4Color;
-        }
     }
 }
 

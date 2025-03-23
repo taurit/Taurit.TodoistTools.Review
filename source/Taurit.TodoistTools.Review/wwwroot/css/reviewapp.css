@@ -45,7 +45,7 @@
 .priority {
   display: inline-block;
   width: 100%;
-  padding: 20px;
+  padding: 15px;
   font-size: larger;
   text-align: center;
   cursor: pointer;
@@ -53,38 +53,26 @@
   border: 2px solid transparent;
 }
 .priority.selected {
-  border: 2px solid transparent;
+  border-bottom: 10px solid;
 }
 .priority.priority-1 {
   color: #ffffff;
-  border-color: #ffffff;
-}
-.priority.priority-1.selected {
-  box-shadow: 0px 0px 13px #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 .priority.priority-2 {
   color: #4073D6;
   border-color: #4073D6;
   background: #273339;
 }
-.priority.priority-2.selected {
-  box-shadow: 0px 0px 13px #4073D6;
-}
 .priority.priority-3 {
   color: #f88900;
   border-color: #f88900;
   background: #393327;
 }
-.priority.priority-3.selected {
-  box-shadow: 0px 0px 13px #f88900;
-}
 .priority.priority-4 {
   color: #dc1010;
   border-color: #dc1010;
   background: #392727;
-}
-.priority.priority-4.selected {
-  box-shadow: 0px 0px 13px #dc1010;
 }
 .time {
   text-align: center;
