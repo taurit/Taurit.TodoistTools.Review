@@ -41,9 +41,14 @@ public class HomeController : Controller
     {
         // From cookie (assuming multi-user mode, hosted in Azure)
         String? apiKeyFromCookie = ControllerContext.HttpContext.Request.Cookies[SyncCookieName];
-        String? apiKeyFromDisk = System.IO.File.ReadAllText("d:\\Projekty\\Taurit.Toolkit\\Taurit.Toolkit.TopTask\\.env").Split("TodoistApiKey=")[1].Trim();
+        String fallbackPath1 = "d:\\Projekty\\Taurit.Toolkit\\Taurit.Toolkit.TopTask\\.env";
+        String? apiKeyFromDisk =
+            System.IO.File.Exists(fallbackPath1) ?
+            System.IO.File.ReadAllText(fallbackPath1).Split("TodoistApiKey=")[1].Trim() : null;
+        var fallbackPath2 = "c:\\Users\\windo\\OneDrive\\Tools\\TodoistReview\\config.ini";
+        String? apiKeyFromOneDrive = System.IO.File.Exists(apiKeyFromDisk) ? System.IO.File.ReadAllText(fallbackPath2).Trim() : null;
 
-        return apiKeyFromCookie ?? apiKeyFromDisk;
+        return apiKeyFromCookie ?? apiKeyFromDisk ?? apiKeyFromOneDrive;
     }
 
     // GET: Home
