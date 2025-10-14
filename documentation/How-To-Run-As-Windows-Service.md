@@ -5,8 +5,10 @@ Here's a cheatsheet to host the app as a local Windows Service.
 I don't need it deployed to the cloud, so this is how I currently host it (only when my Windows machine is on): 
 
 ```powershell
+# Publish tha app, building is not enough!
+
 # Create the service
-# TODO replace the your own path to exe file
+# TODO replace the your own path to exe file in PUBLISH folder
 New-Service -Name "TodoistReview" -BinaryPathName "d:\Projekty\Taurit.Toolkit.TodoistReview\source\Taurit.TodoistTools.Review\bin\Release\published\Taurit.TodoistTools.Review.exe"
 
 Set-Service -Name "TodoistReview" -StartupType Automatic
