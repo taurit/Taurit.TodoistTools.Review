@@ -1,6 +1,11 @@
 ## Todoist Review app
 
+### Status
+
+> Deprecated: replaced by Gemini App at <https://todoist-task-refine-984582221905.us-west1.run.app>
+
 This repository contains a small, home-made web application to help me review queued tasks in [Todoist](http://todoist.com) task manager in a quick, systematic, and linear way (one task at a time).
+
 
 ### Use case
 
