@@ -1,0 +1,318 @@
+{
+  "settings": {
+    "components": {
+      "code": false,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-01-10T19:34:13.4315056Z",
+  "analysisEndTime": "2026-01-10T19:34:15.9964619Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 1,
+      "issues": 4,
+      "incidents": 8,
+      "effort": 8
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 1,
+        "Optional": 0,
+        "Potential": 6,
+        "Information": 1
+      },
+      "category": {
+        "NuGet": 2,
+        "Project": 1,
+        "Api": 5
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+      "startingProject": true,
+      "issues": 4,
+      "storyPoints": 8,
+      "properties": {
+        "appName": "Taurit.TodoistTools.Review",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 35,
+        "numberOfCodeFiles": 18,
+        "linesTotal": 1564,
+        "linesOfCode": 586,
+        "totalApiScanned": 1381,
+        "minLinesOfCodeToChange": 5,
+        "maxLinesOfCodeToChange": 5
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "c292fa0b-6b09-4625-b13b-c284503e03cb",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1",
+              "protected": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1",
+            "label": "Microsoft.AspNetCore.Mvc.NewtonsoftJson 9.0.11",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.NewtonsoftJson",
+              "PackageVersion": "9.0.11",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "19948408-03e1-44b7-a788-db71ac96fa68",
+          "ruleId": "NuGet.0006",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Found 1 files matching the rule:\r\n\r\n%USERPROFILE%\\Projects\\Taurit.TodoistTools.Review\\source\\NuGet.config\r\n",
+              "protected": "Found 1 files matching the rule:\r\n\r\n%USERPROFILE%\\Projects\\Taurit.TodoistTools.Review\\source\\NuGet.config\r\n"
+            },
+            "kind": "File",
+            "path": "NuGet.config",
+            "snippet": "Found 1 files matching the rule:\r\n\r\n%USERPROFILE%\\Projects\\Taurit.TodoistTools.Review\\source\\NuGet.config\r\n",
+            "protectedSnippet": "Found 1 files matching the rule:\r\n\r\n%USERPROFILE%\\Projects\\Taurit.TodoistTools.Review\\source\\NuGet.config\r\n"
+          }
+        },
+        {
+          "incidentId": "cb53cd63-bf76-42bb-80d4-81f505b603ee",
+          "ruleId": "Project.0002",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "6eced955-18d8-46db-bcf4-a44607ff85ac",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "request.Content = new FormUrlEncodedContent(parameters);",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Services\\TodoistSyncApiV9Client.cs",
+            "snippet": "request.Content = new FormUrlEncodedContent(parameters);",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 84,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "1f285854-7976-488e-802f-43284fdc01e0",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tasksResponse = await response.Content.ReadFromJsonAsync\u003CGetTodoistTasksResponse\u003E();",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Services\\TodoistSyncApiV9Client.cs",
+            "snippet": "var tasksResponse = await response.Content.ReadFromJsonAsync\u003CGetTodoistTasksResponse\u003E();",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 55,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "2f75a006-45df-420a-9fd7-527bc5e9dc8a",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "request.Content = new FormUrlEncodedContent(parameters);",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Services\\TodoistSyncApiV9Client.cs",
+            "snippet": "request.Content = new FormUrlEncodedContent(parameters);",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 50,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "91b7f75e-5b49-4038-810d-05fb20790b23",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var labels = await response.Content.ReadFromJsonAsync\u003CList\u003CModels.TodoistSyncV9.Label\u003E\u003E();",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Services\\TodoistSyncApiV9Client.cs",
+            "snippet": "var labels = await response.Content.ReadFromJsonAsync\u003CList\u003CModels.TodoistSyncV9.Label\u003E\u003E();",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 30,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "51fb6efe-b8ad-4876-8092-f057f5712475",
+          "ruleId": "Api.0003",
+          "description": "URI query redaction in IHttpClientFactory logs ",
+          "projectPath": "Taurit.TodoistTools.Review\\Taurit.TodoistTools.Review.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddHttpClient();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.HttpClientFactoryServiceCollectionExtensions.AddHttpClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)"
+            },
+            "kind": "File",
+            "path": "Taurit.TodoistTools.Review\\Startup.cs",
+            "snippet": "services.AddHttpClient();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.HttpClientFactoryServiceCollectionExtensions.AddHttpClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)",
+            "label": "M:Microsoft.Extensions.DependencyInjection.HttpClientFactoryServiceCollectionExtensions.AddHttpClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/9.0/query-redaction-logs.md",
+                "isCustom": false
+              }
+            ],
+            "line": 14,
+            "column": 8
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0006": {
+      "id": "NuGet.0006",
+      "isFeature": false,
+      "description": "NuGet package source mappings are recommended.\n\nWhen NuGet.config contains multiple package sources, Package Source Mapping is a tool that can be used to improve your supply chain security, especially if you use a mix of public and private package sources.\n\nBy default, NuGet will search all configured package sources when it needs to download a package. When a package exists on multiple sources, it may not be deterministic which source the package will be downloaded from. With Package Source Mapping, you can filter, per package, which source(s) NuGet will search.",
+      "label": "NuGet package source mappings are recommended",
+      "severity": "Information",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2288407",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    }
+  }
+}
